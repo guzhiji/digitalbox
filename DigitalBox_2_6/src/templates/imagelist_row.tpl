@@ -1,0 +1,1 @@
+<tr>{$ImageList_RowContent}</tr>

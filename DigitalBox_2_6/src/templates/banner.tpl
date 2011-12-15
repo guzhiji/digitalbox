@@ -1,0 +1,1 @@
+<div style="overflow: hidden;width: {$Banner_Width}px;height: {$Banner_Height}px;text-align: center;">{$Banner}</div>

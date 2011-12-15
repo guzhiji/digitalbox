@@ -1,0 +1,1 @@
+<table cellpadding="5" cellspacing="0" border="0">{$ImageList_TableContent}</table>
