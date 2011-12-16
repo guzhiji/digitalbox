@@ -41,10 +41,10 @@
             </tr>
             <tr>
                 <td align="center">
-                    <table>
+                    <table border="1">
                         <tbody>
                             <tr>
-                                <td align="center" valign="middle" rowspan="3">标题每行文字个数</td>
+                                <td align="center" valign="middle" rowspan="3"><b>标题每行文字个数</b></td>
                                 <td>小栏目框(右)列表</td>
                                 <td><input type="text" maxlength="2" value="{$Setting_B1T_MaxLen}"
                                            name="box1_title_maxlen" class="textinput2" /></td>
@@ -60,7 +60,7 @@
                                            name="box3_title_maxlen" class="textinput2" /></td>
                             </tr>
                             <tr>
-                                <td align="center" valign="middle" rowspan="7">标题列表最大行数</td>
+                                <td align="center" valign="middle" rowspan="7"><b>标题列表最大行数</b></td>
                                 <td>通常列表</td>
                                 <td><input type="text" maxlength="2" value="{$Setting_GTL_MaxLen}"
                                            name="general_list_maxlen" class="textinput2" /></td>
@@ -96,7 +96,7 @@
                                            name="comment_list_maxlen" class="textinput2" /></td>
                             </tr>
                             <tr>
-                                <td align="center" valign="middle" rowspan="2">图片列表</td>
+                                <td align="center" valign="middle" rowspan="2"><b>图片列表</b></td>
                                 <td>通常列表行数</td>
                                 <td><input type="text" maxlength="2" value="{$Setting_ImageDefault_MaxRow}"
                                            name="general_grid_maxrow" class="textinput2" /></td>
