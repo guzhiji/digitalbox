@@ -18,19 +18,19 @@ $back = "admin_script.php";
 switch (strGet("function")) {
     case "add":
         $title = "添加脚本";
-        if (preg_match("/[a-z0-9_\-\. ]{1,32}/i", strPost("name"))) {
+        if (preg_match("/^[a-z0-9_\-\. ]{1,32}$/i", strPost("name"))) {
             if (@touch("scripts/" . strPost("name") . ".js")) {
                 $adminpage->ShowInfo("脚本添加完毕", $title, $back);
             } else {
                 $adminpage->ShowInfo("添加失败", $title, $back);
             }
         } else {
-            $adminpage->ShowInfo("名称不合法，只能由英文字母、数字和“_-.”组成", $title, $back);
+            $adminpage->ShowInfo("名称不合法，只能由英文字母、数字和“_-.”组成，长度在1-32字符", $title, $back);
         }
         break;
     case "delete":
         $title = "删除脚本";
-        if (@unlink("scripts/" . strPost("name") . ".js")) {
+        if (@unlink("scripts/" . strGet("name") . ".js")) {
             $adminpage->ShowInfo("删除成功", $title, $back);
         } else {
             $adminpage->ShowInfo("删除失败", $title, $back);

@@ -17,8 +17,8 @@ switch (strGet("module")) {
     case "friendsite":
         PageRedirect("admin_friendsite.php");
         break;
-    case "meta":
-        PageRedirect("admin_meta.php");
+    case "ads":
+        PageRedirect("admin_ads.php");
         break;
     case "script":
         PageRedirect("admin_script.php");
