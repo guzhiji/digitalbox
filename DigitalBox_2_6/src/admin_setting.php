@@ -6,9 +6,24 @@
   admin_setting.php
   ------------------------------------------------------------------
  */
-require("modules/view/AdminPage.class.php");
+
 require("modules/common.module.php");
-require("modules/view/Box.class.php");
+
+//redirect
+switch (strGet("module")) {
+    case "style":
+        PageRedirect("admin_style.php");
+        break;
+    case "friendsite":
+        PageRedirect("admin_friendsite.php");
+        break;
+    case "meta":
+        PageRedirect("admin_meta.php");
+        break;
+    case "script":
+        PageRedirect("admin_script.php");
+        break;
+}
 
 function ShowBasicModule(AdminPage &$adminpage) {
     $html = TransformTpl("setting_basic", array(
@@ -16,11 +31,11 @@ function ShowBasicModule(AdminPage &$adminpage) {
         "Setting_SiteKeywords" => TextForInputBox(GetSettingValue("site_keywords")),
         "Setting_MasterMail" => TextForInputBox(GetSettingValue("master_mail")),
         "Setting_SiteStatement" => HTMLForInputBox(GetSettingValue("site_statement")),
+        "Setting_IconURL" => TextForInputBox(GetSettingValue("icon_URL")),
         "Setting_LogoURL" => TextForInputBox(GetSettingValue("logo_URL")),
         "Setting_LogoWidth" => GetSettingValue("logo_width"),
         "Setting_LogoHeight" => GetSettingValue("logo_height"),
         "Setting_LogoHidden" => GetSettingValue("logo_hidden") ? " checked=\"checked\"" : "",
-        "Setting_BannerName" => GetSettingValue("banner_name"),
         "Setting_BannerWidth" => GetSettingValue("banner_width"),
         "Setting_BannerHeight" => GetSettingValue("banner_height"),
         "Setting_BannerHidden" => GetSettingValue("banner_hidden") ? " checked=\"checked\"" : ""
@@ -72,100 +87,15 @@ function ShowDetailModule(AdminPage &$adminpage) {
     $adminpage->AddToLeft($box);
 }
 
-function ShowStyleModule(&$connid, AdminPage &$adminpage) {
-    $totalcount = 0;
-    $pagesize = 10;
-    $defaultstyle = "";
-    $defaultstyleid = GetSettingValue("default_style");
-    $defaultstyletext = "未设置默认风格";
-    $rs = db_query($connid, "SELECT count(*) FROM style_info");
-    if ($rs) {
-        $list = db_result($rs);
-        if (isset($list[0])) {
-            $totalcount = $list[0][0];
-        }
-        db_free($rs);
-    }
-    require_once("modules/view/ListView.class.php");
-    require_once("modules/view/PagingBar.class.php");
-    $stylelist = new ListView("stylelist_edit_item");
-    $pb = new PagingBar();
-    $pb->SetPageCount($totalcount, $pagesize);
-    $pagecount = $pb->GetPageCount();
-    $pagenumber = $pb->GetPageNumber();
-    if ($totalcount > 0) {
-        $start = $pagesize * ($pagenumber - 1);
-        $rs = db_query($connid, "SELECT * FROM style_info LIMIT $start,$pagesize");
-        if ($rs) {
-            $list = db_result($rs);
-            foreach ($list as $item) {
-                $stylelist->AddItem(array(
-                    "ID" => $item["id"],
-                    "Name" => $item["style_name"]
-                ));
-                if ($item["id"] == $defaultstyleid)
-                    $defaultstyle = $item["style_name"];
-            }
-        }
-        db_free($rs);
-
-        if ($defaultstyle != "") {
-            $defaultstyletext = "现使用的默认风格为：$defaultstyle";
-        }
-        $stylelist->SetContainer("stylelist_edit", array(
-            "Default" => $defaultstyletext,
-            "PagingBar" => $pb->GetHTML()
-        ));
-    } else {
-        $stylelist->SetContainer("stylelist_edit", array(
-            "Default" => $defaultstyletext,
-            "PagingBar" => $pb->GetHTML()
-        ));
-    }
-    $box = new Box(3);
-    $box->SetHeight("auto");
-    $box->SetTitle("风格设置");
-    $box->SetContent($stylelist->GetHTML(), "center", "middle", 20);
-    $adminpage->AddToLeft($box);
-}
-
-function ShowFriendSiteModule(&$connid, AdminPage &$adminpage) {
-    $totalcount = 0;
-    $pagesize = GetSettingValue("window3_title_maxnum");
-    $rs = db_query($connid, "SELECT count(*) FROM friendsite_info");
-    if ($rs) {
-        $list = db_result($rs);
-        if (isset($list[0])) {
-            $totalcount = $list[0][0];
-        }
-        db_free($rs);
-    }
-    $adminpage->AddJS("function isselected(theForm){for (var i=0; i<theForm.elements.length; i++){var e = theForm.elements[i];if (e.checked) return true; }return false;}");
-    $adminpage->AddJS("function add_site(){window.location=\"?module=friendsite&function=add\";}");
-    $adminpage->AddJS("function amend_site(){var fsform=document.admin_friendsite;var addr=\"\";for(var a=0;a<fsform.elements.length;a++){var e=fsform.elements[a];if(e.type==\"radio\"&&e.checked){addr=\"admin_setting.php?module=friendsite&function=save&id=\"+e.value;break;}}if(addr==\"\"){window.alert(\"您未选择对象！\");}else{window.location=addr;}}");
-    $adminpage->AddJS("function delete_site(){if (isselected(document.admin_friendsite)){if (window.confirm(\"您真的要删除此友情链接吗？\")){document.admin_friendsite.method=\"post\";document.admin_friendsite.action=\"admin_setting.php?module=friendsite&function=delete\";document.admin_friendsite.submit();}}else window.alert(\"您未选择对象！\");}");
-
-    require_once("modules/view/SiteList.class.php");
-    $sl = new SiteList("sitelist_item_editor", "sitelist_empty_editor");
-    $sl->SetContainer("sitelist_container_editor", 2);
-    $sl->Bind($connid);
-
-    $box = new Box(3);
-    $box->SetHeight("auto");
-    $box->SetTitle("友情链接");
-    $box->SetContent($sl->GetHTML(), "center", "middle", 2);
-    $adminpage->AddToLeft($box);
-}
-
 //--------------------------------------------------------------------------------------
-$adminpage = new AdminPage();
+
+require("modules/view/SettingAdminPage.class.php");
+require("modules/view/Box.class.php");
+
+$adminpage = new SettingAdminPage();
 $connid = $adminpage->GetDBConn();
 $passport = $adminpage->GetPassport();
 
-$menu = array("基础设置" => array("admin_setting.php?module=basic", TRUE),
-    "具体设置" => array("admin_setting.php?module=detail", TRUE),
-    "风格设置" => array("admin_setting.php?module=style", TRUE),
-    "友情链接" => array("admin_setting.php?module=friendsite", TRUE));
 
 //left
 switch (strGet("module")) {
@@ -179,10 +109,10 @@ switch (strGet("module")) {
                 "site_statement" => strPost("site_statement"),
                 "logo_hidden" => strtolower(strPost("logo_hidden")) == "true" ? TRUE : FALSE,
                 "banner_hidden" => strtolower(strPost("banner_hidden")) == "true" ? TRUE : FALSE,
+                "icon_URL" => strPost("icon_URL"),
                 "logo_URL" => strPost("logo_URL"),
                 "logo_width" => intval(strPost("logo_width")),
                 "logo_height" => intval(strPost("logo_height")),
-                "banner_name" => strPost("banner_name"),
                 "banner_width" => intval(strPost("banner_width")),
                 "banner_height" => intval(strPost("banner_height"))
             );
@@ -241,96 +171,29 @@ switch (strGet("module")) {
             ShowDetailModule($adminpage);
         }
         break;
-    case "style":
-        require_once("modules/data/style_admin.module.php");
-        switch (strGet("function")) {
-            case "sync":
-                SyncStyles($connid);
-                ShowStyleModule($connid, $adminpage);
-                break;
-            case "setdefault":
-                $e = SetDefaultStyle($connid, strPost("id"));
-                if ($e) {
-                    $adminpage->ShowInfo("默认风格设置成功！", "完 成", "admin_setting.php?module=style");
-                } else {
-                    $adminpage->ShowInfo("默认风格设置失败", "错 误", "admin_setting.php?module=style");
-                }
-                break;
-            default:
-                ShowStyleModule($connid, $adminpage);
-        }
-        break;
-    case "friendsite":
-        if (strGet("function") == "") {
-            ShowFriendSiteModule($connid, $adminpage);
-        } else {
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                require_once("modules/data/friendsite_admin.module.php");
-                $funcname = "";
-                $fsa = new FriendSite_Admin($connid, $passport);
-                if ($fsa->check()) {
-                    switch (strGet("function")) {
-                        case "add":
-                            $fsa->add();
-                            $funcname = "添加";
-                            break;
-                        case "save":
-                            $fsa->save();
-                            $funcname = "保存";
-                            break;
-                        case "delete":
-                            $fsa->delete();
-                            $funcname = "删除";
-                            break;
-                    }
-                }
-                if ($fsa->error == "") {
-                    $adminpage->ShowInfo($funcname . "完毕", "成功", "admin_setting.php?module=friendsite");
-                } else {
-                    $adminpage->ShowInfo(ErrorList($fsa->error), "错误", "back");
-                }
+    case "banner":
+        $back = "admin_setting.php?module=basic";
+        $title = "编辑顶端横幅代码";
+        if (strGet("function") == "save") {
+            $fp = @fopen("ads/topbanner.tpl", "w");
+            if ($fp) {
+                fwrite($fp, strPost("code"));
+                fclose($fp);
+                $adminpage->ShowInfo("已经保存", $title, $back);
             } else {
-                $data = NULL;
-                switch (strGet("function")) {
-                    case "save":
-                        $rs = db_query($connid, "SELECT * FROM friendsite_info WHERE id=%d", array(strGet("id")));
-                        if ($rs) {
-                            $list = db_result($rs);
-                            if (isset($list[0])) {
-                                $data = array(
-                                    "Setting_FSite_Function" => "save",
-                                    "Setting_FSite_Name" => TextForInputBox($list[0]["site_name"]),
-                                    "Setting_FSite_Add" => TextForInputBox($list[0]["site_add"]),
-                                    "Setting_FSite_Logo" => TextForInputBox($list[0]["site_logo"]),
-                                    "Setting_FSite_Text" => TextForInputBox($list[0]["site_text"]),
-                                    "Setting_FSite_ID" => $list[0]["id"]
-                                );
-                            }
-                        }
-
-                        break;
-                    default:
-                        $data = array(
-                            "Setting_FSite_Function" => "add",
-                            "Setting_FSite_Name" => "",
-                            "Setting_FSite_Add" => "",
-                            "Setting_FSite_Logo" => "",
-                            "Setting_FSite_Text" => "",
-                            "Setting_FSite_ID" => ""
-                        );
-                        break;
-                }
-                if ($data != NULL) {
-                    $html = TransformTpl("setting_friendsite", $data);
-                    $box = new Box(3);
-                    $box->SetHeight("auto");
-                    $box->SetTitle("友情链接");
-                    $box->SetContent($html, "center", "middle", 2);
-                    $adminpage->AddToLeft($box);
-                } else {
-                    $adminpage->ShowInfo("找不到此链接！", "错误", "back");
-                }
+                $adminpage->ShowInfo("保存失败，可能是写文件权限问题", $title, $back);
             }
+        } else {
+            $html = TransformTpl("code_editor", array(
+                "Code_Content" => TextForTextArea(GetAds("topbanner")),
+                "Code_URL" => "admin_setting.php?module=banner&function=save",
+                "Code_Back" => "window.location='$back'"
+                    ));
+            $box = new Box(3);
+            $box->SetHeight("auto");
+            $box->SetTitle($title);
+            $box->SetContent($html, "center", "middle", 2);
+            $adminpage->AddToLeft($box);
         }
         break;
     default:
@@ -342,7 +205,7 @@ switch (strGet("module")) {
         $adminpage->AddToLeft($box);
 }
 //right
-$adminpage->ShowNavBox2("设置管理", $menu);
+$adminpage->ShowNavBox2();
 $adminpage->ShowNavBox1();
 
 $adminpage->SetTitle("设置管理");

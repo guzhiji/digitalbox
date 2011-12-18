@@ -60,6 +60,7 @@ class Page {
         }
 
         $this->_themeid = GetSettingValue("style_id");
+        $this->_icon = GetSettingValue("icon_URL");
         $this->_pagetpl = $pagetpl;
         $this->_prefix = __CLASS__;
     }
@@ -206,7 +207,7 @@ class Page {
         $l_url = trim(GetSettingValue("logo_URL"));
         $l_width = GetSettingValue("logo_width");
         $l_height = GetSettingValue("logo_height");
-        $b_name = trim(GetSettingValue("banner_name"));
+        $b_name = "topbanner";
         $b_width = GetSettingValue("banner_width");
         $b_height = GetSettingValue("banner_height");
         $l_visible = !GetSettingValue("logo_hidden")
@@ -214,7 +215,6 @@ class Page {
                 && $l_width > 0
                 && $l_height > 0;
         $b_visible = !GetSettingValue("banner_hidden")
-                && $b_name != ""
                 && $b_width > 0
                 && $b_height > 0;
         if ($l_visible)

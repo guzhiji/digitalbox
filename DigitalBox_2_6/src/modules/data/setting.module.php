@@ -24,6 +24,9 @@ function CheckBasicSettings(&$settings) {
     if (strlen($settings["site_statement"]) > 250)
         $error_text .= "底部声明过长;";
 
+    if (strlen($settings["icon_URL"]) > 250)
+        $error_text .= "Icon地址过长;";
+
     if (!$settings["logo_hidden"]) {
         if (strlen($settings["logo_URL"]) > 250)
             $error_text .= "LOGO地址过长;";
@@ -37,9 +40,6 @@ function CheckBasicSettings(&$settings) {
     }
 
     if (!$settings["banner_hidden"]) {
-        if (strlen($settings["banner_name"]) > 250)
-            $error_text .= "横幅名称过长;";
-
         if ($settings["banner_width"] <= 0)
             $error_text .= "横幅宽度过短;";
         if ($settings["banner_height"] <= 0)

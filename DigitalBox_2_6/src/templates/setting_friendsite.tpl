@@ -1,4 +1,4 @@
-<form action="admin_setting.php?module=friendsite&function={$Setting_FSite_Function}"
+<form action="admin_friendsite.php?function={$Setting_FSite_Function}"
 	method="post" name="edit_friendsite">
 <table>
 	<tbody>

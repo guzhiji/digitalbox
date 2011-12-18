@@ -22,6 +22,10 @@
                            name="site_statement"></td>
             </tr>
             <tr>
+                <td>Icon地址：</td>
+                <td><input type="text" class="textinput1" name="icon_URL" value="{$Setting_IconURL}"></td>
+            </tr>
+            <tr>
                 <td>LOGO地址：</td>
                 <td><input type="text" class="textinput1" name="logo_URL" value="{$Setting_LogoURL}"></td>
             </tr>
@@ -34,8 +38,8 @@
                            name="logo_hidden"{$Setting_LogoHidden}>隐藏</td>
             </tr>
             <tr>
-                <td>横幅名称：</td>
-                <td><input type="text" class="textinput1" name="banner_name" value="{$Setting_BannerName}"></td>
+                <td>横幅代码：</td>
+                <td><a href="admin_setting.php?module=banner">编辑</a></td>
             </tr>
             <tr>
                 <td>横幅尺寸：</td>
