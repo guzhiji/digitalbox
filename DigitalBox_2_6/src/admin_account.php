@@ -10,7 +10,7 @@ require("modules/view/AdminPage.class.php");
 require("modules/common.module.php");
 require("modules/view/Box.class.php");
 
-function ShowUserList(&$connid, AdminPage &$adminpage) {
+function ShowUserList($connid, AdminPage $adminpage) {
     $totalcount = 0;
     $pagesize = GetSettingValue("general_list_maxlen");
 
@@ -58,6 +58,26 @@ function ShowUserList(&$connid, AdminPage &$adminpage) {
     $adminpage->AddToLeft($box);
 }
 
+function ShowChangePWDForm(AdminPage $adminpage) {
+    $html = TransformTpl("account_changepwd", array(
+        "Account_Username" => strSession("Admin_UID")
+            ));
+    $box = new Box(3);
+    $box->SetHeight("auto");
+    $box->SetTitle("修改密码");
+    $box->SetContent($html, "center", "middle", 2);
+    $adminpage->AddToLeft($box);
+}
+
+function ShowAddUserForm(AdminPage $adminpage) {
+    $html = GetTemplate("account_add");
+    $box = new Box(3);
+    $box->SetHeight("auto");
+    $box->SetTitle("添加人员");
+    $box->SetContent($html, "center", "middle", 2);
+    $adminpage->AddToLeft($box);
+}
+
 $adminpage = new AdminPage();
 $connid = $adminpage->GetDBConn();
 $passport = $adminpage->GetPassport();
@@ -72,26 +92,16 @@ $menu = array(
 if (strGet("function") == "") {
     switch (strGet("module")) {
         case "changepwd":
-            $html = TransformTpl("account_changepwd", array(
-                "Account_Username" => strSession("Admin_UID")
-                    ));
-            $box = new Box(3);
-            $box->SetHeight("auto");
-            $box->SetTitle("修改密码");
-            $box->SetContent($html, "center", "middle", 2);
-            $adminpage->AddToLeft($box);
-
+            ShowChangePWDForm($adminpage);
             break;
         case "add":
-            $html = GetTemplate("account_add");
-            $box = new Box(3);
-            $box->SetHeight("auto");
-            $box->SetTitle("添加人员");
-            $box->SetContent($html, "center", "middle", 2);
-            $adminpage->AddToLeft($box);
+            ShowAddUserForm($adminpage);
             break;
         default:
-            ShowUserList($connid, $adminpage);
+            if ($passport->isMaster())
+                ShowUserList($connid, $adminpage);
+            else
+                ShowChangePWDForm($adminpage);
     }
 } else if (strGet("function") == "delete" && strPost("password") == "") {
     $html = TransformTpl("account_delete", array(

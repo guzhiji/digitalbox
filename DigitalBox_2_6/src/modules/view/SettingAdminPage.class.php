@@ -14,6 +14,9 @@ class SettingAdminPage extends AdminPage {
 
     function __construct() {
         parent::__construct();
+        if (!$this->_passport->isMaster()) {
+            PageRedirect("admin.php");
+        }
         $this->_submenu = array(
             "基础设置" => array("admin_setting.php?module=basic", TRUE),
             "具体设置" => array("admin_setting.php?module=detail", TRUE),

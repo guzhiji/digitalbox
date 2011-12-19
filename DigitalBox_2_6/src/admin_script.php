@@ -10,6 +10,9 @@ require("modules/view/SettingAdminPage.class.php");
 require("modules/view/Box.class.php");
 require("modules/common.module.php");
 
+if (!is_dir("scripts"))
+    @mkdir("scripts");
+
 $adminpage = new SettingAdminPage();
 $connid = $adminpage->GetDBConn();
 $passport = $adminpage->GetPassport();
@@ -98,29 +101,34 @@ switch (strGet("function")) {
 
         break;
     default:
-        $selected = split(",", GetSettingValue("portal_scripts"));
-        $scriptlist = new ListView("scriptlist_item");
-        $scriptlist->SetContainer("scriptlist_container");
-        $d = dir("scripts");
-        while (FALSE !== ($script = $d->read())) {
-            if (strtolower(substr($script, -3)) == ".js") {
-                $script = substr($script, 0, -3);
-                $s = "";
-                if (in_array($script, $selected))
-                    $s = " checked=\"checked\"";
-                $scriptlist->AddItem(array(
-                    "ScriptName" => $script,
-                    "Checked" => $s
-                ));
+        $title = "脚本设置";
+        if (!is_dir("scripts")) {
+            $adminpage->ShowInfo("找不到脚本目录（scripts/），可能是文件系统权限造成的", $title, "admin_setting.php");
+        } else {
+            $selected = explode(",", GetSettingValue("portal_scripts"));
+            $scriptlist = new ListView("scriptlist_item");
+            $scriptlist->SetContainer("scriptlist_container");
+            $d = dir("scripts");
+            while (FALSE !== ($script = $d->read())) {
+                if (strtolower(substr($script, -3)) == ".js") {
+                    $script = substr($script, 0, -3);
+                    $s = "";
+                    if (in_array($script, $selected))
+                        $s = " checked=\"checked\"";
+                    $scriptlist->AddItem(array(
+                        "ScriptName" => $script,
+                        "Checked" => $s
+                    ));
+                }
             }
-        }
-        $d->close();
+            $d->close();
 
-        $box = new Box(3);
-        $box->SetHeight("auto");
-        $box->SetTitle("脚本设置");
-        $box->SetContent($scriptlist->GetHTML(), "center", "middle", 2);
-        $adminpage->AddToLeft($box);
+            $box = new Box(3);
+            $box->SetHeight("auto");
+            $box->SetTitle($title);
+            $box->SetContent($scriptlist->GetHTML(), "center", "middle", 2);
+            $adminpage->AddToLeft($box);
+        }
 }
 
 //right

@@ -19,15 +19,9 @@ class AdminPage extends Page {
 
         $passport = new Passport();
         if (!$passport->check()) {
-            //TODO:debug
             PageRedirect("login.php");
         }
         $this->_passport = &$passport;
-
-        //variables
-//        $this->_passport = &$passport;
-//        $this->_connid = &$connid;
-//        $this->_passport->_connid = &$connid;
 
         $this->_prefix = __CLASS__;
 

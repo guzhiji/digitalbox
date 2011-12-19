@@ -1,4 +1,4 @@
-<div style="word-wrap: break-word;overflow: auto;width: 200px;text-align: left;">
+<div style="word-wrap: break-word;overflow: auto;width: 200px;text-align: center;">
     <table>
         {$SiteList_ListItems}
         <tr>
