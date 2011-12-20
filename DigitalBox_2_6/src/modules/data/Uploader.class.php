@@ -30,7 +30,11 @@ class Uploader {
             //prepare upload path
             $formPath = GetSystemPath() . "/" . dbUploadPath . "/";
             if (!is_dir($formPath))
-                mkdir($formPath);
+                @mkdir($formPath);
+            if (!is_dir($formPath)) {
+                $this->error .= "创建" . dbUploadPath . "目录失败，可能是权限不够导致;";
+                return;
+            }
 
             //field counter
             $i = 0;
@@ -72,8 +76,13 @@ class Uploader {
                     }
 
                     //save file
-                    if (move_uploaded_file($NewFile["tmp_name"], $formPath . $FileName)) {
+                    if (@move_uploaded_file($NewFile["tmp_name"], $formPath . $FileName)) {
                         db_query($connid, "INSERT INTO upload_info (upload_filename,upload_filecaption) VALUES (\"%s\",\"%s\")", array($FileName, $FileCaption));
+                    } else {
+                        //fail to save file
+                        $this->error .= "文件保存失败，可能是写文件权限有限制造成;";
+                        $this->FileCount--;
+                        $this->TotalSize -= $NewFile["size"];
                     }
                 } else {
 
