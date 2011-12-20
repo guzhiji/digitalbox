@@ -10,7 +10,7 @@ require("modules/view/AdminPage.class.php");
 require("modules/common.module.php");
 require("modules/view/Box.class.php");
 
-function ShowVoteList(&$connid, AdminPage &$adminpage) {
+function ShowVoteList($connid, AdminPage $adminpage) {
     $adminpage->AddJS("function isselected(theForm){for (var i=0; i<theForm.elements.length; i++){var e = theForm.elements[i];if (e.checked) return true; }return false;}");
     $adminpage->AddJS("function delete_vote(){if (isselected(document.admin_vote)){if (window.confirm(\"您真的要删除此项目吗？\")){document.admin_vote.method=\"post\";document.admin_vote.action=\"admin_event.php?module=vote&function=delete\";document.admin_vote.submit();}}else window.alert(\"您未选择对象！\");}");
 
@@ -37,7 +37,7 @@ function ShowVoteList(&$connid, AdminPage &$adminpage) {
     $adminpage->AddToLeft($box);
 }
 
-function ShowCommentList(&$connid, AdminPage &$adminpage) {
+function ShowCommentList($connid, AdminPage $adminpage) {
 
     $adminpage->AddJS("function isselected(theForm){for (var i=0; i<theForm.elements.length; i++){var e = theForm.elements[i];if (e.checked) return true;}return false;}");
     $adminpage->AddJS("function view_message(){if (isselected(document.admin_guestbook)){document.admin_guestbook.method=\"get\";document.admin_guestbook.target=\"_blank\";document.admin_guestbook.action=\"guestbook.php\";document.admin_guestbook.submit();}else window.alert(\"您未选择对象！\");}");
@@ -54,10 +54,10 @@ function ShowCommentList(&$connid, AdminPage &$adminpage) {
     $adminpage->AddToLeft($box);
 }
 
-function ShowNoticeEditor(&$adminpage) {
+function ShowNoticeEditor(AdminPage $adminpage) {
     $adminpage->AddJS("function edit_notice(com){document.admin_notice.action=\"admin_event.php?module=notice&function=\" + com;document.admin_notice.submit();}");
     $switch_en = "open";
-    $switch_cn = "显示公告";
+    $switch_cn = "开启公告";
     if (GetSettingValue("notice_visible")) {
         $switch_en = "close";
         $switch_cn = "关闭公告";
@@ -86,34 +86,42 @@ $menu = array("公 告" => array("admin_event.php?module=notice", FALSE),
 
 switch (strGet("module")) {
     case "notice":
+        $error = "";
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             require("modules/data/setting.module.php");
             $s = NULL;
+            $info = "";
             switch (strGet("function")) {
                 case "open":
                     $s = array(
-                        "notice_visible" => "true",
+                        "notice_visible" => TRUE,
                         "notice_text" => Text2HTML(strPost("text"), TRUE)
                     );
-
+                    $info = "无法开启公告";
                     break;
                 case "close":
-                    $s = array("notice_visible" => "false");
+                    $s = array("notice_visible" => FALSE);
+                    $info = "无法关闭公告";
 
                     break;
                 case "save":
                     $s = array(
                         "notice_text" => Text2HTML(strPost("text"), TRUE)
                     );
+                    $info = "保存中出现意外错误";
 
                     break;
             }
             if ($s != NULL) {
-                SaveSettings($connid, $s);
-                //RefreshSettings($connid);
+                if (!SaveSettings($connid, $s)) {
+                    $error = $info . "，可能是文件系统权限限制导致，或者是数据库操作失败";
+                }
             }
         }
-        ShowNoticeEditor($adminpage);
+        if ($error == "")
+            ShowNoticeEditor($adminpage);
+        else
+            $adminpage->ShowInfo(ErrorList($error), "错误", "back");
 
         break;
     case "vote":
@@ -126,7 +134,6 @@ switch (strGet("module")) {
                 switch (strGet("function")) {
                     case "set":
                         $voteadmin->set();
-                        //RefreshSettings($connid);
                         break;
                     case "add":
                         $voteadmin->add();
@@ -191,6 +198,8 @@ switch (strGet("module")) {
                         $ca->clear();
                         break;
                 }
+            }
+            if ($ca->error == "") {
                 ShowCommentList($connid, $adminpage);
             } else {
                 $adminpage->ShowInfo(ErrorList($ca->error), "错误", "back");

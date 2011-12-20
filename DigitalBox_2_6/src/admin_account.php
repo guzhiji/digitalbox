@@ -14,10 +14,6 @@ function ShowUserList($connid, AdminPage $adminpage) {
     $totalcount = 0;
     $pagesize = GetSettingValue("general_list_maxlen");
 
-    $adminpage->AddJS("function isselected(theForm){for (var i=0; i<theForm.elements.length; i++){var e = theForm.elements[i];if (e.checked) return true; }return false;}");
-    $adminpage->AddJS("function add_user(){window.location=\"admin_account.php?module=add\";}");
-    $adminpage->AddJS("function delete_user(){if (isselected(document.admin_user)){if (window.confirm(\"您真的要删除此管理员吗？\")){document.admin_user.method=\"post\";document.admin_user.action=\"admin_account.php?module=delete&function=delete\";document.admin_user.submit();}}else window.alert(\"您未选择对象！\");}");
-
     require_once("modules/view/ListView.class.php");
     $userlist = new ListView("userlist_item");
 
@@ -105,7 +101,7 @@ if (strGet("function") == "") {
     }
 } else if (strGet("function") == "delete" && strPost("password") == "") {
     $html = TransformTpl("account_delete", array(
-        "Account_UID" => strPost("UID")
+        "Account_TargetUID" => strPost("UID")
             ));
     $box = new Box(3);
     $box->SetHeight("auto");
@@ -115,36 +111,43 @@ if (strGet("function") == "") {
 } else {
     require("modules/data/user_admin.module.php");
     $error = "";
+    $info = "";
+    $title = "成功";
+    $back = "admin_account.php";
     $usradmin = new User_Admin($connid, $passport);
     if ($usradmin->check()) {
         switch (strGet("module")) {
             case "changepwd":
                 if ($usradmin->changePWD()) {
-                    $adminpage->ShowInfo("密码修改成功！", "成功", "admin_account.php");
+                    $info = "密码修改成功！";
                 } else {
                     $error.="密码修改失败;";
+                    $back = "back";
                 }
                 break;
             case "add":
                 if ($usradmin->add()) {
-                    $adminpage->ShowInfo("新人员已经加入！", "成功", "admin_account.php");
+                    $info = "新人员已经加入！";
                 } else {
-                    $error.="密码修改失败;";
+                    $error.="人员添加失败;";
+                    $back = "back";
                 }
                 break;
             case "delete":
                 if ($usradmin->delete()) {
-                    $adminpage->ShowInfo("删除完毕！", "成功", "admin_account.php");
+                    $info = "删除完毕！";
                 } else {
-                    $error.="密码修改失败;";
+                    $error.="删除失败;";
                 }
                 break;
         }
     }
     $error.=$usradmin->error;
     if ($error != "") {
-        $adminpage->ShowInfo(ErrorList($error), "错误", "back");
+        $title = "错误";
+        $info = ErrorList($error);
     }
+    $adminpage->ShowInfo($info, $title, $back);
 }
 //right
 $adminpage->ShowNavBox2("账户管理", $menu);
