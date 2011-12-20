@@ -107,7 +107,10 @@ function SaveSettings($connid, $settings) {
                 $value = $value ? "true" : "false";
             } else {
                 $type = 1;
-                $value = number_format($value);
+                if (is_int($value))
+                    $value = strval($value);
+                else
+                    $value = strval(doubleval($value));
             }
         }
         if (!db_query($connid, "UPDATE setting_info SET setting_value=\"%s\",setting_type=\"%d\" WHERE setting_name=\"%s\"", array($value, $type, $key))) {

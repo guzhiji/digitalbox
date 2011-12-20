@@ -492,7 +492,7 @@ function GetSizeWithUnit($size) {
                 $unit = "GB";
             }
         }
-        return number_format($size, 3) . " " . $unit;
+        return round($size, 3) . " " . $unit;
     }
 }
 

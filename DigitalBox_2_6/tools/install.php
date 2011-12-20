@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /*
   ------------------------------------------------------------------
   Copyright 2011 DigitalBox Ver 2.6 (by GuZhiji Studio)
@@ -583,7 +583,10 @@ function ImportSettings($connid) {
                     $svalue = $svalue ? "true" : "false";
                 } else {
                     $type = 1;
-                    $svalue = number_format($svalue);
+                    if (is_int($svalue))
+                        $svalue = strval($svalue);
+                    else
+                        $svalue = strval(doubleval($svalue));
                 }
             }
             PrintResult(!!db_query($connid, "INSERT INTO setting_info (setting_name,setting_type,setting_value) VALUES (\"%s\",\"%s\",\"%s\")", array($skey, $type, $svalue)));

@@ -9,7 +9,8 @@ require("modules/common.module.php");
 
 $ToolFiles = array(
     array("install.php", "系统安装", "帮您完成本系统的安装工作"),
-    array("setmaster.php", "更改站长", "帮您解决忘记密码的问题")
+    array("setmaster.php", "更改站长", "帮您解决忘记密码的问题"),
+    array("cachesync.php", "同步缓存", "帮您解决本地设置缓存被损坏或意外更改的问题")
 );
 
 $syspath = GetSystemPath() . "/";
