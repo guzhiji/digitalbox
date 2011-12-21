@@ -562,7 +562,7 @@ function MakeTables($connid, &$tables) {
 }
 
 function ImportSettings($connid) {
-
+    GLOBAL $_cachedData;
     foreach ($_cachedData["settings"] as $skey => $svalue) {
         echo "注入设置信息：" . $skey;
         $notfound = TRUE;
@@ -688,6 +688,7 @@ function SetupDatabase(&$tables, &$settings) {
 ?>
 <html>
     <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
         <title>系统安装 - 附加工具 - DigitalBox 2.6</title>
         <link rel="stylesheet" href="stylesheets/main.css" />
         <link rel="Shortcut Icon" href="DigitalBoxIcon.ico" />

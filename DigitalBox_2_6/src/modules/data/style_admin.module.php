@@ -55,18 +55,22 @@ function SyncStyles($connid) {
                 $todelete[] = $item["id"];
             }
         }
+    } else {
+        return FALSE;
     }
+    $r = TRUE;
     foreach ($todelete as $id) {
-        db_query($connid, "DELETE FROM style_info WHERE id=%d", array($id));
+        $r = $r && db_query($connid, "DELETE FROM style_info WHERE id=%d", array($id));
     }
     foreach ($toupdate as $id => $name) {
-        db_query($connid, "UPDATE style_info SET style_name=\"%s\" WHERE id=%d", array($name, $id));
+        $r = $r && db_query($connid, "UPDATE style_info SET style_name=\"%s\" WHERE id=%d", array($name, $id));
     }
     foreach ($installed as $id => $name) {
         if ($name == NULL)//removed
             continue;
-        db_query($connid, "INSERT INTO style_info (id,style_name,style_imagefolder,style_cssfile) VALUES (%d,\"%s\",\"%s\",\"%s\")", array($id, $name, $id, $id . ".css"));
+        $r = $r && db_query($connid, "INSERT INTO style_info (id,style_name,style_imagefolder,style_cssfile) VALUES (%d,\"%s\",\"%s\",\"%s\")", array($id, $name, $id, $id . ".css"));
     }
+    return $r;
 }
 
 //

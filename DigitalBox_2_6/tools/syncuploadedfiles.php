@@ -10,6 +10,7 @@ require("modules/data/database.module.php");
 ?>
 <html>
     <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
         <title>同步上传文件 - 附加工具 - DigitalBox <?php echo dbVersion; ?></title>
         <link rel="stylesheet" href="stylesheets/main.css" />
         <link rel="Shortcut Icon" href="DigitalBoxIcon.ico" />
@@ -62,7 +63,9 @@ if (strGet("function") == "sync") {
     db_close($connid);
     echo "同步完毕<br /><input type=\"button\" class=\"button1\" value=\"确定\" onclick=\"window.location='toolchecker.php'\"/>";
 } else {
-    echo "本程序将与本地上传文件目录同步数据库中的记录<br /><input type=\"button\" class=\"button1\" value=\"开始同步\" onclick=\"window.location='?function=sync'\"/>";
+    echo "本程序将与本地上传文件目录同步数据库中的记录<br />";
+    echo "<input type=\"button\" class=\"button1\" value=\"开始同步\" onclick=\"window.location='?function=sync'\"/> ";
+    echo "<input type=\"button\" class=\"button1\" value=\"返回\" onclick=\"window.location='toolchecker.php'\"/>";
 }
 ?></td>
                                     </tr>
