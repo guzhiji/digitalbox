@@ -418,6 +418,7 @@ function Tpl2HTML($tpl, $vars, $tplclass="") {
     foreach ($vars as $varname => $varvalue) {
         $varvalue = str_replace("\\", "\\\\", $varvalue);
         $varvalue = str_replace("\"", "\\\"", $varvalue);
+        $varvalue = str_replace("\$", "\\\$", $varvalue);
         if ($tplclass != "") {
             $varname = $tplclass . "_" . $varname;
         }
