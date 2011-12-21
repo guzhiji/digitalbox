@@ -9,13 +9,21 @@ require("modules/common.module.php");
 require("modules/data/database.module.php");
 
 function ShowCompareList($connid) {
+    //prepare an error message
     $message = "数据库连接错误";
     $rs = db_query($connid, "SELECT * FROM setting_info");
     if ($rs) {
         $nonempty = FALSE;
-        $list = db_result($rs);
+        $list = db_result($rs);//fetch settings from db
+        db_free($rs);
+        $dbs = array();//prepare a hash table for the 2nd loop
         $html = "<table><tr><th>setting</th><th width=\"100\">database</th><th width=\"100\">cache</th></tr>";
+        //1st loop: based on settings from db
         foreach ($list as $item) {
+            //put name into the hash table without value only showing its existence
+            //because if existing here, value is already checked here
+            $dbs[$item["setting_name"]] = TRUE;
+            //get the cached value, an empty string returned if not found
             $cvalue = GetSettingValue($item["setting_name"]);
             //convert
             $dbvalue = NULL;
@@ -37,17 +45,35 @@ function ShowCompareList($connid) {
                 $html.= "<tr><th align=\"left\">{$item["setting_name"]}</th><td>{$dbvalue}</td><td>{$cvalue}</td></tr>";
             }
         }
-        db_free($rs);
+        //fetch settings from cache file
+        require("cache/settings.php");
+        if (isset($_cachedData) && isset($_cachedData["settings"])) {
+            //2nd loop: based on cached settings
+            foreach ($_cachedData["settings"] as $key => $value) {
+                //check if not found in the settings from db
+                if (!isset($dbs[$key])) {
+                    $nonempty = TRUE;
+                    if (is_bool($value))
+                        $value = $value ? "true" : "false";
+                    $html.= "<tr><th align=\"left\">{$key}</th><td></td><td>{$value}</td></tr>";
+                }
+            }
+        }
         if ($nonempty) {
+            //show compare list
             echo $html;
             echo "<tr><td></td>";
             echo "<td><input type=\"button\" class=\"button1\" value=\"to cache &gt;\" onclick=\"window.location='?function=sync2cache'\" /></td>";
             echo "<td><input type=\"button\" class=\"button1\" value=\"&lt; to database\" onclick=\"window.location='?function=sync2db'\" /></td>";
             echo "</tr></table>";
+            return;
         } else {
+            //same without an error
             $message = "所有数据经过比较都已经一致";
         }
     }
+    //else db connection error
+    //show message
     echo $message . "<br /><input type=\"button\" class=\"button1\" value=\"返回\" onclick=\"window.location='toolchecker.php'\"/>";
 }
 
