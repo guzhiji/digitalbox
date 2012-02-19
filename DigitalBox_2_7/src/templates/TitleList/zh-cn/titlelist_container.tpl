@@ -1,0 +1,1 @@
+<table>{$ListItems}</table>

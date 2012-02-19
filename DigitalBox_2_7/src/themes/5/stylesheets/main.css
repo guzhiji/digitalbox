@@ -1,0 +1,421 @@
+a:link {
+	color: #A000E4;
+	cursor: hand;
+	font-family: 宋体;
+	font-size: 9pt;
+	text-decoration: none;
+}
+
+a:visited {
+	color: #A000E4;
+	cursor: hand;
+	font-family: 宋体;
+	font-size: 9pt;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #D427E4;
+	cursor: hand;
+	font-family: 宋体;
+	font-size: 9pt;
+	text-decoration: underline;
+}
+
+a.director_link:link {
+	color: #F8DAFF;
+	cursor: hand;
+	font-family: 宋体;
+	font-size: 10pt;
+	text-decoration: none;
+}
+
+a.director_link:visited {
+	color: #F8DAFF;
+	cursor: hand;
+	font-family: 宋体;
+	font-size: 10pt;
+	text-decoration: none;
+}
+
+a.director_link:hover {
+	color: #E4ADFF;
+	cursor: hand;
+	font-family: 宋体;
+	font-size: 10pt;
+	text-decoration: none;
+}
+
+a.page_switch1:link {
+	color: #2c89b6;
+	cursor: hand;
+	font-family: 幼圆;
+	font-size: 10pt;
+	text-decoration: none;
+}
+
+a.page_switch1:visited {
+	color: #2c89b6;
+	cursor: hand;
+	font-family: 幼圆;
+	font-size: 10pt;
+	text-decoration: none;
+}
+
+a.page_switch1:hover {
+	color: #348df0;
+	cursor: hand;
+	font-family: 幼圆;
+	font-size: 10pt;
+	text-decoration: none;
+}
+
+body {
+	background-color: #260531;
+	scrollbar-face-color: #9600BC;
+	scrollbar-highlight-color: #770593;
+	scrollbar-shadow-color: #770593;
+	scrollbar-3dlight-color: #770593;
+	scrollbar-arrow-color: #F8DAFF;
+	scrollbar-track-color: #770593;
+	scrollbar-darkshadow-color: #770593;
+}
+
+td {
+	color: #000000;
+	cursor: default;
+	font-family: 幼圆;
+	font-size: 9pt;
+	text-decoration: none;
+}
+
+th {
+	color: #000000;
+	cursor: default;
+	font-family: 黑体;
+	font-size: 12pt;
+	text-decoration: none;
+}
+
+input {
+	background-color: #EBDCFF;
+	border-bottom: #E8BBE7 1px solid;
+	border-left: #E8BBE7 1px solid;
+	border-right: #E8BBE7 1px solid;
+	border-top: #E8BBE7 1px solid;
+	color: #000000;
+	font-family: 宋体;
+	font-size: 9pt;
+}
+
+input.radio_checkbox {
+	background-color: #FFFFFF;
+	border-bottom: #FFFFFF 0px solid;
+	border-left: #FFFFFF 0px solid;
+	border-right: #FFFFFF 0px solid;
+	border-top: #FFFFFF 0px solid;
+}
+
+input.button1 {
+	background-color: #B6A7F3;
+	border-bottom: #C075E8 1px solid;
+	border-left: #C075E8 1px solid;
+	border-right: #C075E8 1px solid;
+	border-top: #C075E8 1px solid;
+	color: #852794;
+	font-family: 宋体;
+	font-size: 9pt;
+	text-decoration: none;
+	height: 20px;
+}
+
+input.textinput1 {
+	height: 20px;
+	width: 150px;
+}
+
+input.textinput2 {
+	height: 20px;
+	width: 45px;;
+}
+
+input.textinput3 {
+	height: 20px;
+	width: 215px;
+}
+
+input.textinput4 {
+	height: 20px;
+	width: 340px;
+}
+
+input.textinput5 {
+	height: 20px;
+	width: 490px;
+}
+
+select {
+	background-color: #EBDCFF;
+	border-bottom: #E8BBE7 1px solid;
+	border-left: #E8BBE7 1px solid;
+	border-right: #E8BBE7 1px solid;
+	border-top: #E8BBE7 1px solid;
+	color: #000000;
+	font-family: 宋体;
+	font-size: 9pt;
+}
+
+select.select1 {
+	height: 20px;
+	width: 65px;
+}
+
+select.select2 {
+	height: 20px;
+	width: 150px;
+}
+
+textarea {
+	background-color: #EBDCFF;
+	border-bottom: #E8BBE7 1px solid;
+	border-left: #E8BBE7 1px solid;
+	border-right: #E8BBE7 1px solid;
+	border-top: #E8BBE7 1px solid;
+	color: #000000;
+	font-family: 宋体;
+	font-size: 9pt;
+}
+
+textarea.textarea1 {
+	height: 200px;
+	width: 490px;
+}
+
+.bg_border {
+	background-color: #770593;
+	width: 1px;
+}
+
+.bg_middle {
+	background-color: #FFFFFF;
+        padding: 0px;
+}
+
+.bg_top1 {
+	background: url(../images/background/bg_top1.gif);
+	border-left: #770593 1px solid;
+	border-right: #770593 1px solid;
+	border-top: #770593 1px solid;
+	color: #CEFED7;
+	cursor: default;
+	font-family: 宋体;
+	font-size: 12pt;
+	height: 25px;
+	text-decoration: none;
+        text-align: center;
+}
+
+.bg_bottom1 {
+	background-color: #770593;
+	width: 2px;
+}
+
+.bg_top2 {
+	background: url(../images/background/bg_top2.gif);
+	border-left: #770593 1px solid;
+	border-right: #770593 1px solid;
+	border-top: #770593 1px solid;
+	color: #FFFFFF;
+	cursor: default;
+	font-family: 黑体;
+	font-size: 12pt;
+	height: 25px;
+	text-decoration: none;
+        text-align: left;
+}
+
+.bg_bottom2 {
+	background-color: #770593;
+	width: 2px;
+}
+
+.bg_top3 {
+	background: url(../images/background/bg_top3.gif);
+	border-left: #770593 1px solid;
+	border-right: #770593 1px solid;
+	border-top: #770593 1px solid;
+	color: #D7FCFE;
+	cursor: default;
+	font-family: 黑体;
+	font-size: 12pt;
+	height: 25px;
+	text-decoration: none;
+        text-align: left;
+}
+
+.bg_bottom3 {
+	background-color: #770593;
+	width: 2px;
+}
+
+.director_bar1 {
+	background-color: #9600BC;
+	color: #F8DAFF;
+	font-family: 宋体;
+	font-size: 10pt;
+	height: 25px;
+	text-decoration: none;
+}
+
+.director_bar2 {
+	background-color: #9600BC;
+	color: #F8DAFF;
+	font-family: 宋体;
+	font-size: 10pt;
+	height: 25px;
+	text-decoration: none;
+}
+
+.director_button1 {
+	background-color: #EAD2FE;
+	border-bottom: #CE82FE 2px solid;
+	border-left: #CE82FE 2px solid;
+	border-right: #CE82FE 2px solid;
+	border-top: #CE82FE 2px solid;
+	color: #9A00C0;
+	cursor: hand;
+	font-family: 宋体;
+	font-size: 10pt;
+	height: 30px;
+	text-decoration: none;
+}
+
+.director_button2 {
+	background-color: #BBB5FE;
+	border-bottom: #86B0FE 2px solid;
+	border-left: #86B0FE 2px solid;
+	border-right: #86B0FE 2px solid;
+	border-top: #86B0FE 2px solid;
+	color: #9A00C0;
+	cursor: hand;
+	font-family: 宋体;
+	font-size: 10pt;
+	height: 30px;
+	text-decoration: none;
+}
+
+.space_bar1 {
+	background-color: #770593;
+	height: 5px;
+}
+
+.space_bar2 {
+	background-color: #770593;
+	height: 5px;
+}
+
+.space_bar3 {
+	background-color: #9600BC;
+	height: 15px;
+}
+
+.banner_bar {
+	background-color: #EAD2FE;
+}
+
+.statement_bar {
+	background-color: #EAD2FE;
+}
+
+.statement_text {
+	color: #000000;
+	cursor: default;
+	font-family: 幼圆;
+	font-size: 12pt;
+	text-decoration: none;
+}
+
+.divide_line1 {
+	background-color: #EAD2FE;
+	height: 1px;
+}
+
+.divide_line2 {
+	background-color: #EAD2FE;
+	width: 1px;
+}
+
+.proportion_bar {
+	background-color: #770593;
+	height: 20px;
+}
+
+.proportion_valuebar {
+	background-color: #EAD2FE;
+}
+
+.search_button {
+	background: url(../images/button/search.gif);
+	border-bottom: #FFFFFF 0px solid;
+	border-left: #FFFFFF 0px solid;
+	border-right: #FFFFFF 0px solid;
+	border-top: #FFFFFF 0px solid;
+	color: #FFFFFF;
+	cursor: hand;
+	height: 15px;
+	width: 15px;
+}
+
+.page_switch2 {
+	color: #2c89b6;
+	cursor: default;
+	font-family: 幼圆;
+	font-size: 10pt;
+	text-decoration: none;
+}
+
+.page_switch3 {
+	color: #B78DF0;
+	cursor: default;
+	font-family: 幼圆;
+	font-size: 10pt;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.date_text {
+	color: #796A8E;
+	cursor: default;
+	font-size: 7pt;
+	text-decoration: none;
+}
+
+.calendar_text1 {
+	color: #2c89b6;
+	cursor: default;
+	font-size: 10pt;
+}
+
+.calendar_text2 {
+	color: #eca200;
+	cursor: default;
+	font-size: 10pt;
+}
+
+.calendar_text3 {
+	color: #00c5ff;
+	cursor: default;
+	font-size: 11pt;
+	font-weight: bold;
+}
+
+.calendar_text4 {
+	color: #b0acff;
+	cursor: default;
+	font-size: 11pt;
+	font-weight: bold;
+}
+
+.background_color {
+	background-color: #4D056A;
+}
