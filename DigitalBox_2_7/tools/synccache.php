@@ -1,22 +1,24 @@
 <?php
-/*
-  ------------------------------------------------------------------
-  Copyright 2011-2012 DigitalBox Ver 2.7 (by GuZhiji Studio)
-  synccache.php
-  ------------------------------------------------------------------
+/* ------------------------------------------------------------------
+ * DigitalBox CMS 2.7
+ * http://code.google.com/p/digitalbox/
+ * 
+ * Copyright 2011-2012, GuZhiji Studio <gu_zhiji@163.com>
+ * This program is licensed under the GPL Version 3
+ * ------------------------------------------------------------------
  */
-require("modules/common.module.php");
-require("modules/data/database.module.php");
 
-function ShowCompareList($connid) {
+require("modules/common.module.php");
+
+function ShowCompareList() {
     //prepare an error message
     $message = "数据库连接错误";
-    $rs = db_query($connid, "SELECT * FROM setting_info");
+    $rs = db_query("SELECT * FROM setting_info");
     if ($rs) {
         $nonempty = FALSE;
-        $list = db_result($rs);//fetch settings from db
+        $list = db_result($rs); //fetch settings from db
         db_free($rs);
-        $dbs = array();//prepare a hash table for the 2nd loop
+        $dbs = array(); //prepare a hash table for the 2nd loop
         $html = "<table><tr><th>setting</th><th width=\"100\">database</th><th width=\"100\">cache</th></tr>";
         //1st loop: based on settings from db
         foreach ($list as $item) {
@@ -46,17 +48,18 @@ function ShowCompareList($connid) {
             }
         }
         //fetch settings from cache file
-        require("cache/settings.php");
-        if (isset($_cachedData) && isset($_cachedData["settings"])) {
-            //2nd loop: based on cached settings
-            foreach ($_cachedData["settings"] as $key => $value) {
-                //check if not found in the settings from db
-                if (!isset($dbs[$key])) {
-                    $nonempty = TRUE;
-                    if (is_bool($value))
-                        $value = $value ? "true" : "false";
-                    $html.= "<tr><th align=\"left\">{$key}</th><td></td><td>{$value}</td></tr>";
-                }
+        require("modules/cache/PHPCacheReader.class.php");
+        $reader = new PHPCacheReader("cache", "settings");
+        $settingkeys = $reader->GetKeys();
+        //2nd loop: based on cached settings
+        foreach ($settingkeys as $key) {
+            //check if not found in the settings from db
+            if (!isset($dbs[$key])) {
+                $value = $reader->GetValue($key);
+                $nonempty = TRUE;
+                if (is_bool($value))
+                    $value = $value ? "true" : "false";
+                $html.= "<tr><th align=\"left\">{$key}</th><td></td><td>{$value}</td></tr>";
             }
         }
         if ($nonempty) {
@@ -77,10 +80,10 @@ function ShowCompareList($connid) {
     echo $message . "<br /><input type=\"button\" class=\"button1\" value=\"返回\" onclick=\"window.location='toolchecker.php'\"/>";
 }
 
-function Sync2Cache($connid) {
-    require("modules/data/CacheManager.class.php");
-    $cm = new CacheManager("settings");
-    $rs = db_query($connid, "SELECT * FROM setting_info");
+function Sync2Cache() {
+    require("modules/cache/PHPCacheEditor.class.php");
+    $cm = new PHPCacheEditor("cache", "settings");
+    $rs = db_query("SELECT * FROM setting_info");
     if ($rs) {
         $list = db_result($rs);
         foreach ($list as $item) {
@@ -104,14 +107,14 @@ function Sync2Cache($connid) {
     return FALSE;
 }
 
-function Sync2DB($connid) {
-    require("cache/settings.php");
-    if (!isset($_cachedData))
-        return FALSE;
-    if (!isset($_cachedData["settings"]))
-        return FALSE;
+function Sync2DB() {
+    require("modules/cache/PHPCacheReader.class.php");
+    $reader = new PHPCacheReader("cache", "settings");
+    $settingkeys = $reader->GetKeys();
+
     $e = FALSE;
-    foreach ($_cachedData["settings"] as $key => $value) {
+    foreach ($settingkeys as $key) {
+        $value = $reader->GetValue($key);
         $type = 0;
         if (!is_string($value)) {
             if (is_bool($value)) {
@@ -125,15 +128,16 @@ function Sync2DB($connid) {
                     $value = strval(doubleval($value));
             }
         }
-        if (!db_query($connid, "UPDATE setting_info SET setting_value=\"%s\",setting_type=\"%d\" WHERE setting_name=\"%s\"", array($value, $type, $key))) {
+        if (!db_query("UPDATE setting_info SET setting_value=\"%s\",setting_type=\"%d\" WHERE setting_name=\"%s\"", array($value, $type, $key))) {
             $e = TRUE;
         }
-        if (mysql_affected_rows($connid) < 1) {
-            $rs = db_query($connid, "SELECT \"true\" FROM setting_info WHERE setting_name=\"%s\"", array($key));
+        global $_connid;
+        if (mysql_affected_rows($_connid) < 1) {
+            $rs = db_query("SELECT \"true\" FROM setting_info WHERE setting_name=\"%s\"", array($key));
             if ($rs) {
                 $list = db_result($rs);
                 if (!isset($list[0])) {
-                    if (!db_query($connid, "INSERT INTO setting_info (setting_name,setting_type,setting_value) VALUES (\"%s\",\"%d\",\"%s\")", array($key, $type, $value))) {
+                    if (!db_query("INSERT INTO setting_info (setting_name,setting_type,setting_value) VALUES (\"%s\",\"%d\",\"%s\")", array($key, $type, $value))) {
                         $e = TRUE;
                     }
                 }
@@ -143,7 +147,7 @@ function Sync2DB($connid) {
             }
         }
     }
-    return!$e;
+    return !$e;
 }
 ?>
 <html>
@@ -170,27 +174,26 @@ function Sync2DB($connid) {
                                        height="100%">
                                     <tr>
                                         <td align="center" valign="middle" class="bg_middle"><?php
-$connid = db_connect();
 switch (strGet("function")) {
     case "sync2db":
-        if (Sync2DB($connid)) {
-            ShowCompareList($connid);
+        if (Sync2DB()) {
+            ShowCompareList();
         } else {
             echo "同步失败，可能是数据库操作错误<br /><input type=\"button\" class=\"button1\" value=\"确定\" onclick=\"window.location='toolchecker.php'\"/>";
         }
         break;
     case "sync2cache":
-        if (Sync2Cache($connid)) {
-            ShowCompareList($connid);
+        if (Sync2Cache()) {
+            ShowCompareList();
         } else {
             echo "同步失败，可能是因为文件系统权限限制<br /><input type=\"button\" class=\"button1\" value=\"确定\" onclick=\"window.location='toolchecker.php'\"/>";
         }
 
         break;
     default:
-        ShowCompareList($connid);
+        ShowCompareList();
 }
-db_close($connid);
+db_close();
 ?></td>
                                     </tr>
                                 </table>

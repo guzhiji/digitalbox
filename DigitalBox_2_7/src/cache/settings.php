@@ -39,6 +39,7 @@ $_cachedData["settings"]["keys"]["upload_filetypes"]["value"] = "jpg;gif;bmp;png
 $_cachedData["settings"]["keys"]["upload_maxsize"]["value"] = 2097152;
 $_cachedData["settings"]["keys"]["logo_hidden"]["value"] = FALSE;
 $_cachedData["settings"]["keys"]["banner_hidden"]["value"] = FALSE;
+$_cachedData["settings"]["keys"]["cache_timeout"]["value"] = 86400;
 $_cachedData["settings"]["keys"]["version_detailsetting"]["value"] = 2097152;
 $_cachedData["settings"]["keys"]["version_basicsetting"]["value"] = 2097152;
 $_cachedData["settings"]["keys"]["version_friendsites"]["value"] = 2097152;

@@ -1,10 +1,13 @@
 <?php
-/*
-  ------------------------------------------------------------------
-  Copyright 2011-2012 DigitalBox Ver 2.7 (by GuZhiji Studio)
-  setmaster.php
-  ------------------------------------------------------------------
+/* ------------------------------------------------------------------
+ * DigitalBox CMS 2.7
+ * http://code.google.com/p/digitalbox/
+ * 
+ * Copyright 2011-2012, GuZhiji Studio <gu_zhiji@163.com>
+ * This program is licensed under the GPL Version 3
+ * ------------------------------------------------------------------
  */
+
 require("modules/common.module.php");
 require("modules/Passport.class.php");
 require("modules/data/database.module.php");
@@ -27,23 +30,23 @@ if (strtolower(strGet("command")) == "update") {
         } else {
             $cm = new CacheManager("settings");
             $cm->SetValue("master_name", $Master_UID);
-            if ($cm->Save() && db_query($connid, "UPDATE setting_info SET setting_value=\"%s\" WHERE setting_name='master_name'", array($Master_UID))) {
-                $rs = db_query($connid, "SELECT admin_UID FROM admin_info WHERE admin_UID=\"%s\"", array($Master_UID));
+            if ($cm->Save() && db_query("UPDATE setting_info SET setting_value=\"%s\" WHERE setting_name='master_name'", array($Master_UID))) {
+                $rs = db_query("SELECT admin_UID FROM admin_info WHERE admin_UID=\"%s\"", array($Master_UID));
                 if ($rs) {
                     $list = db_result($rs);
                     db_free($rs);
                     if (isset($list[0])) {
-                        if (!db_query($connid, "UPDATE admin_info SET admin_PWD=\"%s\" WHERE admin_UID=\"%s\"", array(Passport::PWDEncrypt($Master_PWD), $Master_UID))) {
+                        if (!db_query("UPDATE admin_info SET admin_PWD=\"%s\" WHERE admin_UID=\"%s\"", array(Passport::PWDEncrypt($Master_PWD), $Master_UID))) {
                             $err_tip .= "修改站长密码失败;";
                         }
-                    } else if (!db_query($connid, "INSERT INTO admin_info (admin_UID,admin_PWD) VALUES (\"%s\",\"%s\")", array($Master_UID, Passport::PWDEncrypt($Master_PWD)))) {
+                    } else if (!db_query("INSERT INTO admin_info (admin_UID,admin_PWD) VALUES (\"%s\",\"%s\")", array($Master_UID, Passport::PWDEncrypt($Master_PWD)))) {
                         $err_tip .= "加入站长管理员失败;";
                     }
                 }
             } else {
                 $err_tip .= "修改站长失败;";
             }
-            db_close($connid);
+            db_close();
         }
     }
 }

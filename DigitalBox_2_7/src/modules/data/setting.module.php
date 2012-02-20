@@ -97,6 +97,8 @@ function CheckDetailSettings($settings) {
             || $settings["general_grid_maxrow"] > 50)
         $error_text .= "图片列表的行数不能大于50;";
 
+    if ($settings["cache_timeout"] < 1)
+        $error_text .= "缓存数据生命期不能小于1秒;";
     return $error_text;
 }
 
@@ -149,9 +151,26 @@ function SaveSettings($settings) {
 function LangExists($lang) {
     $lang = strtolower($lang);
     $langlist = GetSettingValue("languages");
-    foreach ($langlist as $lkey => $lvalue) {
-        if (strtolower($lkey) == $lang)
-            return TRUE;
+    return isset($langlist[$lang]);
+}
+
+function ClearCache() {
+    $d = dir("themes");
+    while (FALSE != ($id = $d->read())) {
+        if (is_numeric($id) && is_dir("cache/" . $id)) {
+            $d2 = dir("cache/" . $id);
+            while (FALSE != ($lang = $d2->read())) {
+                if (substr($lang, 0, 1) == ".")
+                    continue;
+                $d3 = dir("cache/" . $id . "/" . $lang);
+                while (FALSE != ($file = $d3->read())) {
+                    if (substr($file, 0, 1) == ".")
+                        continue;
+                    unlink("cache/" . $id . "/" . $lang . "/" . $file);
+                }
+                rmdir("cache/" . $id . "/" . $lang);
+            }
+            rmdir("cache/" . $id);
+        }
     }
-    return FALSE;
 }

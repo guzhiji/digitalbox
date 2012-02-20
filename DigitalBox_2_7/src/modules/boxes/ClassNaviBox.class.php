@@ -36,7 +36,6 @@ class ClassNaviBox extends Box {
 
     public function DataBind() {
 
-        require_once("modules/lists/Navigator.class.php");
         $nb = new Navigator("navibutton");
 
         $zh_type = GetTypeName($this->_channel_type, 0);

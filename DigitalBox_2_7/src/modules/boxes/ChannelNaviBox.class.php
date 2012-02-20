@@ -48,7 +48,6 @@ class ChannelNaviBox extends Box {
     public function DataBind() {
 
         $eventdriven = $this->_eventdriven;
-        require_once("modules/lists/Navigator.class.php");
         $nb = new Navigator($this->_itemtpl);
 
         if (!$eventdriven) {

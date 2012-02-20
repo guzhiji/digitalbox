@@ -34,7 +34,6 @@ class VoteBox extends Box {
             }
             $this->_cacheKey = "vote_result";
             $this->_cacheExpire = -1;
-            $this->_cacheVersion = GetSettingValue("version_vote");
         } else if ($this->voteWidth == 150) {
             $this->_cacheCategory = "portalpage";
             if (strCookie("Voted") == "") {
@@ -42,10 +41,11 @@ class VoteBox extends Box {
                 $this->_cacheExpire = -1;
             } else {
                 $this->_cacheKey = "vote_result";
-                $this->_cacheExpire = dbCacheTimeout;
+                $this->_cacheExpire = GetSettingValue("cache_timeout");
             }
-            $this->_cacheVersion = GetSettingValue("version_vote");
         }
+        $this->_cacheVersion = GetSettingValue("version_vote");
+        $this->_cacheRandFactor = 1;
     }
 
     public function DataBind() {

@@ -16,7 +16,7 @@
  * And it is also possible to set an expiry time for 
  * each value or even a whole category.
  * 
- * @version 0.7.20120112
+ * @version 0.7.20120220
  * @author Zhiji Gu <gu_zhiji@163.com>
  * @copyright &copy; 2010-2012 InterBox Core 1.2 for PHP, GuZhiji Studio
  * @package interbox.core.cache.phpcache
@@ -107,7 +107,9 @@ class PHPCacheEditor {
         if (!$fp) {
             throw new Exception("cannot open cache file");
         }
-
+        if (!flock($fp, LOCK_EX)) {
+            throw new Exception("cannot lock cache file");
+        }
         $varname = "\$_cachedData[\"{$this->category}\"]";
         $cd = &$_cachedData[$this->category];
 
@@ -159,7 +161,7 @@ class PHPCacheEditor {
             }
         }
         fwrite($fp, "?>");
-
+        flock($fp, LOCK_UN);
         fclose($fp);
     }
 

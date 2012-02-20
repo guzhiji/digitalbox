@@ -76,6 +76,7 @@ switch (strGet("module")) {
                 "general_grid_maxrow" => intval(strPost("general_grid_maxrow")),
                 "upload_maxsize" => Size2Bytes(strPost("upload_maxsize"), strPost("upload_sizeunit")),
                 "upload_filetypes" => strPost("upload_filetypes"),
+                "cache_timeout" => intval(strPost("cache_timeout")),
                 "version_detailsetting" => time()
             );
             $e = CheckDetailSettings($s);
@@ -89,8 +90,11 @@ switch (strGet("module")) {
             } else {
                 $adminpage->AddBox(new MsgBox(ErrorList($e), GetLangData("error"), "back"));
             }
+        } else if (strGet("function") == "clearcache") {
+            require_once("modules/data/setting.module.php");
+            ClearCache();
+            $adminpage->AddBox(new MsgBox("缓存清理完毕", "完 成", "admin_setting.php?module=detail"));
         } else {
-            //ShowDetailModule($adminpage);
             require("modules/boxes/Admin_DetailSettings.class.php");
             $adminpage->AddBox(new Admin_DetailSettings());
         }

@@ -12,14 +12,11 @@
 require("modules/common.module.php");
 require("modules/pages/PortalPage.class.php");
 require("modules/ContentList.class.php");
-require("modules/boxes/BannerBox.class.php");
 require("modules/boxes/TopBox.class.php");
 require("modules/boxes/AdsBox.class.php");
 require("modules/boxes/NoticeBoardBox.class.php");
 require("modules/boxes/SearchBox.class.php");
-require("modules/boxes/ChannelNaviBox.class.php");
 require("modules/boxes/ClassNaviBox.class.php");
-require("modules/boxes/BottomNaviBox.class.php");
 require("modules/boxes/CalendarBox.class.php");
 require("modules/boxes/VoteBox.class.php");
 require("modules/boxes/FriendSiteBox.class.php");
@@ -40,7 +37,6 @@ if (is_numeric($style_id) && strlen($from_address) > 10) {
 }
 
 $portalpage = new PortalPage();
-$portalpage->AddBox(new BannerBox());
 //left
 $portalpage->AddBox(new AdsBox("ad_1", TRUE));
 if (GetSettingValue("style_changeable")) {

@@ -1,12 +1,14 @@
 <?php
-/*
-  ------------------------------------------------------------------
-  Copyright 2011-2012 DigitalBox Ver 2.7 (by GuZhiji Studio)
-  syncuploadedfiles.php
-  ------------------------------------------------------------------
+/* ------------------------------------------------------------------
+ * DigitalBox CMS 2.7
+ * http://code.google.com/p/digitalbox/
+ * 
+ * Copyright 2011-2012, GuZhiji Studio <gu_zhiji@163.com>
+ * This program is licensed under the GPL Version 3
+ * ------------------------------------------------------------------
  */
+
 require("modules/common.module.php");
-require("modules/data/database.module.php");
 ?>
 <html>
     <head>
@@ -33,34 +35,33 @@ require("modules/data/database.module.php");
                                     <tr>
                                         <td align="center" valign="middle" class="bg_middle"><?php
 if (strGet("function") == "sync") {
-    $connid = db_connect();
     if (is_dir(dbUploadPath)) {
         $d = dir(dbUploadPath);
         $df = array();
         while (FALSE != ($f = $d->read())) {
             if ($f != "." && $f != "..")
-                $df[$f] = TRUE;//file to add
+                $df[$f] = TRUE; //file to add
         }
-        $rs = db_query($connid, "SELECT upload_filename FROM upload_info");
+        $rs = db_query("SELECT upload_filename FROM upload_info");
         if ($rs) {
             $list = db_result($rs);
             foreach ($list as $item) {
                 if (is_file(dbUploadPath . "/" . $item["upload_filename"]))//file exists & is unnecessary to add
                     $df[$item["upload_filename"]] = FALSE;
                 else//not exist & to delete
-                    db_query($connid, "DELETE FROM upload_info WHERE upload_filename=\"%s\"", array($item["upload_filename"]));
+                    db_query("DELETE FROM upload_info WHERE upload_filename=\"%s\"", array($item["upload_filename"]));
             }
             db_free($rs);
         }
         foreach ($df as $f => $e) {
             if ($e) {//find the file to add
-                db_query($connid, "INSERT INTO upload_info(upload_filename,upload_filecaption) VALUES (\"%s\",\"%s\")", array($f, $f));
+                db_query("INSERT INTO upload_info(upload_filename,upload_filecaption) VALUES (\"%s\",\"%s\")", array($f, $f));
             }
         }
     } else {//no dir, nothing exists
-        db_query($connid, "DELETE FROM upload_info");
+        db_query("DELETE FROM upload_info");
     }
-    db_close($connid);
+    db_close();
     echo "同步完毕<br /><input type=\"button\" class=\"button1\" value=\"确定\" onclick=\"window.location='toolchecker.php'\"/>";
 } else {
     echo "本程序将与本地上传文件目录同步数据库中的记录<br />";

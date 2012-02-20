@@ -47,7 +47,8 @@ class Admin_DetailSettings extends Box {
             "Setting_ImageDefault_MaxRow" => GetSettingValue("general_grid_maxrow"),
             "Setting_Upload_MaxSize" => $size[0],
             "Setting_Upload_SizeUnit" => $unitoptions,
-            "Setting_Upload_FileTypes" => TextForInputBox(GetSettingValue("upload_filetypes"))
+            "Setting_Upload_FileTypes" => TextForInputBox(GetSettingValue("upload_filetypes")),
+            "Setting_Cache_Timeout" => GetSettingValue("cache_timeout")
                 ), __CLASS__);
 
         $this->SetHeight("auto");

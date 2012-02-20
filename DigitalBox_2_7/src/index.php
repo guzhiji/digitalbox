@@ -10,24 +10,19 @@
  */
 
 require("modules/common.module.php");
-
 require("modules/pages/PortalPage.class.php");
 require("modules/ContentList.class.php");
 require("modules/boxfactories/ChannelBoxList.class.php");
-require("modules/boxes/BannerBox.class.php");
 require("modules/boxes/TopBox.class.php");
 require("modules/boxes/AdsBox.class.php");
 require("modules/boxes/NoticeBoardBox.class.php");
 require("modules/boxes/SearchBox.class.php");
-require("modules/boxes/ChannelNaviBox.class.php");
-require("modules/boxes/BottomNaviBox.class.php");
 require("modules/boxes/CalendarBox.class.php");
 require("modules/boxes/VoteBox.class.php");
 require("modules/boxes/GuestBookBox.class.php");
 require("modules/boxes/FriendSiteBox.class.php");
 
 $portalpage = new PortalPage();
-$portalpage->AddBox(new BannerBox());
 //left
 $portalpage->AddBox(new TopBox("new", 2));
 $portalpage->AddBox(new TopBox("popular", 2));

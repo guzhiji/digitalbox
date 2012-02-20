@@ -134,6 +134,27 @@
                 </td>
             </tr>
             <tr>
+                <th align="left">Caching</th>
+            </tr>
+            <tr>
+                <td align="center">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>timeout</td>
+                                <td><input type="text" value="{$Setting_Cache_Timeout}" class="textinput2"
+                                           name="cache_timeout" /> seconds (as the lifetime for cached data)</td>
+                            </tr>
+                            <tr>
+                                <td>clear cached data</td>
+                                <td><input type="button" value="clear" class="button1" 
+                                           onclick="window.location='admin_setting.php?module=detail&function=clearcache'" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
                 <td align="center">
                     <table cellspacing="0" cellpadding="5">
                         <tbody>

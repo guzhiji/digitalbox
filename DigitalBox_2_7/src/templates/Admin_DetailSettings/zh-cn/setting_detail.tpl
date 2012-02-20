@@ -134,6 +134,27 @@
                 </td>
             </tr>
             <tr>
+                <th align="left">缓存</th>
+            </tr>
+            <tr>
+                <td align="center">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>定时刷新</td>
+                                <td><input type="text" value="{$Setting_Cache_Timeout}" class="textinput2"
+                                           name="cache_timeout" /> 秒（作为缓存数据的生命期）</td>
+                            </tr>
+                            <tr>
+                                <td>清理缓存</td>
+                                <td><input type="button" value="清理" class="button1"
+                                           onclick="window.location='admin_setting.php?module=detail&function=clearcache'" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
                 <td align="center">
                     <table cellspacing="0" cellpadding="5">
                         <tbody>

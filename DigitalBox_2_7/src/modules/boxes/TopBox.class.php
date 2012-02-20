@@ -29,12 +29,13 @@ class TopBox extends Box {
         } else {
             $this->_cacheCategory = "index";
         }
+        $this->_cacheExpire = GetSettingValue("cache_timeout");
         if ($this->mode == 2) {
             $this->_cacheKey = "popularlist";
-            $this->_cacheExpire = dbCacheTimeout;
+            $this->_cacheRandFactor = 1;
         } else {
             $this->_cacheKey = "newlist";
-            $this->_cacheExpire = -1;
+            $this->_cacheRandFactor = 3;
         }
         $this->_cacheVersion = GetSettingValue("version_content");
     }

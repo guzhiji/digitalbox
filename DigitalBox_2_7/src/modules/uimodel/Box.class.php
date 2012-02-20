@@ -32,6 +32,7 @@ class Box {
     protected $_cacheCategory;
     protected $_cacheKey;
     protected $_cacheVersion;
+    protected $_cacheRandFactor;
 
     function __construct($type, $tplname) {
         $this->_height = "auto";
@@ -118,6 +119,7 @@ class Box {
         $this->_cacheKey = "";
         $this->_cacheExpire = 0;
         $this->_cacheVersion = 0;
+        $this->_cacheRandFactor = 1;
     }
 
     public function DataBind() {
@@ -164,7 +166,9 @@ class Box {
             require_once("modules/cache/PHPCacheReader.class.php");
             $cr = new PHPCacheReader(GetCachePath(), $this->_cacheCategory);
             $cr->SetRefreshFunction(array($this, "GetRefreshedHTML"));
-            $result = $cr->GetValue($this->_cacheKey, $this->_cacheVersion);
+            $result = $cr->GetValue(
+                    $this->_cacheKey, $this->_cacheVersion, $this->_cacheRandFactor
+            );
         }
         if ($result === NULL)
             return $this->GetRefreshedHTML();

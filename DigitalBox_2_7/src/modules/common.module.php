@@ -18,8 +18,6 @@ define("dbTime", "2011-2012");
 
 define("dbEncoding", "utf-8");
 
-define("dbCacheTimeout", 60);
-
 if (!defined("dbUploadPath"))
     define("dbUploadPath", "uploadedfiles");
 
@@ -190,6 +188,15 @@ function GetLang() {
         if (is_dir($filename)) {
             $_lang = $lang;
             return $_lang;
+        }
+        $pos = strpos($lang, "-");
+        if ($pos > 0) {
+            //e.g. zh-cn
+            $lang = substr($lang, 0, $pos);
+            if (is_dir("lang/" . $lang)) {
+                $_lang = $lang;
+                return $_lang;
+            }
         }
     }
     $_lang = strtolower(GetSettingValue("default_lang"));

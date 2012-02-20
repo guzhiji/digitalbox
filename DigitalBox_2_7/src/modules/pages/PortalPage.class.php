@@ -11,6 +11,10 @@
 
 require_once("modules/uimodel/PageModel.class.php");
 require_once("modules/Stopwatch.class.php");
+require("modules/lists/Navigator.class.php");
+require("modules/boxes/BannerBox.class.php");
+require("modules/boxes/ChannelNaviBox.class.php");
+require("modules/boxes/BottomNaviBox.class.php");
 
 class PortalPage extends PageModel {
 
@@ -41,6 +45,7 @@ class PortalPage extends PageModel {
     }
 
     protected function Finalize() {
+        $this->AddBox(new BannerBox());
         $this->AddBox(new ChannelNaviBox("TopNaviBar"));
         $this->AddBox(new BottomNaviBox());
         $this->_regions["Footer"] = GetSettingValue("site_statement");
