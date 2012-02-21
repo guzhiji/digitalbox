@@ -28,7 +28,7 @@ class Box {
     protected $_align;
     protected $_valign;
     protected $_tplName;
-    protected $_cacheExpire;
+    protected $_cacheTimeout;
     protected $_cacheCategory;
     protected $_cacheKey;
     protected $_cacheVersion;
@@ -117,7 +117,7 @@ class Box {
         //to be over ridden
         $this->_cacheCategory = "";
         $this->_cacheKey = "";
-        $this->_cacheExpire = 0;
+        $this->_cacheTimeout = 0;
         $this->_cacheVersion = 0;
         $this->_cacheRandFactor = 1;
     }
@@ -149,7 +149,7 @@ class Box {
             try {
                 require_once("modules/cache/PHPCacheEditor.class.php");
                 $ce = new PHPCacheEditor(GetCachePath(TRUE), $this->_cacheCategory);
-                $ce->SetValue($this->_cacheKey, $html, $this->_cacheExpire, $this->_cacheVersion > 0);
+                $ce->SetValue($this->_cacheKey, $html, $this->_cacheTimeout, $this->_cacheVersion > 0);
                 $ce->Save();
             } catch (Exception $ex) {
                 

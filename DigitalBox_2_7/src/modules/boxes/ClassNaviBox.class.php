@@ -30,8 +30,9 @@ class ClassNaviBox extends Box {
             $this->_cacheKey = "classnavi_back";
         else
             $this->_cacheKey = "classnavi";
-        $this->_cacheExpire = -1;
+        $this->_cacheTimeout = -1;
         $this->_cacheVersion = GetSettingValue("version_classes");
+        $this->_cacheRandFactor = 1;
     }
 
     public function DataBind() {

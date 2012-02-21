@@ -23,14 +23,15 @@ class ContentListBox extends Box {
         if (isset($_classID) && $page < 3) {
             $this->_cacheCategory = "class_" . $_classID;
             $this->_cacheKey = "contentlist_" . $page;
-            $this->_cacheExpire = -1;
+            $this->_cacheTimeout = GetSettingValue("cache_timeout");
             $this->_cacheVersion = GetSettingValue("version_content");
         } else {
             $this->_cacheCategory = "";
             $this->_cacheKey = "";
-            $this->_cacheExpire = 0;
+            $this->_cacheTimeout = 0;
             $this->_cacheVersion = 0;
         }
+        $this->_cacheRandFactor = 1;
     }
 
     public function DataBind() {

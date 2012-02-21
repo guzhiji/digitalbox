@@ -41,8 +41,9 @@ class ChannelNaviBox extends Box {
             $this->_cacheKey = "channelnavi_top";
             $this->_cacheCategory = "portalpage";
         }
-        $this->_cacheExpire = -1;
+        $this->_cacheTimeout = -1;
         $this->_cacheVersion = GetSettingValue("version_channels");
+        $this->_cacheRandFactor = 1;
     }
 
     public function DataBind() {

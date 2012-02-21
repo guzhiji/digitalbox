@@ -25,7 +25,7 @@ class FriendSiteBox extends Box {
             $this->sLength = GetSettingValue("general_list_maxlen");
             if (!GetSettingValue("friendsite_visible")) {
                 $this->_status = 1;
-                $this->_error="closed";
+                $this->_error = "closed";
             }
         } else {
             $this->sItemTpl = "sitelist_item_small";
@@ -44,8 +44,9 @@ class FriendSiteBox extends Box {
             $this->_cacheCategory = "portalpage";
 
         $this->_cacheKey = "friendsites";
-        $this->_cacheExpire = -1;
+        $this->_cacheTimeout = -1;
         $this->_cacheVersion = GetSettingValue("version_friendsites");
+        $this->_cacheRandFactor = 1;
     }
 
     public function DataBind() {

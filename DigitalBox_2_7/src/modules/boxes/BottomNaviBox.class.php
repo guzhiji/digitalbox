@@ -18,8 +18,9 @@ class BottomNaviBox extends Box {
     public function CacheBind() {
         $this->_cacheCategory = "portalpage";
         $this->_cacheKey = "bottomnavi";
-        $this->_cacheExpire = -1;
+        $this->_cacheTimeout = -1;
         $this->_cacheVersion = GetSettingValue("version_detailsetting");
+        $this->_cacheRandFactor = 1;
     }
 
     public function DataBind() {

@@ -1,6 +1,5 @@
 <?php
 
-
 /* ------------------------------------------------------------------
  * DigitalBox CMS 2.7
  * http://code.google.com/p/digitalbox/
@@ -55,7 +54,8 @@ switch (strGet("function")) {
             "ad_1" => strPost("ad1"),
             "ad_2" => strPost("ad2"),
             "ad_3" => strPost("ad3"),
-            "ad_4" => strPost("ad4")
+            "ad_4" => strPost("ad4"),
+            "version_ads" => time()
         );
         $e = "";
         if (CheckAdsSettings($s)) {
@@ -66,7 +66,6 @@ switch (strGet("function")) {
             $e = "选择了不存在的广告;";
         }
         if ($e == "") {
-            UpdateVersion("version_ads");
             $adminpage->AddBox(new MsgBox("广告设置保存成功！", "完 成", "admin_ads.php"));
         } else {
             $adminpage->AddBox(new MsgBox(ErrorList($e), GetLangData("error"), "back"));

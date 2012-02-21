@@ -19,8 +19,9 @@ class BannerBox extends Box {
 
         $this->_cacheCategory = "portalpage";
         $this->_cacheKey = "banner";
-        $this->_cacheExpire = -1;
+        $this->_cacheTimeout = -1;
         $this->_cacheVersion = GetSettingValue("version_basicsetting");
+        $this->_cacheRandFactor = 1;
     }
 
     public function DataBind() {

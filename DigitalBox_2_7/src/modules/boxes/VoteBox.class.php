@@ -1,10 +1,12 @@
 <?php
 
-/*
-  ------------------------------------------------------------------
-  Copyright 2011-2012 DigitalBox Ver 2.7 (by GuZhiji Studio)
-  modules/
-  ------------------------------------------------------------------
+/* ------------------------------------------------------------------
+ * DigitalBox CMS 2.7
+ * http://code.google.com/p/digitalbox/
+ * 
+ * Copyright 2011-2012, GuZhiji Studio <gu_zhiji@163.com>
+ * This program is licensed under the GPL Version 3
+ * ------------------------------------------------------------------
  */
 
 class VoteBox extends Box {
@@ -33,26 +35,29 @@ class VoteBox extends Box {
                 $this->_cacheCategory = "portalpage";
             }
             $this->_cacheKey = "vote_result";
-            $this->_cacheExpire = -1;
+            $this->_cacheTimeout = -1;
         } else if ($this->voteWidth == 150) {
             $this->_cacheCategory = "portalpage";
             if (strCookie("Voted") == "") {
                 $this->_cacheKey = "vote_form";
-                $this->_cacheExpire = -1;
+                $this->_cacheTimeout = -1;
             } else {
                 $this->_cacheKey = "vote_result";
-                $this->_cacheExpire = GetSettingValue("cache_timeout");
+                $this->_cacheTimeout = 10;
             }
+        } else {
+            $this->_cacheCategory = "";
+            $this->_cacheKey = "";
+            $this->_cacheTimeout = 0;
         }
         $this->_cacheVersion = GetSettingValue("version_vote");
         $this->_cacheRandFactor = 1;
     }
 
     public function DataBind() {
-
+        global $_voted;
         require_once("modules/VoteList.module.php");
-
-        if (!GetSettingValue("vote_on") || strCookie("Voted") != "") {
+        if (!GetSettingValue("vote_on") || strCookie("Voted") != "" || $_voted) {
             $html = GetVoteList($this->voteWidth, FALSE);
             $this->SetTitle(GetLangData("voteresult"));
         } else {

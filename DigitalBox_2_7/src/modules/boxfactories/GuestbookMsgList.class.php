@@ -25,7 +25,7 @@ class GuestbookMsgList extends BoxFactory {
 //            $page = 1;
 //        $this->_cacheCategory = "guestbook";
 //        $this->_cacheKey = "msglist_" . $page;
-//        $this->_cacheExpire = -1;
+//        $this->_cacheTimeout = -1;
 //        $this->_cacheVersion = GetSettingValue("version_guestbook");
 //    }
 

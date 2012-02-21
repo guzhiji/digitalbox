@@ -15,7 +15,7 @@
  */
 class BoxFactory {
 
-    protected $_cacheExpire;
+    protected $_cacheTimeout;
     protected $_cacheCategory;
     protected $_cacheKey;
     protected $_cacheVersion;
@@ -36,7 +36,7 @@ class BoxFactory {
         //to be over ridden
         $this->_cacheCategory = "";
         $this->_cacheKey = "";
-        $this->_cacheExpire = 0;
+        $this->_cacheTimeout = 0;
         $this->_cacheVersion = 0;
         $this->_cacheRandFactor = 1;
     }
@@ -62,7 +62,7 @@ class BoxFactory {
             try {
                 require_once("modules/cache/PHPCacheEditor.class.php");
                 $ce = new PHPCacheEditor(GetCachePath(TRUE), $this->_cacheCategory);
-                $ce->SetValue($this->_cacheKey, $this->_html, $this->_cacheExpire, $this->_cacheVersion > 0);
+                $ce->SetValue($this->_cacheKey, $this->_html, $this->_cacheTimeout, $this->_cacheVersion > 0);
                 $ce->Save();
             } catch (Exception $ex) {
                 

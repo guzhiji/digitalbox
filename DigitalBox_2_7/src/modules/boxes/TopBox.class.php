@@ -29,7 +29,7 @@ class TopBox extends Box {
         } else {
             $this->_cacheCategory = "index";
         }
-        $this->_cacheExpire = GetSettingValue("cache_timeout");
+        $this->_cacheTimeout = GetSettingValue("cache_timeout");
         if ($this->mode == 2) {
             $this->_cacheKey = "popularlist";
             $this->_cacheRandFactor = 1;

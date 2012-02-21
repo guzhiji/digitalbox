@@ -23,6 +23,8 @@ require("modules/boxes/FriendSiteBox.class.php");
 
 $errortips = "";
 
+global $_voted;
+$_voted = FALSE;
 if (!GetSettingValue("vote_visible")) {
     $errortips .= GetLangData("novote") . ";";
 } else {
@@ -31,6 +33,7 @@ if (!GetSettingValue("vote_visible")) {
         if (intval(strPost("id")) > 0) {
             if (strCookie("Voted") == "") {
                 if (db_query("update vote_info set vote_value=vote_value+1 where id=%d", array(strPost("id")))) {
+                    $_voted = TRUE;
                     setcookie(dbPrefix . "_Voted", "TRUE", time() + 7 * 24 * 60 * 60);
                 }
             } else {
