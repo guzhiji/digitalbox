@@ -28,6 +28,7 @@ class AdminPage extends PageModel {
 
     protected function Initialize() {
         $this->_timer = new Stopwatch();
+        //passport
         global $_passport;
         if (!isset($_passport))
             $_passport = new Passport();
@@ -37,6 +38,11 @@ class AdminPage extends PageModel {
 
         $this->AddCSSFile(GetThemeResPath("main.css", "stylesheets"));
         $this->AddMeta("robots", "noindex,nofollow");
+        //icon
+        $icon = GetSettingValue("icon_URL");
+        if (!empty($icon)) {
+            $this->SetIcon($icon);
+        }
 
         $this->_mainmenu = array(
             GetLangData("homepage") => array("admin.php", FALSE),

@@ -90,7 +90,7 @@ $sysfiles = array(
     "modules/pages/AdminPage.class.php",
     "modules/pages/PopupPage.class.php",
     "modules/pages/UserAdminPage.class.php",
-    "modules/pages/ContentAdminPage.class.php ",
+    "modules/pages/ContentAdminPage.class.php",
     "modules/pages/PortalPage.class.php",
     "modules/pages/EventAdminPage.class.php",
     "modules/pages/SettingAdminPage.class.php",
@@ -557,18 +557,6 @@ function IsComplete(&$db2files) {
         }
     }
     return $e;
-    /*
-      $e=TRUE;
-      $DB2Path=$_SERVER["SCRIPT_FILENAME"];
-      $DB2Path=substr($DB2Path,0,strlen($DB2Path)-11);
-      for($a=0;$a<sizeof($db2files);$a++){
-      if(!file_exists($DB2Path.$db2files[$a])){
-      $e=FALSE;
-      break;
-      }
-      }
-      return $e;
-     */
 }
 
 function PrepareInstallation(&$files) {
@@ -722,11 +710,13 @@ function MakeTables(&$tables) {
 }
 
 function ImportSettings() {
-    //TODO install: importsettings
     $reader = new PHPCacheReader("cache", "settings");
     $settingkeys = $reader->GetKeys();
     foreach ($settingkeys as $skey) {
         $svalue = $reader->GetValue($skey);
+        if (is_array($svalue))
+            continue;
+
         echo "注入设置信息：" . $skey;
         $notfound = TRUE;
         $rs = db_query("SELECT setting_name FROM setting_info WHERE setting_name=\"%s\"", array($skey));
@@ -772,15 +762,15 @@ function SaveMaster($Master_UID, $Master_PWD) {
         }
         db_free($rs);
     }
-    $r = NULL;
+    $r = FALSE;
     if ($found) {
         echo "修改站长密码";
-        $r = db_query("UPDATE admin_info SET admin_PWD=\"%s\" WHERE admin_UID=\"%s\"", array(Passport::PWDEncrypt($Master_PWD), $Master_UID));
+        $r = !!db_query("UPDATE admin_info SET admin_PWD=\"%s\" WHERE admin_UID=\"%s\"", array(Passport::PWDEncrypt($Master_PWD), $Master_UID));
     } else {
         echo "加入站长管理员";
-        $r = db_query("INSERT INTO admin_info (admin_UID,admin_PWD) VALUES (\"%s\",\"%s\")", array($Master_UID, Passport::PWDEncrypt($Master_PWD)));
+        $r = !!db_query("INSERT INTO admin_info (admin_UID,admin_PWD) VALUES (\"%s\",\"%s\")", array($Master_UID, Passport::PWDEncrypt($Master_PWD)));
     }
-    PrintResult(!!$r);
+    PrintResult($r);
 }
 
 function validateEMail($email) {
@@ -814,15 +804,19 @@ function SetupDatabase(&$tables) {
 
                 MakeTables($tables);
 
-                //TODO install: import cached settings
+                echo "刷新设置信息脚本文件：cache/settings.php";
+
                 require_once("modules/cache/PHPCacheEditor.class.php");
                 $cm = new PHPCacheEditor("cache", "settings");
                 $cm->SetValue("master_name", $Master_UID);
                 $cm->SetValue("master_mail", $Master_Mail);
+                try {
+                    $cm->Save();
+                    PrintResult(TRUE);
+                } catch (Exception $ex) {
+                    PrintResult(FALSE);
+                }
                 ImportSettings();
-
-                echo "刷新设置信息脚本文件：cache/settings.php";
-                PrintResult($cm->Save());
 
                 SaveMaster($Master_UID, $Master_PWD);
 

@@ -102,6 +102,19 @@ function CheckDetailSettings($settings) {
     return $error_text;
 }
 
+function CheckAdsSettings($s) {
+    foreach ($s as $key => $adname) {
+        if ($adname == "")
+            continue;
+        if ($key == "version_ads")
+            continue;
+        $filename = "ads/{$adname}.tpl";
+        if (!is_file($filename))
+            return FALSE;
+    }
+    return TRUE;
+}
+
 function SaveSettings($settings) {
     $e = FALSE;
     require_once("modules/cache/PHPCacheEditor.class.php");

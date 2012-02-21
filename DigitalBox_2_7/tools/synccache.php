@@ -48,7 +48,6 @@ function ShowCompareList() {
             }
         }
         //fetch settings from cache file
-        require("modules/cache/PHPCacheReader.class.php");
         $reader = new PHPCacheReader("cache", "settings");
         $settingkeys = $reader->GetKeys();
         //2nd loop: based on cached settings
@@ -56,6 +55,8 @@ function ShowCompareList() {
             //check if not found in the settings from db
             if (!isset($dbs[$key])) {
                 $value = $reader->GetValue($key);
+                if (is_array($value))
+                    continue;
                 $nonempty = TRUE;
                 if (is_bool($value))
                     $value = $value ? "true" : "false";
@@ -102,19 +103,25 @@ function Sync2Cache() {
             }
         }
         db_free($rs);
-        return $cm->Save();
+        try {
+            $cm->Save();
+            return TRUE;
+        } catch (Exception $ex) {
+            return FALSE;
+        }
     }
     return FALSE;
 }
 
 function Sync2DB() {
-    require("modules/cache/PHPCacheReader.class.php");
     $reader = new PHPCacheReader("cache", "settings");
     $settingkeys = $reader->GetKeys();
 
     $e = FALSE;
     foreach ($settingkeys as $key) {
         $value = $reader->GetValue($key);
+        if (is_array($value))
+            continue;
         $type = 0;
         if (!is_string($value)) {
             if (is_bool($value)) {

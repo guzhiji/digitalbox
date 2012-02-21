@@ -10,9 +10,8 @@
 
 require("modules/common.module.php");
 require("modules/Passport.class.php");
-require("modules/data/database.module.php");
 require("modules/data/user_admin.module.php");
-require("modules/data/CacheManager.class.php");
+require("modules/cache/PHPCacheEditor.class.php");
 $err_tip = "";
 if (strtolower(strGet("command")) == "update") {
 
@@ -28,22 +27,27 @@ if (strtolower(strGet("command")) == "update") {
         if (!$connid) {
             $err_tip .= "数据库连接失败;";
         } else {
-            $cm = new CacheManager("settings");
+            $cm = new PHPCacheEditor("cache", "settings");
             $cm->SetValue("master_name", $Master_UID);
-            if ($cm->Save() && db_query("UPDATE setting_info SET setting_value=\"%s\" WHERE setting_name='master_name'", array($Master_UID))) {
-                $rs = db_query("SELECT admin_UID FROM admin_info WHERE admin_UID=\"%s\"", array($Master_UID));
-                if ($rs) {
-                    $list = db_result($rs);
-                    db_free($rs);
-                    if (isset($list[0])) {
-                        if (!db_query("UPDATE admin_info SET admin_PWD=\"%s\" WHERE admin_UID=\"%s\"", array(Passport::PWDEncrypt($Master_PWD), $Master_UID))) {
-                            $err_tip .= "修改站长密码失败;";
+            try {
+                $cm->Save();
+                if (db_query("UPDATE setting_info SET setting_value=\"%s\" WHERE setting_name='master_name'", array($Master_UID))) {
+                    $rs = db_query("SELECT admin_UID FROM admin_info WHERE admin_UID=\"%s\"", array($Master_UID));
+                    if ($rs) {
+                        $list = db_result($rs);
+                        db_free($rs);
+                        if (isset($list[0])) {
+                            if (!db_query("UPDATE admin_info SET admin_PWD=\"%s\" WHERE admin_UID=\"%s\"", array(Passport::PWDEncrypt($Master_PWD), $Master_UID))) {
+                                $err_tip .= "修改站长密码失败;";
+                            }
+                        } else if (!db_query("INSERT INTO admin_info (admin_UID,admin_PWD) VALUES (\"%s\",\"%s\")", array($Master_UID, Passport::PWDEncrypt($Master_PWD)))) {
+                            $err_tip .= "加入站长管理员失败;";
                         }
-                    } else if (!db_query("INSERT INTO admin_info (admin_UID,admin_PWD) VALUES (\"%s\",\"%s\")", array($Master_UID, Passport::PWDEncrypt($Master_PWD)))) {
-                        $err_tip .= "加入站长管理员失败;";
                     }
+                } else {
+                    $err_tip .= "修改站长失败;";
                 }
-            } else {
+            } catch (Exception $ex) {
                 $err_tip .= "修改站长失败;";
             }
             db_close();

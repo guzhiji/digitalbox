@@ -126,6 +126,7 @@ switch (strGet("module")) {
                     break;
                 case "start":
                     if ($voteadmin->check() && $voteadmin->start()) {
+                        UpdateVersion("version_vote");
                         require("modules/boxes/Admin_VoteList.class.php");
                         $adminpage->AddBox(new Admin_VoteList());
                     } else {
@@ -134,6 +135,7 @@ switch (strGet("module")) {
                     break;
                 case "stop":
                     if ($voteadmin->check() && $voteadmin->stop()) {
+                        UpdateVersion("version_vote");
                         require("modules/boxes/Admin_VoteList.class.php");
                         $adminpage->AddBox(new Admin_VoteList());
                     } else {

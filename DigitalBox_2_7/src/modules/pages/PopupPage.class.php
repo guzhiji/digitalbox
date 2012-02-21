@@ -18,6 +18,11 @@ class PopupPage extends PageModel {
 
         $this->AddMeta("robots", "noindex,nofollow");
         $this->AddCSSFile(GetThemeResPath("main.css", "stylesheets"));
+        //icon
+        $icon = GetSettingValue("icon_URL");
+        if (!empty($icon)) {
+            $this->SetIcon($icon);
+        }
     }
 
     public function AddBox(Box $box) {

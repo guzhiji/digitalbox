@@ -9,39 +9,6 @@
  * ------------------------------------------------------------------
  */
 
-function GetAvailableAds($name, $selected = "", $hidingoption = FALSE) {
-    $html = "<select name=\"$name\">";
-    if ($hidingoption)
-        $html.="<option value=\"\">[隐藏]</option>";
-    $d = dir("ads");
-    while (FALSE !== ($ad = $d->read())) {
-        if (strtolower(substr($ad, -4)) == ".tpl") {
-            $ad = substr($ad, 0, -4);
-            if ($ad == "topbanner")
-                continue;
-            $s = "";
-            if ($ad == $selected)
-                $s = " selected=\"selected\"";
-            $html.="<option value=\"$ad\"$s>$ad</option>";
-        }
-    }
-    $d->close();
-    $html.="</select>";
-    return $html;
-}
-
-function CheckAdsSettings($s) {
-    foreach ($s as $filename) {
-        if ($filename == "")
-            continue;
-        $filename = "ads/{$filename}.tpl";
-        if (!is_file($filename)) {
-            return FALSE;
-        }
-    }
-    return TRUE;
-}
-
 require("modules/common.module.php");
 require("modules/pages/SettingAdminPage.class.php");
 
