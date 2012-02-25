@@ -43,6 +43,7 @@ class Admin_DetailSettings extends Box {
             "Setting_FSTL_MaxLen" => GetSettingValue("site_list_maxlen"),
             "Setting_GBTL_MaxLen" => GetSettingValue("guestbook_list_maxlen"),
             "Setting_CMTL_MaxLen" => GetSettingValue("comment_list_maxlen"),
+            "Setting_RSS_MaxLen" => GetSettingValue("rss_list_maxlen"),
             "Setting_ImageIndex_MaxRow" => GetSettingValue("index_grid_maxrow"),
             "Setting_ImageDefault_MaxRow" => GetSettingValue("general_grid_maxrow"),
             "Setting_Upload_MaxSize" => $size[0],
@@ -52,7 +53,7 @@ class Admin_DetailSettings extends Box {
                 ), __CLASS__);
 
         $this->SetHeight("auto");
-        $this->SetTitle("具体设置");
+        $this->SetTitle(GetLangData("detailsettings"));
         $this->SetContent($html, "center", "middle", 2);
     }
 

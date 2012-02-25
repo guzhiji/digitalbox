@@ -72,6 +72,7 @@ switch (strGet("module")) {
                 "site_list_maxlen" => intval(strPost("site_list_maxlen")),
                 "guestbook_list_maxlen" => intval(strPost("guestbook_list_maxlen")),
                 "comment_list_maxlen" => intval(strPost("comment_list_maxlen")),
+                "rss_list_maxlen" => intval(strPost("rss_list_maxlen")),
                 "index_grid_maxrow" => intval(strPost("index_grid_maxrow")),
                 "general_grid_maxrow" => intval(strPost("general_grid_maxrow")),
                 "upload_maxsize" => Size2Bytes(strPost("upload_maxsize"), strPost("upload_sizeunit")),

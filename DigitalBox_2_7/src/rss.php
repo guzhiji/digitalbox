@@ -32,8 +32,8 @@ if ($rs) {
         echo "<title>" . htmlspecialchars($item["content_name"]) . "</title>";
         echo "<link>" . GetSiteURL() . GetTypeName($item["channel_type"], 1) . ".php?id=" . $item["content_id"] . "</link>";
         echo "<pubDate>" . $item["content_time"] . "</pubDate>";
-        echo "<category>" . $item["channel_name"] . "</category>";
-        echo "<category>" . $item["class_name"] . "</category>";
+        echo "<category>" . htmlspecialchars($item["channel_name"]) . "</category>";
+        echo "<category>" . htmlspecialchars($item["class_name"]) . "</category>";
         //echo "<description>" . GetLangData("click") . ": " . $item["visitor_count"] . "</description>";
         echo "</item>";
     }

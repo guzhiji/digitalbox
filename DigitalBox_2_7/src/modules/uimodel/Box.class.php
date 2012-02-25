@@ -47,6 +47,11 @@ class Box {
         $this->_status = 0;
         $this->_error = "";
         $this->_backpage = NULL;
+        $this->_cacheCategory = "";
+        $this->_cacheKey = "";
+        $this->_cacheTimeout = 0;
+        $this->_cacheVersion = 0;
+        $this->_cacheRandFactor = 1;
     }
 
     /**
@@ -115,11 +120,6 @@ class Box {
 
     public function CacheBind() {
         //to be over ridden
-        $this->_cacheCategory = "";
-        $this->_cacheKey = "";
-        $this->_cacheTimeout = 0;
-        $this->_cacheVersion = 0;
-        $this->_cacheRandFactor = 1;
     }
 
     public function DataBind() {
@@ -163,7 +163,7 @@ class Box {
         $result = NULL;
         $this->CacheBind();
         if (!empty($this->_cacheCategory)) {
-            require_once("modules/cache/PHPCacheReader.class.php");
+            //require_once("modules/cache/PHPCacheReader.class.php");
             $cr = new PHPCacheReader(GetCachePath(), $this->_cacheCategory);
             $cr->SetRefreshFunction(array($this, "GetRefreshedHTML"));
             $result = $cr->GetValue(

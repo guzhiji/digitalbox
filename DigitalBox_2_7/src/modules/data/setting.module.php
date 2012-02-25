@@ -79,7 +79,8 @@ function CheckDetailSettings($settings) {
             || $settings["class_titlelist_maxlen"] < 3
             || $settings["site_list_maxlen"] < 3
             || $settings["comment_list_maxlen"] < 3
-            || $settings["guestbook_list_maxlen"] < 3)
+            || $settings["guestbook_list_maxlen"] < 3
+            || $settings["rss_list_maxlen"] < 3)
         $error_text .= "每页标题列表的最大行数不能小于3;";
     else if ($settings["general_list_maxlen"] > 50
             || $settings["toplist_maxlen"] > 50
@@ -87,7 +88,8 @@ function CheckDetailSettings($settings) {
             || $settings["class_titlelist_maxlen"] > 50
             || $settings["site_list_maxlen"] > 50
             || $settings["comment_list_maxlen"] > 50
-            || $settings["guestbook_list_maxlen"] > 50)
+            || $settings["guestbook_list_maxlen"] > 50
+            || $settings["rss_list_maxlen"] > 50)
         $error_text .= "每页标题列表的最大行数不能大于50;";
 
     if ($settings["index_grid_maxrow"] < 1

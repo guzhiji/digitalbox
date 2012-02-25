@@ -24,14 +24,8 @@ class GuestBookBox extends Box {
         if ($this->key == "") {
             $this->_cacheCategory = "portalpage";
             $this->_cacheKey = "guestbook";
-            $this->_cacheTimeout = 30;
-        } else {
-            $this->_cacheCategory = "";
-            $this->_cacheKey = "";
-            $this->_cacheTimeout = 0;
+            $this->_cacheTimeout = GetSettingValue("cache_timeout");
         }
-        $this->_cacheVersion = 0;
-        $this->_cacheRandFactor = 1;
     }
 
     public function DataBind() {

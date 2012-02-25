@@ -43,15 +43,10 @@ class VoteBox extends Box {
                 $this->_cacheTimeout = -1;
             } else {
                 $this->_cacheKey = "vote_result";
-                $this->_cacheTimeout = 10;
+                $this->_cacheTimeout = GetSettingValue("cache_timeout");
             }
-        } else {
-            $this->_cacheCategory = "";
-            $this->_cacheKey = "";
-            $this->_cacheTimeout = 0;
         }
         $this->_cacheVersion = GetSettingValue("version_vote");
-        $this->_cacheRandFactor = 1;
     }
 
     public function DataBind() {

@@ -60,7 +60,7 @@
                                            name="box3_title_maxlen" class="textinput2" /></td>
                             </tr>
                             <tr>
-                                <td style="border: 1px solid black" align="center" valign="middle" rowspan="7"><b>标题列表最大行数</b></td>
+                                <td style="border: 1px solid black" align="center" valign="middle" rowspan="8"><b>标题列表最大行数</b></td>
                                 <td>通常列表</td>
                                 <td><input type="text" maxlength="2" value="{$Setting_GTL_MaxLen}"
                                            name="general_list_maxlen" class="textinput2" /></td>
@@ -94,6 +94,11 @@
                                 <td>内容评论列表</td>
                                 <td><input type="text" maxlength="2" value="{$Setting_CMTL_MaxLen}"
                                            name="comment_list_maxlen" class="textinput2" /></td>
+                            </tr>
+                            <tr>
+                                <td>RSS列表</td>
+                                <td><input type="text" maxlength="2" value="{$Setting_RSS_MaxLen}"
+                                           name="rss_list_maxlen" class="textinput2" /></td>
                             </tr>
                             <tr>
                                 <td style="border: 1px solid black" align="center" valign="middle" rowspan="2"><b>图片列表</b></td>

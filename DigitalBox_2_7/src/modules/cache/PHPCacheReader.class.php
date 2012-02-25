@@ -56,13 +56,15 @@ class PHPCacheReader {
     private function GetRefreshedValue($key) {
         if ($this->function != NULL) {
 
-            //refresh
-            //eval($this->function);
-            call_user_func($this->function);
+//            //refresh
+//            //eval($this->function);
+//            call_user_func($this->function);
+//
+//            //reload
+//            $r = new PHPCacheReader($this->path, $this->category);
+//            return $r->GetValue($key);
 
-            //reload
-            $r = new PHPCacheReader($this->path, $this->category);
-            return $r->GetValue($key);
+            return call_user_func($this->function);
         }
         return NULL;
     }

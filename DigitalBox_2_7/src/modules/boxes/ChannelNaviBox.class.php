@@ -31,6 +31,7 @@ class ChannelNaviBox extends Box {
     }
 
     public function CacheBind() {
+        $this->_cacheVersion = GetSettingValue("version_channels");
         if ($this->_eventdriven) {
             $this->_cacheKey = "channelnavi_right";
             if ($this->_backbutton)
@@ -40,9 +41,10 @@ class ChannelNaviBox extends Box {
         }else {
             $this->_cacheKey = "channelnavi_top";
             $this->_cacheCategory = "portalpage";
+            if ($this->_cacheVersion < GetSettingValue("version_detailsetting"))
+                $this->_cacheVersion = GetSettingValue("version_detailsetting");
         }
         $this->_cacheTimeout = -1;
-        $this->_cacheVersion = GetSettingValue("version_channels");
         $this->_cacheRandFactor = 1;
     }
 

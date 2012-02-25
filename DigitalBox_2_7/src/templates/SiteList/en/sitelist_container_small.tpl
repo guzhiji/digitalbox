@@ -1,5 +1,5 @@
 <div style="word-wrap: break-word;overflow: auto;width: 100%;text-align: center;">
-    <table>
+    <table width="100%">
         {$ListItems}
         <tr>
             <td align="right" colspan="2">

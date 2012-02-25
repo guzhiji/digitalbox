@@ -26,6 +26,11 @@ class BoxFactory {
     function __construct($type) {
         $this->_boxType = $type;
         $this->_html = "";
+        $this->_cacheCategory = "";
+        $this->_cacheKey = "";
+        $this->_cacheTimeout = 0;
+        $this->_cacheVersion = 0;
+        $this->_cacheRandFactor = 1;
     }
 
     public function GetType() {
@@ -34,11 +39,6 @@ class BoxFactory {
 
     public function CacheBind() {
         //to be over ridden
-        $this->_cacheCategory = "";
-        $this->_cacheKey = "";
-        $this->_cacheTimeout = 0;
-        $this->_cacheVersion = 0;
-        $this->_cacheRandFactor = 1;
     }
 
     public function AddBox(Box $box) {
@@ -76,7 +76,7 @@ class BoxFactory {
         $html = NULL;
         $this->CacheBind();
         if (!empty($this->_cacheCategory)) {
-            require_once("modules/cache/PHPCacheReader.class.php");
+            //require_once("modules/cache/PHPCacheReader.class.php");
             $cr = new PHPCacheReader(GetCachePath(), $this->_cacheCategory);
             $cr->SetRefreshFunction(array($this, "GetRefreshedHTML"));
             $html = $cr->GetValue(
