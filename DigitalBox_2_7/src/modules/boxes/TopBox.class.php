@@ -35,7 +35,7 @@ class TopBox extends Box {
             $this->_cacheRandFactor = 1;
         } else {
             $this->_cacheKey = "newlist";
-            $this->_cacheRandFactor = 3;
+            $this->_cacheRandFactor = 1;
         }
         $this->_cacheVersion = GetSettingValue("version_content");
     }

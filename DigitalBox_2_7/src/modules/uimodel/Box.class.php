@@ -135,7 +135,7 @@ class Box {
             $html = TransformTpl($this->_tplName, array(
                 "Width" => $this->_width,
                 "Height" => $this->_height,
-                "Title" => $this->_title,
+                "Title" => htmlspecialchars($this->_title),
                 "Content" => $this->_content,
                 "Padding" => $this->_padding,
                 "Align" => $this->_align,

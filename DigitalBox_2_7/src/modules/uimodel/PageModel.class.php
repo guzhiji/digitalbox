@@ -171,12 +171,14 @@ abstract class PageModel {
     }
 
     protected function AddBox($region, Box $box) {
+        $html = $box->GetHTML();
         switch ($box->GetStatus()) {
             case 1:
                 $e = $box->GetError();
                 $t = $box->GetTitle();
                 $b = $box->GetBackPage();
                 $box = new MsgBox(ErrorList($e), $t, $b);
+                $html = $box->GetHTML();
                 break;
             case 2:
                 $box = NULL;
@@ -184,9 +186,9 @@ abstract class PageModel {
         }
         if (!empty($box)) {
             if (isset($this->_regions[$region]))
-                $this->_regions[$region].=$box->GetHTML();
+                $this->_regions[$region].= $html;
             else
-                $this->_regions[$region] = $box->GetHTML();
+                $this->_regions[$region] = $html;
         }
     }
 

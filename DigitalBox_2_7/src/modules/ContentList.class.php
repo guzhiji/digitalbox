@@ -76,7 +76,7 @@ class ContentList {
      * @param int $order
      * <ul>
      * <li>1 - new first</li>
-     * <li>2 - hot first</li>
+     * <li>2 - popular first</li>
      * <li>3 - by alphabet</li>
      * </ul>
      * @param int $formore
@@ -133,7 +133,7 @@ class ContentList {
             $rs = db_query($sql->GetSelect() . " LIMIT " . (($current_page - 1) * $page_size) . ",$page_size");
             if ($rs) {
                 $list = db_result($rs);
-                if (count($list) > 0) {
+                if (isset($list[0])) {
                     //generate list
                     foreach ($list as $item) {
                         $this->_imagelist->CreateItem();
@@ -212,7 +212,7 @@ class ContentList {
 
 
                 $list = db_result($rs);
-                if (count($list) > 0) {
+                if (isset($list[0])) {
                     //generate list
                     foreach ($list as $item) {
                         //$this->_titlelist->CreateItem($this->_type);

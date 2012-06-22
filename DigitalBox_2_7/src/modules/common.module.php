@@ -24,10 +24,22 @@ if (!defined("dbUploadPath"))
 //------------------------------------------------------------------
 //database connection
 //------------------------------------------------------------------
+//function db_connect() {
+//    global $_connid;
+//    if (!isset($_connid) || empty($_connid)) {
+//        $_connid = mysql_connect(dbMySQLHostName, dbMySQLUserName, dbMySQLPassword);
+//    }
+//    return $_connid;
+//}
+
 function db_connect() {
     global $_connid;
     if (!isset($_connid) || empty($_connid)) {
         $_connid = mysql_connect(dbMySQLHostName, dbMySQLUserName, dbMySQLPassword);
+        if ($_connid && !mysql_select_db(dbDatabaseName, $_connid)) {
+            mysql_close($_connid);
+            $_connid = FALSE;
+        }
     }
     return $_connid;
 }
@@ -42,17 +54,35 @@ function db_close() {
     return FALSE;
 }
 
+//function db_query($sql, $args = NULL) {
+//
+//    $connid = db_connect();
+//    if ($args === NULL || count($args) == 0) {
+//        return mysql_db_query(dbDatabaseName, $sql, $connid);
+//    } else {
+//        $args_[0] = &$sql;
+//        $c = count($args);
+//        for ($a = 0; $a < $c; $a++) {
+//            $args_[$a + 1] = &$args[$a];
+//            if (is_string($args_[$a + 1]))
+//                $args_[$a + 1] = mysql_real_escape_string($args_[$a + 1]);
+//        }
+//        return mysql_db_query(dbDatabaseName, call_user_func_array("sprintf", $args_), $connid);
+//    }
+//}
+
 function db_query($sql, $args = NULL) {
 
     $connid = db_connect();
-    if ($args === NULL || count($args) == 0) {
+    if (empty($args)) {
 
         //sql debug
         //echo $sql.";";
-
-        return mysql_db_query(dbDatabaseName, $sql, $connid);
+        //return mysql_db_query(dbDatabaseName, $sql, $connid);
+        return mysql_query($sql, $connid);
     } else {
-        $args_[0] = &$sql;
+        //$args_[0] = &$sql;
+        $args_ = array(&$sql);
         $c = count($args);
         for ($a = 0; $a < $c; $a++) {
             $args_[$a + 1] = &$args[$a];
@@ -62,8 +92,8 @@ function db_query($sql, $args = NULL) {
 
         //sql debug
         //echo call_user_func_array("sprintf",$args_).";";
-
-        return mysql_db_query(dbDatabaseName, call_user_func_array("sprintf", $args_), $connid);
+        //return mysql_db_query(dbDatabaseName, call_user_func_array("sprintf", $args_), $connid);
+        return mysql_query(call_user_func_array("sprintf", $args_), $connid);
     }
 }
 

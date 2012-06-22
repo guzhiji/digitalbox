@@ -102,7 +102,7 @@ $portalpage->AddBox(new AdsBox("ad_2", TRUE));
 //right
 $portalpage->AddBox(new NoticeBoardBox());
 $portalpage->AddBox(new SearchBox(TRUE));
-$portalpage->AddBox(new ChannelNaviBox("Right", TRUE));
+//$portalpage->AddBox(new ChannelNaviBox("Right", TRUE));
 if (!$_error)
     $portalpage->AddBox(new ClassNaviBox($_channelID, $_channelName, $_channelType, FALSE));
 $portalpage->AddBox(new AdsBox("ad_3", FALSE));
