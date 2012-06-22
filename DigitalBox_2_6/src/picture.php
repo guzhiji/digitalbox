@@ -68,7 +68,7 @@ if (!$portalpage->HasError()) {
     $imagelist = new ImageList();
     $imagelist->SetLinkType(1);
     $imagelist->_maxrow = GetSettingValue("index_grid_maxrow");
-    $rs = db_query($connid, $sql->GetSelect() . " LIMIT 0," . $imagelist->Size());
+    $rs = db_query($connid, $sql->GetSelect() . " LIMIT 0," . ($imagelist->_maxrow * 5));
     if ($rs) {
         $list = db_result($rs);
         foreach ($list as $item) {
