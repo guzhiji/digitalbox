@@ -67,7 +67,7 @@ class Channel_Admin{
 	public function add(){
 		$f=FALSE;
 		if($this->task == "add"){
-			if($this->channel_add != ""){
+			if($this->channel_add == ""){
 				$sql="INSERT INTO channel_info (channel_name,channel_type) VALUES (\"%s\",%d)";
 				$f=db_query($this->_connid,$sql, array($this->channel_name,$this->channel_type));
 			}else{
