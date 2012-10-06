@@ -1,0 +1,1 @@
+<div style="overflow: hidden;width: {$Width};height: {$Height};text-align: center;">{$Content}</div>
