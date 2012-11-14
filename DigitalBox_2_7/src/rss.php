@@ -11,6 +11,8 @@
 
 require("modules/common.module.php");
 
+header("Content-Type: application/rss+xml");
+
 echo "<?xml version=\"1.0\" encoding=\"" . dbEncoding . "\" ?>";
 echo "<rss version=\"2.0\">";
 echo "<channel>";

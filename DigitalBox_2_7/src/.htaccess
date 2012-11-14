@@ -15,4 +15,4 @@ ErrorDocument 403 /index.php
 ErrorDocument 404 /index.php
    
 #Internal server Error
-ErrorDocument 500 /index.php
+#ErrorDocument 500 /index.php
