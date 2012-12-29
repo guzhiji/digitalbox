@@ -11,17 +11,16 @@
 
 class Comment {
 
-    var  $error;
+    var $error;
     var $name, $mail, $homepage, $head, $title, $text;
 
     public function check() {
         @session_start();
         $this->error = "";
-        
-        //debug
-        //echo strval(time()) . "-" . strval(strSession("GuestBook_Time"));
-        
-        if (time() - intval(strSession("GuestBook_Time")) < 600) {
+
+        if (strSession("CheckCode") != strPost("check_code")) {
+            $this->error.="验证码错误;";
+        } else if (time() - intval(strSession("GuestBook_Time")) < 600) {
             $this->error .= "您已经留过言，请您在10分钟之后再留言。;";
         } else {
 
@@ -70,7 +69,7 @@ class Comment {
 
         if ($this->check()) {
 
-            if (db_query( "insert into guest_info (
+            if (db_query("insert into guest_info (
 			guest_IP,guest_date,guest_name,guest_mail,guest_homepage,guest_head,guest_title,guest_text
 			) values (\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",%d,\"%s\",\"%s\")", array($_SERVER["REMOTE_ADDR"], date("Y-m-j H:i:s"), $this->name, $this->mail, $this->homepage, $this->head, $this->title, $this->text))
             ) {

@@ -52,26 +52,35 @@
                 <td colspan="1" width="60" align="center" valign="middle">*内容：</td>
                 <td colspan="4" width="490"><textarea name="guest_text" class="textarea1"></textarea></td>
             </tr>
+            <tr>
+                <td colspan="1" rowspan="2" width="60" align="center" valign="middle">*验证码：</td>
+                <td colspan="4" width="490"><a title="刷新" 
+                                               href="guestbook.php?mode=add"><img border="0" src="checkcode.php" /></a></td>
+            </tr>
+            <tr>
+                <td colspan="4" width="490"><input type="text" name="check_code"
+                                                   class="textinput2" /></td>
+            </tr>
         </table>
     </form>
 </center>
 <script language="javascript">
-//<![CDATA[
+    //<![CDATA[
     
     function save_message(){
-        document.guestbook.method="post";
-        document.guestbook.action="guestbook.php?function=add";
-        document.guestbook.submit();
-    }
-    function reset_message(){
-        document.guestbook.reset();
-        document.all.head_viewer.src="images/head/1.gif";
-    }
-    function show_head(a){
-        a.src="images/head/"+document.guestbook.guest_head.value+".gif";
-    }
+    document.guestbook.method="post";
+    document.guestbook.action="guestbook.php?function=add";
+    document.guestbook.submit();
+}
+function reset_message(){
+document.guestbook.reset();
+document.all.head_viewer.src="images/head/1.gif";
+}
+function show_head(a){
+a.src="images/head/"+document.guestbook.guest_head.value+".gif";
+}
         
-    show_head(document.getElementById("head_viewer"));
+show_head(document.getElementById("head_viewer"));
 
 
 //]]>
