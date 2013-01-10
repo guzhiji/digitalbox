@@ -11,7 +11,7 @@
         <tr>
             <td valign="middle">check code: </td>
             <td valign="middle"><input class="textinput2" type="text" name="checkcode" /></td>
-            <td valign="middle"><a title="refresh" href="login.php"><img border="0" src="checkcode.php" /></a></td>
+            <td valign="middle"><a title="refresh" href="#"><img border="0" src="checkcode.php" onclick="refresh_checkcode(this);" /></a></td>
         </tr>
         <tr>
             <td colspan="3" align="center">
@@ -26,3 +26,13 @@
         </tr>
     </table>
 </form>
+<script language="javascript">
+    //<![CDATA[
+    function refresh_checkcode(img) {
+        if(!window.checkcode_refreshes)
+            checkcode_refreshes=0;
+        checkcode_refreshes++;
+        img.src='checkcode.php?refresh='+checkcode_refreshes;
+    }
+    //]]>
+</script>

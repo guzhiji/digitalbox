@@ -351,12 +351,13 @@ function TransformTpl($tplname, $vars, $classname = NULL, $themeid = NULL, $lang
  * @return string 
  */
 function Tpl2HTML($tpl, $vars) {
-    foreach ($vars as $varname => $varvalue) {
-        $varvalue = str_replace("\\", "\\\\", $varvalue);
-        $varvalue = str_replace("\"", "\\\"", $varvalue);
-        $varvalue = str_replace("\$", "\\\$", $varvalue);
-        eval("\$$varname=\"$varvalue\";");
-    }
+//    foreach ($vars as $varname => $varvalue) {
+//        $varvalue = str_replace("\\", "\\\\", $varvalue);
+//        $varvalue = str_replace("\"", "\\\"", $varvalue);
+//        $varvalue = str_replace("\$", "\\\$", $varvalue);
+//        eval("\$$varname=\"$varvalue\";");
+//    }
+    extract($vars);
     $tpl = str_replace("\\", "\\\\", $tpl);
     $tpl = str_replace("\"", "\\\"", $tpl);
     eval("\$tpl=\"$tpl\";");

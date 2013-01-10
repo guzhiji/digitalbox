@@ -55,7 +55,7 @@
             <tr>
                 <td colspan="1" rowspan="2" width="60" align="center" valign="middle">*验证码：</td>
                 <td colspan="4" width="490"><a title="刷新" 
-                                               href="guestbook.php?mode=add"><img border="0" src="checkcode.php" /></a></td>
+                                               href="#"><img border="0" src="checkcode.php" onclick="refresh_checkcode(this);" /></a></td>
             </tr>
             <tr>
                 <td colspan="4" width="490"><input type="text" name="check_code"
@@ -66,8 +66,13 @@
 </center>
 <script language="javascript">
     //<![CDATA[
-    
-    function save_message(){
+function refresh_checkcode(img) {
+    if(!window.checkcode_refreshes)
+        checkcode_refreshes=0;
+    checkcode_refreshes++;
+    img.src='checkcode.php?refresh='+checkcode_refreshes;
+}
+function save_message(){
     document.guestbook.method="post";
     document.guestbook.action="guestbook.php?function=add";
     document.guestbook.submit();
