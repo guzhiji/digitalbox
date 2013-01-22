@@ -49,8 +49,8 @@ class Passport {
 
         //save check code
         @session_start();
-        if (!session_is_registered(dbPrefix . "_CheckCode"))
-            session_register(dbPrefix . "_CheckCode");
+        if (!@session_is_registered(dbPrefix . "_CheckCode"))
+            @session_register(dbPrefix . "_CheckCode");
         $_SESSION[dbPrefix . "_CheckCode"] = $checkcode;
 
         //export
@@ -63,7 +63,7 @@ class Passport {
     }
 
     public function check() {
-        return session_is_registered(dbPrefix . "_Admin_UID") && strSession("Admin_UID") != "";
+        return strSession("Admin_UID") != "";
     }
 
     public function doubleCheck($ismaster = TRUE) {
@@ -115,10 +115,10 @@ class Passport {
                     $list = db_result($rs);
                     if (isset($list[0])) {
                         if ($list[0][0] == "true") {
-                            if (session_is_registered(dbPrefix . "_LoginFailures"))
-                                $_SESSION[dbPrefix . "_LoginFailures"] = 0;
-                            if (!session_is_registered(dbPrefix . "_Admin_UID"))
-                                session_register(dbPrefix . "_Admin_UID");
+                            // if (@session_is_registered(dbPrefix . "_LoginFailures"))
+                            $_SESSION[dbPrefix . "_LoginFailures"] = 0;
+                            if (!@session_is_registered(dbPrefix . "_Admin_UID"))
+                                @session_register(dbPrefix . "_Admin_UID");
                             $_SESSION[dbPrefix . "_Admin_UID"] = $username;
                             return TRUE;
                         }
@@ -127,8 +127,8 @@ class Passport {
                 }
                 $this->error.="用户名或密码错误;";
             }
-            if (!session_is_registered(dbPrefix . "_LoginFailures"))
-                session_register(dbPrefix . "_LoginFailures");
+            if (!@session_is_registered(dbPrefix . "_LoginFailures"))
+                @session_register(dbPrefix . "_LoginFailures");
             $_SESSION[dbPrefix . "_LoginFailures"] = $failureTime + 1;
         }else {
             $this->error.="未填写完整;";
@@ -137,8 +137,8 @@ class Passport {
     }
 
     public function logout() {
-        if (session_is_registered(dbPrefix . "_Admin_UID"))
-            session_destroy();
+        //if (session_is_registered(dbPrefix . "_Admin_UID"))
+        session_destroy();
     }
 
 }
