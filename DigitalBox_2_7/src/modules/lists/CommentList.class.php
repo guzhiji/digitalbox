@@ -26,10 +26,10 @@ class CommentList extends ListModel {
         parent::AddItem(array(
             "ID" => $id,
             "Name" => $name,
-            "EMail" => htmlspacialchars($email),
+            "EMail" => htmlspecialchars($email),
             "Title" => $title,
-            "Date" => htmlspacialchars($date),
-            "IP" => htmlspacialchars($ip)
+            "Date" => htmlspecialchars($date),
+            "IP" => htmlspecialchars($ip)
         ));
     }
 
