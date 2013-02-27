@@ -22,7 +22,8 @@ class GuestbookMessage extends Box {
 
         $homepage = "";
         if (strlen($this->_item["guest_homepage"]) > 7) {
-            $homepage = "<a target=\"_blank\" href=\"{$this->_item["guest_homepage"]}\"><img title=\"{$this->_item["guest_homepage"]}\" border=0 src=\"" . GetThemeResPath("url.gif", "images") . "\" /></a>";
+            $hplink = htmlspecialchars($this->_item["guest_homepage"]);
+            $homepage = "<a target=\"_blank\" href=\"{$hplink}\"><img title=\"{$hplink}\" border=0 src=\"" . GetThemeResPath("url.gif", "images") . "\" /></a>";
         } else {
             $homepage = "<img title=\"" . GetLangData("notfilled") . "\" border=\"0\" src=\"" . GetThemeResPath("nourl.gif", "images") . "\" />";
         }
@@ -42,7 +43,7 @@ class GuestbookMessage extends Box {
             "Text" => $this->_item["guest_text"],
             "Homepage" => $homepage,
             "Mail" => $mail,
-            "Link_Reply" => $replylink,
+            "Link_Reply" => htmlspecialchars($replylink),
             "Image_Reply" => GetThemeResPath("reply.gif", "images"),
             "Image_Time" => GetThemeResPath("time.gif", "images"),
             "Date" => $this->_item["guest_date"]

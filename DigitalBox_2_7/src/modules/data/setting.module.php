@@ -183,9 +183,12 @@ function ClearCache() {
                         continue;
                     unlink("cache/" . $id . "/" . $lang . "/" . $file);
                 }
+                $d3->close();
                 rmdir("cache/" . $id . "/" . $lang);
             }
+            $d2->close();
             rmdir("cache/" . $id);
         }
     }
+    $d->close();
 }

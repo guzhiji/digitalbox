@@ -78,7 +78,7 @@ if (!$rs) {
 
 
 $portalpage = new PortalPage();
-
+$portalpage->AddBox(new SearchBox(TRUE));
 //left
 $portalpage->AddBox(new TopBox("popular", 3));
 $portalpage->AddBox(new AdsBox("ad_1", TRUE));
@@ -95,7 +95,7 @@ if (!$_error) {
 $portalpage->AddBox(new AdsBox("ad_2", TRUE));
 //right
 $portalpage->AddBox(new NoticeBoardBox());
-$portalpage->AddBox(new SearchBox(TRUE));
+//$portalpage->AddBox(new SearchBox(TRUE));
 //$portalpage->AddBox(new ChannelNaviBox("Right", TRUE));
 if (!$_error)
     $portalpage->AddBox(new ClassNaviBox($_channelID, $_channelName, $_channelType, FALSE));

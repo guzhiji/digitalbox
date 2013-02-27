@@ -181,15 +181,13 @@ abstract class PageModel {
                 $html = $box->GetHTML();
                 break;
             case 2:
-                $box = NULL;
+                $html = "";
                 break;
         }
-        if (!empty($box)) {
-            if (isset($this->_regions[$region]))
-                $this->_regions[$region].= $html;
-            else
-                $this->_regions[$region] = $html;
-        }
+        if (isset($this->_regions[$region]))
+            $this->_regions[$region].= $html;
+        else
+            $this->_regions[$region] = $html;
     }
 
     public function GetHTML() {

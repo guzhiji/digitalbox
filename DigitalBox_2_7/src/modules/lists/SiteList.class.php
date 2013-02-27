@@ -31,15 +31,14 @@ class SiteList extends ListModel {
         //Len_Control($item["site_name"], $title_maxlen);
         parent::AddItem(array(
             "Name" => $name,
-            "Add" => $addr,
+            "Add" => htmlspecialchars($addr),
             "Text" => $text,
-            "Logo" => $logo,
+            "Logo" => htmlspecialchars($logo),
             "ID" => $id
         ));
     }
 
     public function Bind($page_size = 0) {
-
 
         //initialize variables
         $total_record = 0;

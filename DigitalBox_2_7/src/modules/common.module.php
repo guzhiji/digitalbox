@@ -210,22 +210,25 @@ function GetLang() {
         $_lang = strCookie("Lang");
         return $_lang;
     }
-    $l = explode(";", $_SERVER["HTTP_ACCEPT_LANGUAGE"]);
-    $l = explode(",", $l[0]);
-    foreach ($l as $lang) {
-        $lang = strtolower($lang);
-        $filename = "lang/" . $lang;
-        if (is_dir($filename)) {
-            $_lang = $lang;
-            return $_lang;
-        }
-        $pos = strpos($lang, "-");
-        if ($pos > 0) {
-            //e.g. zh-cn
-            $lang = substr($lang, 0, $pos);
-            if (is_dir("lang/" . $lang)) {
+    $acceptlang = &$_SERVER["HTTP_ACCEPT_LANGUAGE"];
+    if (isset($acceptlang)) {
+        $l = explode(";", $acceptlang);
+        $l = explode(",", $l[0]);
+        foreach ($l as $lang) {
+            $lang = strtolower($lang);
+            $filename = "lang/" . $lang;
+            if (is_dir($filename)) {
                 $_lang = $lang;
                 return $_lang;
+            }
+            $pos = strpos($lang, "-");
+            if ($pos > 0) {
+                //e.g. zh-cn
+                $lang = substr($lang, 0, $pos);
+                if (is_dir("lang/" . $lang)) {
+                    $_lang = $lang;
+                    return $_lang;
+                }
             }
         }
     }
@@ -409,32 +412,88 @@ function FormatPath($path, $filename = "") {
     return $path . $filename;
 }
 
+function safe_flocked($filename) {
+    $lock = $filename . '.lock';
+    return file_exists($lock) &&
+            time() - filemtime($lock) < 10; // within 10 seconds
+}
+
+function safe_flock($filename) {
+    $lock = $filename . '.lock';
+    if (file_exists($lock) &&
+            time() - filemtime($lock) < 10
+    )// within 10 seconds
+        return FALSE;
+    touch($lock);
+    $GLOBALS['_FileWriters_Lock'] = $lock;
+    return TRUE;
+}
+
+function safe_funlock() {
+    $lock = &$GLOBALS['_FileWriters_Lock'];
+    if (isset($lock) && file_exists($lock)) {
+        unlink($lock);
+        unset($lock);
+    }
+}
+
+function safe_fopen($filename, $mode) {
+    if (!safe_flock($filename))
+        return FALSE;
+    return @fopen($filename, $mode);
+}
+
+function safe_fclose($fp) {
+    fclose($fp);
+    safe_funlock();
+}
+
+function safe_file_put_contents($filename, $content) {
+    $r = FALSE;
+    if (safe_flock($filename)) {
+        $r = @file_put_contents($filename, $content);
+        safe_funlock();
+    }
+    return $r;
+}
+
 function GetVisitorCount() {
     global $_visitorCount;
     if (isset($_visitorCount))
         return $_visitorCount;
     $countfile = "cache/counter";
-    if (is_file($countfile)) {
-        $_visitorCount = intval(file_get_contents($countfile));
-        if ($_visitorCount > 0) {
-            if (isset($_SERVER["HTTP_REFERER"])) {
-                if (isset($_SERVER["HTTP_HOST"])) {
-                    if (strpos($_SERVER["HTTP_REFERER"], $_SERVER["HTTP_HOST"]) > 0)
+    if (safe_flock($countfile)) {
+        if (is_file($countfile)) {
+            $_visitorCount = intval(file_get_contents($countfile));
+            if ($_visitorCount > 0) {
+                if (isset($_SERVER["HTTP_REFERER"])) {
+                    if (isset($_SERVER["HTTP_HOST"])) {
+                        if (strpos($_SERVER["HTTP_REFERER"], $_SERVER["HTTP_HOST"]) > 0) {
+                            safe_funlock();
+                            return $_visitorCount;
+                        }
+                    } else if (strpos($_SERVER["HTTP_REFERER"], $_SERVER["SERVER_NAME"]) > 0) {
+                        safe_funlock();
                         return $_visitorCount;
-                }else if (strpos($_SERVER["HTTP_REFERER"], $_SERVER["SERVER_NAME"]) > 0) {
+                    }
+                } else if (strCookie("Visited") == "TRUE") {
+                    safe_funlock();
                     return $_visitorCount;
                 }
-            } else if (strCookie("Visited") == "TRUE") {
-                return $_visitorCount;
             }
+        } else {
+            $_visitorCount = 0;
         }
+        $_visitorCount++;
+        @file_put_contents($countfile, strval(intval($_visitorCount)));
+        setcookie(dbPrefix . "_Visited", "TRUE", time() + 60 * 60);
+        safe_funlock();
+        return $_visitorCount;
+    } else if (is_file($countfile)) {
+        return intval(file_get_contents($countfile));
     } else {
-        $_visitorCount = 0;
+        return 0;
     }
-    $_visitorCount++;
-    @file_put_contents($countfile, strval(intval($_visitorCount)));
-    setcookie(dbPrefix . "_Visited", "TRUE", time() + 60 * 60);
-    return $_visitorCount;
 }
 
 //------------------------------------------------------------------

@@ -23,6 +23,7 @@ require("modules/boxes/GuestBookBox.class.php");
 require("modules/boxes/FriendSiteBox.class.php");
 
 $portalpage = new PortalPage();
+$portalpage->AddBox(new SearchBox(TRUE));
 //left
 $portalpage->AddBox(new TopBox("new", 2));
 $portalpage->AddBox(new TopBox("popular", 2));
@@ -31,7 +32,7 @@ $portalpage->AddBoxFactory(new ChannelBoxList());
 $portalpage->AddBox(new AdsBox("ad_2", TRUE));
 //right
 $portalpage->AddBox(new NoticeBoardBox());
-$portalpage->AddBox(new SearchBox(TRUE));
+//$portalpage->AddBox(new SearchBox(TRUE));
 $portalpage->AddBox(new ChannelNaviBox("Right", FALSE));
 $portalpage->AddBox(new AdsBox("ad_3", FALSE));
 $portalpage->AddBox(new CalendarBox());

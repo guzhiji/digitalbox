@@ -98,7 +98,7 @@ class ImageList extends TableModel {
             parent::AddItem(array(
                 "LinkHead" => $lh,
                 "LinkEnd" => $le,
-                "Image" => $this->_content_url,
+                "Image" => htmlspecialchars($this->_content_url),
                 "Title" => $this->_content_name,
                 "CheckboxName" => $this->_checkboxname,
                 "ID" => $this->_content_id
@@ -107,7 +107,7 @@ class ImageList extends TableModel {
             parent::AddItem(array(
                 "LinkHead" => $lh,
                 "LinkEnd" => $le,
-                "Image" => $this->_content_url,
+                "Image" => htmlspecialchars($this->_content_url),
                 "Title" => $this->_content_name
             ));
         }

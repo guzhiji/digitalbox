@@ -20,7 +20,7 @@ class Navigator extends ListModel {
      * @param string $tpl1name  default item template's name
      * @param string $tpl2name  optional, selected item template's name
      */
-    function __construct($tpl1name, $tpl2name="") {
+    function __construct($tpl1name, $tpl2name = "") {
         parent::__construct(__CLASS__, $tpl1name);
         $this->tpl2 = ($tpl2name == "") ? "" : GetTemplate($tpl2name, __CLASS__, NULL, "neutral");
     }
@@ -34,8 +34,10 @@ class Navigator extends ListModel {
      * @param bool $eventdriven
      * @param string $target 
      */
-    public function AddItem($name, $page, $tiptext="", $selected=FALSE, $eventdriven=FALSE, $target="") {
+    public function AddItem($name, $page, $tiptext = "", $selected = FALSE, $eventdriven = FALSE, $target = "") {
 
+        //$name = htmlspecialchars($name);//encoded before being stored
+        $page = htmlspecialchars($page);
         //create the link
         $action = "";
         if ($eventdriven) {
