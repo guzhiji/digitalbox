@@ -44,8 +44,8 @@ class PHPCacheEditor {
         GLOBAL $_cachedData;
         $this->category = $categoryname;
         $this->cachefile = FormatPath($cachepath, "{$categoryname}.php");
-        while (safe_flocked($this->cachefile))
-            usleep(200000);
+        // while (safe_flocked($this->cachefile))
+        //     usleep(200000);
         if (is_file($this->cachefile))
             require($this->cachefile);
         if (!isset($_cachedData[$categoryname]))
@@ -105,19 +105,13 @@ class PHPCacheEditor {
             return;
         }
 
-        $fp = safe_fopen($this->cachefile, "w");
+        $fp = @fopen($this->cachefile, "w");
         if (!$fp) {
             throw new Exception("cannot open cache file");
         }
-        /*
-          $fp = @fopen($this->cachefile, "w");
-          if (!$fp) {
-          throw new Exception("cannot open cache file");
-          }
-          if (!flock($fp, LOCK_EX)) {
-          throw new Exception("cannot lock cache file");
-          }
-         */
+        if (!flock($fp, LOCK_EX | LOCK_NB)) {
+            throw new Exception("cannot lock cache file");
+        }
 
         $varname = "\$_cachedData[\"{$this->category}\"]";
         $cd = &$_cachedData[$this->category];
@@ -170,11 +164,10 @@ class PHPCacheEditor {
             }
         }
         fwrite($fp, "?>");
-        /*
-          flock($fp, LOCK_UN);
-          fclose($fp);
-         */
-        safe_fclose($fp);
+
+        flock($fp, LOCK_UN);
+        fclose($fp);
+
     }
 
 }

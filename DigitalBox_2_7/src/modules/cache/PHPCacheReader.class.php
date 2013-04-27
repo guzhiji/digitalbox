@@ -43,8 +43,8 @@ class PHPCacheReader {
         $this->category = $categoryname;
         $this->path = $cachepath;
         $cachefile = FormatPath($cachepath, "{$categoryname}.php");
-        while (safe_flocked($cachefile))
-            usleep(200000);
+        // while (safe_flocked($cachefile))
+        //     usleep(200000);
         if (is_file($cachefile))
             require($cachefile);
         if (!isset($_cachedData[$categoryname]))

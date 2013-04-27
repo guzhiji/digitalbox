@@ -412,88 +412,55 @@ function FormatPath($path, $filename = "") {
     return $path . $filename;
 }
 
-function safe_flocked($filename) {
-    $lock = $filename . '.lock';
-    return file_exists($lock) &&
-            time() - filemtime($lock) < 10; // within 10 seconds
-}
-
-function safe_flock($filename) {
-    $lock = $filename . '.lock';
-    if (file_exists($lock) &&
-            time() - filemtime($lock) < 10
-    )// within 10 seconds
-        return FALSE;
-    touch($lock);
-    $GLOBALS['_FileWriters_Lock'] = $lock;
-    return TRUE;
-}
-
-function safe_funlock() {
-    $lock = &$GLOBALS['_FileWriters_Lock'];
-    if (isset($lock) && file_exists($lock)) {
-        unlink($lock);
-        unset($lock);
-    }
-}
-
-function safe_fopen($filename, $mode) {
-    if (!safe_flock($filename))
-        return FALSE;
-    return @fopen($filename, $mode);
-}
-
-function safe_fclose($fp) {
-    fclose($fp);
-    safe_funlock();
-}
-
-function safe_file_put_contents($filename, $content) {
-    $r = FALSE;
-    if (safe_flock($filename)) {
-        $r = @file_put_contents($filename, $content);
-        safe_funlock();
-    }
-    return $r;
-}
-
 function GetVisitorCount() {
     global $_visitorCount;
     if (isset($_visitorCount))
         return $_visitorCount;
-    $countfile = "cache/counter";
-    if (safe_flock($countfile)) {
-        if (is_file($countfile)) {
-            $_visitorCount = intval(file_get_contents($countfile));
-            if ($_visitorCount > 0) {
-                if (isset($_SERVER["HTTP_REFERER"])) {
-                    if (isset($_SERVER["HTTP_HOST"])) {
-                        if (strpos($_SERVER["HTTP_REFERER"], $_SERVER["HTTP_HOST"]) > 0) {
-                            safe_funlock();
-                            return $_visitorCount;
-                        }
-                    } else if (strpos($_SERVER["HTTP_REFERER"], $_SERVER["SERVER_NAME"]) > 0) {
-                        safe_funlock();
-                        return $_visitorCount;
-                    }
-                } else if (strCookie("Visited") == "TRUE") {
-                    safe_funlock();
-                    return $_visitorCount;
-                }
-            }
-        } else {
-            $_visitorCount = 0;
-        }
-        $_visitorCount++;
-        @file_put_contents($countfile, strval(intval($_visitorCount)));
-        setcookie(dbPrefix . "_Visited", "TRUE", time() + 60 * 60);
-        safe_funlock();
+        
+    $countfile = 'cache/counter';
+    $fp = @fopen($countfile, 'r+');
+    if (!$fp) {
+        $_visitorCount = 0;
         return $_visitorCount;
-    } else if (is_file($countfile)) {
-        return intval(file_get_contents($countfile));
-    } else {
-        return 0;
     }
+    
+    if (flock($fp, LOCK_SH | LOCK_NB)) {
+        
+        $_visitorCount = intval(fgets($fp));
+        
+        $newVisitor = TRUE;
+        if ($_visitorCount > 0) {
+            if (isset($_SERVER['HTTP_REFERER'])) {
+                if (isset($_SERVER["HTTP_HOST"])) {
+                    if (strpos($_SERVER["HTTP_REFERER"], $_SERVER["HTTP_HOST"]) > 0) {
+                        $newVisitor = FALSE;
+                    }
+                } else if (strpos($_SERVER["HTTP_REFERER"], $_SERVER["SERVER_NAME"]) > 0) {
+                    $newVisitor = FALSE;
+                }
+            } else if (strCookie("Visited") == "TRUE") {
+                $newVisitor = FALSE;
+            }
+        }
+        
+        if ($newVisitor) {
+        
+            $_visitorCount++;
+            rewind($fp);
+            fwrite($fp, $_visitorCount);
+            setcookie(dbPrefix . "_Visited", "TRUE", time() + 60 * 60);
+            
+        }
+        
+    } else {
+        
+        $_visitorCount = intval(fgets($fp));
+        
+    }
+    flock($fp, LOCK_UN);
+    fclose($fp);
+    return $_visitorCount;
+    
 }
 
 //------------------------------------------------------------------
@@ -526,7 +493,7 @@ function ChannelTip($info_name, $info_type) {
 /**
  * get the type name of a type number
  * 
- * @param int $t	type number
+ * @param int $t    type number
  * <ul>
  * <li>0 - link</li>
  * <li>1 - article</li>
@@ -534,7 +501,7 @@ function ChannelTip($info_name, $info_type) {
  * <li>3 - media</li>
  * <li>4 - software</li>
  * </ul>
- * @param int $language	language code
+ * @param int $language language code
  * <ul>
  * <li>0 - user's language</li>
  * <li>1 - English</li>
@@ -667,7 +634,7 @@ function PrepareSearchKey($keys) {
  * @param bool $ishtml
  * @param bool $multiline
  * @param mixed $default
- * @return string	error information
+ * @return string   error information
  */
 function CheckText($name, $max, $min, &$text, $ishtml = FALSE, $multiline = FALSE, $default = NULL) {
     $errors = "";

@@ -26,7 +26,7 @@ class PagingBar {
 
     public function GetPageNumber() {
         if ($this->pagenumber < 1)
-            $this->pagenumber = PageNumber(strGet($this->queryname), $this->listlength);
+            $this->pagenumber = PageNumber(strGet($this->queryname), $this->pagecount);
         return $this->pagenumber;
     }
 
