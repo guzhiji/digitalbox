@@ -1,0 +1,1 @@
+<div style="text-align: left;padding-top: 2px;padding-bottom: 2px;"><input type="radio" name="id" value="{$ID}" />{$Name}</div>
