@@ -66,7 +66,7 @@ class PHPCacheReader {
 //            $r = new PHPCacheReader($this->path, $this->category);
 //            return $r->GetValue($key);
 
-            return call_user_func($this->function);
+            return call_user_func($this->function, $key);
         }
         return NULL;
     }
@@ -96,7 +96,7 @@ class PHPCacheReader {
 
         //check key
         if (!isset($cd["keys"]))
-            return NULL;
+            return $this->GetRefreshedValue($key);
         if (!isset($cd["keys"][$key]))
             return NULL;
         $cd = &$cd["keys"][$key];
