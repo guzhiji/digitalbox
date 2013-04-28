@@ -24,32 +24,34 @@ require("modules/boxes/GuestBookBox.class.php");
 require("modules/boxes/FriendSiteBox.class.php");
 
 global $_error;
-$_error = FALSE;
-$id = trim(strGet("id"));
-$type = GetTypeNumber(trim(strGet("type")));
-if ($type > 0) {
-    $rs = db_query("select channel_name from channel_info where channel_type=%d and id=%d", array($type, $id));
-    if (!$rs) {
-        $_error = TRUE;
-    } else {
-        $list = db_result($rs);
-        if (isset($list[0])) {
-            $item = $list[0];
+$_error = !validateChannel(strGet("id"), strGet("type"));
 
-            global $_channelID;
-            global $_channelName;
-            global $_channelType;
-            $_channelID = intval($id);
-            $_channelName = $item["channel_name"];
-            $_channelType = $type;
-        } else {
-            $_error = TRUE;
-        }
-        db_free($rs);
-    }
-} else {
-    $_error = TRUE;
-}
+// $_error = FALSE;
+// $id = trim(strGet("id"));
+// $type = GetTypeNumber(trim(strGet("type")));
+// if ($type > 0) {
+//     $rs = db_query("select channel_name from channel_info where channel_type=%d and id=%d", array($type, $id));
+//     if (!$rs) {
+//         $_error = TRUE;
+//     } else {
+//         $list = db_result($rs);
+//         if (isset($list[0])) {
+//             $item = $list[0];
+
+//             global $_channelID;
+//             global $_channelName;
+//             global $_channelType;
+//             $_channelID = intval($id);
+//             $_channelName = $item["channel_name"];
+//             $_channelType = $type;
+//         } else {
+//             $_error = TRUE;
+//         }
+//         db_free($rs);
+//     }
+// } else {
+//     $_error = TRUE;
+// }
 
 $portalpage = new PortalPage();
 $portalpage->AddBox(new SearchBox(TRUE));

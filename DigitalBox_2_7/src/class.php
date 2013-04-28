@@ -24,38 +24,40 @@ require("modules/boxes/GuestBookBox.class.php");
 require("modules/boxes/FriendSiteBox.class.php");
 
 global $_error;
-$_error = FALSE;
-$id = trim(strGet("id"));
-$type = GetTypeNumber(trim(strGet("type")));
-if ($type > 0) {
-    $rs = db_query("select class_info.class_name,channel_info.id as channel_id,channel_info.channel_name from class_info,channel_info where channel_info.channel_type=%d and class_info.parent_channel=channel_info.id and class_info.id=%d", array($type, $id));
-    if (!$rs) {
-        $_error = TRUE;
-    } else {
-        $list = db_result($rs);
-        if (isset($list[0])) {
+$_error = !validateClass(strGet("id"), strGet("type"));
 
-            $item = $list[0];
+// $_error = FALSE;
+// $id = trim(strGet("id"));
+// $type = GetTypeNumber(trim(strGet("type")));
+// if ($type > 0) {
+//     $rs = db_query("select class_info.class_name,channel_info.id as channel_id,channel_info.channel_name from class_info,channel_info where channel_info.channel_type=%d and class_info.parent_channel=channel_info.id and class_info.id=%d", array($type, $id));
+//     if (!$rs) {
+//         $_error = TRUE;
+//     } else {
+//         $list = db_result($rs);
+//         if (isset($list[0])) {
 
-            global $_channelID;
-            global $_channelName;
-            global $_channelType;
-            $_channelID = $item["channel_id"];
-            $_channelName = $item["channel_name"];
-            $_channelType = $type;
+//             $item = $list[0];
 
-            global $_classID;
-            global $_className;
-            $_classID = intval($id);
-            $_className = $item["class_name"];
-        } else {
-            $_error = TRUE;
-        }
-        db_free($rs);
-    }
-} else {
-    $_error = TRUE;
-}
+//             global $_channelID;
+//             global $_channelName;
+//             global $_channelType;
+//             $_channelID = $item["channel_id"];
+//             $_channelName = $item["channel_name"];
+//             $_channelType = $type;
+
+//             global $_classID;
+//             global $_className;
+//             $_classID = intval($id);
+//             $_className = $item["class_name"];
+//         } else {
+//             $_error = TRUE;
+//         }
+//         db_free($rs);
+//     }
+// } else {
+//     $_error = TRUE;
+// }
 
 $portalpage = new PortalPage();
 

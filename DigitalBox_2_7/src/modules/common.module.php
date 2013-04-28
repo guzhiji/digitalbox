@@ -553,6 +553,100 @@ function GetTypeNumber($typename) {
 }
 
 //------------------------------------------------------------------
+function validateChannel($id, $type) {
+
+    $id = intval($id);
+    $type = GetTypeNumber(trim($type));
+
+    $v = GetSettingValue('version_channels');
+    $r = new PHPCacheReader('cache', 'navigation');
+    $r->SetRefreshFunction('updateNavigation');
+    $channel = $r->GetValue('channel_'.$id, $v);
+
+    if ($channel == NULL) return FALSE;
+    if ($channel['channel_type'] != $type) return FALSE;
+
+    global $_channelID;
+    global $_channelName;
+    global $_channelType;
+    $_channelID = $id;
+    $_channelName = $channel['channel_name'];
+    $_channelType = $type;
+
+    return TRUE;
+
+}
+
+function validateClass($id, $type) {
+
+    $id = intval($id);
+    $type = GetTypeNumber(trim($type));
+
+    $v = GetSettingValue('version_classes');
+    $r = new PHPCacheReader('cache', 'navigation');
+    $r->SetRefreshFunction('updateNavigation');
+    $class = $r->GetValue('class_'.$id, $v);
+
+    if ($class == NULL) return FALSE;
+    if ($class['channel_type'] != $type) return FALSE;
+
+    global $_channelID;
+    global $_channelName;
+    global $_channelType;
+    $_channelID = $class['channel_id'];
+    $_channelName = $class['channel_name'];
+    $_channelType = $type;
+
+    global $_classID;
+    global $_className;
+    $_classID = $id;
+    $_className = $class['class_name'];
+
+    return TRUE;
+
+}
+
+function updateNavigation($key) {
+
+    try {
+
+        $value = NULL;
+
+        require_once('modules/cache/PHPCacheEditor.class.php');
+        $ce = new PHPCacheEditor('cache', 'navigation');
+
+        $rs = db_query("select * from channel_info");
+        if ($rs) {
+            $chlist = db_result($rs);
+            foreach ($chlist as $ch) {
+                $k = 'channel_'.$ch['id'];
+                if ($k == $key) $value = $ch;
+                $ce->SetValue($k, $ch, 0, TRUE);
+            }
+            db_free($rs);
+        }
+
+        $rs = db_query("select class_info.id,class_info.class_name,channel_info.id as channel_id,channel_info.channel_name,channel_info.channel_type from class_info inner join channel_info on class_info.parent_channel=channel_info.id");
+        if ($rs) {
+            $clslist = db_result($rs);
+            foreach ($clslist as $cls) {
+                $k = 'class_'.$cls['id'];
+                if ($k == $key) $value = $cls;
+                $ce->SetValue($k, $cls, 0, TRUE);
+            }
+            db_free($rs);
+        }
+
+        $ce->Save();
+
+        return $value;
+
+    } catch (Exception $ex) {
+        return NULL;
+    }
+}
+
+//------------------------------------------------------------------
 function Len_Control($content, $max_len) {
     if (!is_int($max_len)) {
         return $content;
