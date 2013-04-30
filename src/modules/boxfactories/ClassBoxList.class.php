@@ -19,8 +19,8 @@ class ClassBoxList extends BoxFactory {
     public function CacheBind() {
         $this->_cacheCategory = "channel_" . intval(strGet("id"));
         $this->_cacheKey = "classlist";
-        $this->_cacheTimeout = GetSettingValue("cache_timeout");
-        $this->_cacheRandFactor = 2;
+        $this->_cacheTimeout = 0;//GetSettingValue("cache_timeout");
+        $this->_cacheRandFactor = 1;//2;
         $this->_cacheVersion = GetSettingValue("version_classes");
         if ($this->_cacheVersion < GetSettingValue("version_content"))
             $this->_cacheVersion = GetSettingValue("version_content");

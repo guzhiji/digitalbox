@@ -20,10 +20,11 @@ class ContentListBox extends Box {
         if ($page == 0)
             $page = 1;
         global $_classID;
+        // cache first 2 pages only
         if (isset($_classID) && $page < 3) {
             $this->_cacheCategory = "class_" . $_classID;
             $this->_cacheKey = "contentlist_" . $page;
-            $this->_cacheTimeout = GetSettingValue("cache_timeout");
+            $this->_cacheTimeout = 0;//GetSettingValue("cache_timeout");
             $this->_cacheVersion = GetSettingValue("version_content");
         } else {
             $this->_cacheCategory = "";

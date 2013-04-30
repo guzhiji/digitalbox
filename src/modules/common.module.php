@@ -466,13 +466,15 @@ function GetVisitorCount() {
 //------------------------------------------------------------------
 function ContentTip($info_name, $info_type, $info_channel, $info_class, $info_visitors, $info_time) {
     $tt = GetLangData("name") . ": " . $info_name . " \n";
-    $tt .= GetLangData("type") . ": " . $info_type . " \n";
-    if ($info_channel != "")
-        $tt .= GetLangData("channel") . ": " . $info_channel . " \n";
-    if ($info_class != "")
-        $tt .= GetLangData("class") . ": " . $info_class . " \n";
-    $tt .= GetLangData("click") . ": " . $info_visitors . " \n";
-    $tt .= GetLangData("time") . ": " . $info_time . " ";
+    $tt .= GetLangData("type") . ": " . $info_type;
+    if (!empty($info_channel))
+        $tt .= " \n" . GetLangData("channel") . ": " . $info_channel;
+    if (!empty($info_class))
+        $tt .= " \n" . GetLangData("class") . ": " . $info_class;
+    if ($info_visitors>=0)
+        $tt .= " \n" . GetLangData("click") . ": " . $info_visitors;
+    if (!empty($info_time))
+        $tt .= " \n" . GetLangData("time") . ": " . $info_time;
     return htmlspecialchars($tt);
 }
 
