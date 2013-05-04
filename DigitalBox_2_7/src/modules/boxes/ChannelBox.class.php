@@ -30,7 +30,7 @@ class ChannelBox extends Box {
         $contentlist->SetChannel($this->id, $this->name, $this->type);
 
         $this->SetTitle($this->name);
-        $this->SetContent($contentlist->GetHTML(1, 1), "left", "top", 5);
+        $this->SetContent($contentlist->GetHTML(1, 1, NULL, FALSE), "left", "top", 5);
     }
 
 }

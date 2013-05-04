@@ -37,7 +37,7 @@ class ContentList {
         return $this->_titlelist;
     }
 
-    public function SetTitleList($maxnum, $maxlen, $showicon, $showchannel, $showclass, $linktype, $titleonly = FALSE, $extra = 3) {
+    public function SetTitleList($maxnum, $maxlen, $showicon, $showchannel, $showclass, $linktype, $titleonly = FALSE, $extra = 1) {
         $this->_maxlen = $maxlen;
         $this->_maxtitles = $maxnum;
         $this->_titlelist->SetMaxLength($maxlen);
@@ -87,8 +87,10 @@ class ContentList {
      * </ul>
      * @param string $pagename
      * by default, use portal pages if not specified
+     * @param bool $showcount
+     * whether display visitor count for each item, true by default
      */
-    public function GetHTML($order, $formore = 0, $pagename = NULL) {
+    public function GetHTML($order, $formore = 0, $pagename = NULL, $showcount = TRUE) {
         $html = "";
         $pb = NULL;
 
@@ -137,7 +139,7 @@ class ContentList {
                     //generate list
                     foreach ($list as $item) {
                         $this->_imagelist->CreateItem();
-                        $this->_imagelist->SetItemContent($item["content_id"], $item["content_name"], $item["content_time"], $item["visitor_count"], $item["picture_add"]);
+                        $this->_imagelist->SetItemContent($item["content_id"], $item["content_name"], $item["content_time"], $showcount ? $item["visitor_count"] : -1, $item["picture_add"]);
                         $this->_imagelist->SetItemClass($item["class_id"], $item["class_name"]);
                         $this->_imagelist->SetItemChannel($item["channel_id"], $item["channel_name"]);
                         $this->_imagelist->AddItem();
@@ -217,7 +219,7 @@ class ContentList {
                     foreach ($list as $item) {
                         //$this->_titlelist->CreateItem($this->_type);
                         $this->_titlelist->CreateItem($item["channel_type"]);
-                        $this->_titlelist->SetItemContent($item["content_id"], $item["content_name"], $item["content_time"], $item["visitor_count"]);
+                        $this->_titlelist->SetItemContent($item["content_id"], $item["content_name"], $item["content_time"], $showcount ? $item["visitor_count"] : -1);
                         $this->_titlelist->SetItemClass($item["class_id"], $item["class_name"]);
                         $this->_titlelist->SetItemChannel($item["channel_id"], $item["channel_name"]);
                         $this->_titlelist->AddItem();

@@ -19,8 +19,8 @@ class ChannelBoxList extends BoxFactory {
     public function CacheBind() {
         $this->_cacheCategory = "index";
         $this->_cacheKey = "channelboxlist";
-        $this->_cacheTimeout = GetSettingValue("cache_timeout");
-        $this->_cacheRandFactor = 2;
+        $this->_cacheTimeout = 0;//GetSettingValue("cache_timeout");
+        $this->_cacheRandFactor = 1;//2;
         $this->_cacheVersion = GetSettingValue("version_channels");
         if ($this->_cacheVersion < GetSettingValue("version_content"))
             $this->_cacheVersion = GetSettingValue("version_content");
