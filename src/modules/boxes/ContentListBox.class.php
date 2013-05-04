@@ -51,7 +51,7 @@ class ContentListBox extends Box {
             $contentlist->SetImageList($image_maxrow, 5, 1);
             $contentlist->SetClass($_classID, $_className, $_channelType);
             $this->SetTitle($_className);
-            $this->SetContent($contentlist->GetHTML(1, 2), "left", "top", 5);
+            $this->SetContent($contentlist->GetHTML(1, 2, NULL, FALSE), "left", "top", 5);
         }
     }
 

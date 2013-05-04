@@ -29,7 +29,7 @@ class ClassBox extends Box {
 
         $this->SetTitle($this->name);
         $this->SetHeight(200);
-        $this->SetContent($contentlist->GetHTML(1, 1), "left", "top", 10);
+        $this->SetContent($contentlist->GetHTML(1, 1, NULL, FALSE), "left", "top", 10);
     }
 
 }
