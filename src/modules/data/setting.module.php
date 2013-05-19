@@ -171,6 +171,8 @@ function LangExists($lang) {
 
 function ClearDir($dir) {
     foreach(scandir($dir) as $item) {
+        if ($item == '.' || $item == '..')
+            continue;
         $path = FormatPath($dir, $item);
         if (is_file($path))
             unlink($path);
