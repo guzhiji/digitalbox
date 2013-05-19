@@ -67,6 +67,9 @@ class TextCacheReader {
         if (isset($this->data[$key]))
             return $this->data[$key];
 
+        if (!is_dir($this->cachepath))
+            mkdir($this->cachepath);
+        
         // lock the category
         $lock = @fopen(FormatPath($this->cachepath, '.lock'), 'w');
         if (!$lock)
