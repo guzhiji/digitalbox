@@ -60,8 +60,10 @@ class BoxFactory {
         if (!empty($this->_cacheCategory)) {
 
             try {
-                require_once("modules/cache/PHPCacheEditor.class.php");
-                $ce = new PHPCacheEditor(GetCachePath(TRUE), $this->_cacheCategory);
+                // require_once("modules/cache/PHPCacheEditor.class.php");
+                // $ce = new PHPCacheEditor(GetCachePath(TRUE), $this->_cacheCategory);
+                require_once("modules/cache/TextCacheEditor.class.php");
+                $ce = new TextCacheEditor(GetCachePath(TRUE), $this->_cacheCategory);
                 $ce->SetValue($this->_cacheKey, $this->_html, $this->_cacheTimeout, $this->_cacheVersion > 0);
                 $ce->Save();
             } catch (Exception $ex) {
@@ -76,8 +78,10 @@ class BoxFactory {
         $html = NULL;
         $this->CacheBind();
         if (!empty($this->_cacheCategory)) {
-            //require_once("modules/cache/PHPCacheReader.class.php");
-            $cr = new PHPCacheReader(GetCachePath(), $this->_cacheCategory);
+            // //require_once("modules/cache/PHPCacheReader.class.php");
+            // $cr = new PHPCacheReader(GetCachePath(), $this->_cacheCategory);
+            require_once("modules/cache/TextCacheReader.class.php");
+            $cr = new TextCacheReader(GetCachePath(), $this->_cacheCategory);
             $cr->SetRefreshFunction(array($this, "GetRefreshedHTML"));
             $html = $cr->GetValue(
                     $this->_cacheKey, $this->_cacheVersion, $this->_cacheRandFactor
