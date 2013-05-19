@@ -51,13 +51,6 @@ class TextCacheEditor {
         if (!is_dir($this->cachepath))
             mkdir($this->cachepath);
 
-        // lock the category
-        $lock = @fopen(FormatPath($this->cachepath, '.lock'), 'w');
-        if (!$lock)
-            throw new Exception('cannot lock the category');
-        if (!flock($lock, LOCK_EX | LOCK_NB))
-            throw new Exception('cannot lock the category');
-
         // remove
         if ($this->rmAll) {
 
@@ -117,10 +110,6 @@ class TextCacheEditor {
                 touch($cachefile.'.version'); // version is the access time
 
         }
-
-        // unlock the category
-        flock($lock, LOCK_UN);
-        fclose($lock);
 
     }
 

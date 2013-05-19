@@ -67,16 +67,6 @@ class TextCacheReader {
         if (isset($this->data[$key]))
             return $this->data[$key];
 
-        if (!is_dir($this->cachepath))
-            mkdir($this->cachepath);
-        
-        // lock the category
-        $lock = @fopen(FormatPath($this->cachepath, '.lock'), 'w');
-        if (!$lock)
-            throw new Exception('cannot lock the category');
-        if (!flock($lock, LOCK_EX | LOCK_NB))
-            throw new Exception('cannot lock the category');
-
         $keypath = FormatPath($this->cachepath, $key);
 
         $cachefile = $this->GetCacheFile($keypath);
@@ -96,10 +86,6 @@ class TextCacheReader {
                 $value = unserialize($value);
 
         }
-
-        // unlock the category
-        flock($lock, LOCK_UN);
-        fclose($lock);
 
         $this->data[$key] = $value;
         return $value;
