@@ -21,6 +21,11 @@ define("dbEncoding", "utf-8");
 if (!defined("dbUploadPath"))
     define("dbUploadPath", "uploadedfiles");
 
+if (!defined("dbUploadImageMaxW"))
+    define("dbUploadImageMaxW", 90);
+if (!defined("dbUploadImageMaxH"))
+    define("dbUploadImageMaxH", 70);
+
 //------------------------------------------------------------------
 //database connection
 //------------------------------------------------------------------
@@ -552,6 +557,14 @@ function GetTypeNumber($typename) {
         default:
             return 0;
     }
+}
+
+function GetImagePath($path) {
+    if (strpos($path, dbUploadPath . '/') === 0) {
+        $p = str_replace(dbUploadPath . '/', dbUploadPath . '/thumb/', $path);
+        if (is_file($p)) return $p;
+    }
+    return $path;
 }
 
 //------------------------------------------------------------------

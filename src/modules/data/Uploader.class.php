@@ -15,6 +15,71 @@ class Uploader {
     var $FileCount;
     var $error;
 
+    function adaptMaxSize($a, $b, $amax, $comp) {
+        if ($comp == '>')
+            $c = $a > $amax;
+        else
+            $c = $a < $amax;
+        if ($c) {
+            $b = $b / $a * $am;
+            $a = $am;
+        }
+        return array($a, $b);
+    }
+
+    function createThumb($path, $name) {
+
+        $size = getimagesize($path . $name);
+        if (!$size) return FALSE;
+
+        $src = NULL;
+        switch ($size['mime']) {
+            case 'image/gif':
+                $src = imagecreatefromgif($path . $name);
+                break;
+            
+            case 'image/png':
+                $src = imagecreatefrompng($path . $name);
+                break;
+            
+            case 'image/jpeg':
+            case 'image/pjpeg':
+                $src = imagecreatefromjpeg($path . $name);
+                break;
+        }
+        if (empty($src)) return FALSE;
+
+        $w = $size[0];
+        $h = $size[1];
+        list($w, $h) = $this->adaptMaxSize($w, $h, dbUploadImageMaxW, '>');
+        list($h, $w) = $this->adaptMaxSize($h, $w, dbUploadImageMaxH, '>');
+
+        $thumb = @imagecreatetruecolor($w, $h);
+        if (!$thumb) return FALSE;
+        imagecopyresized($thumb, $src, 0, 0, 0, 0, $w, $h, $size[0], $size[1]);
+        if (!is_dir($path . 'thumb')) mkdir($path . 'thumb');
+        $newfile = $path . 'thumb/' . $name;
+
+        $suc = FALSE;
+        switch ($size['mime']) {
+            case 'image/gif':
+                $suc = imagegif($thumb, $newfile);
+                break;
+            
+            case 'image/png':
+                $suc = imagepng($thumb, $newfile);
+                break;
+            
+            case 'image/jpeg':
+            case 'image/pjpeg':
+                $suc = imagejpeg($thumb, $newfile);
+                break;
+
+        }
+        if (empty($suc)) return FALSE;
+        return TRUE;
+    }
+
     function getUpload() {
         if (strtolower($_SERVER["REQUEST_METHOD"]) == "post") {
 
@@ -80,6 +145,9 @@ class Uploader {
                     //save file
                     if (@move_uploaded_file($NewFile["tmp_name"], $formPath . $FileName)) {
                         db_query("INSERT INTO upload_info (upload_filename,upload_filecaption) VALUES (\"%s\",\"%s\")", array($FileName, $FileCaption));
+
+                        $this->createThumb($formPath, $FileName);
+
                     } else {
                         //fail to save file
                         $this->error .= "文件保存失败，可能是写文件权限有限制造成;";

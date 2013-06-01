@@ -13,7 +13,7 @@ require("modules/common.module.php");
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-        <title>同步上传文件 - 附加工具 - DigitalBox <?php echo dbVersion; ?></title>
+        <title>同步缩略图 - 附加工具 - DigitalBox <?php echo dbVersion; ?></title>
         <link rel="stylesheet" href="stylesheets/main.css" />
         <link rel="Shortcut Icon" href="DigitalBoxIcon.ico" />
     </head>
@@ -21,7 +21,7 @@ require("modules/common.module.php");
     <center>
         <table border=0 cellspacing=0 cellpadding=0 width=580>
             <tr>
-                <td class="bg_top3" align="left">&nbsp;&nbsp;同步上传文件 - 附加工具</td>
+                <td class="bg_top3" align="left">&nbsp;&nbsp;同步缩略图 - 附加工具</td>
             </tr>
             <tr>
                 <td>
@@ -36,35 +36,20 @@ require("modules/common.module.php");
                                         <td align="center" valign="middle" class="bg_middle"><?php
 if (strGet("function") == "sync") {
     if (is_dir(dbUploadPath)) {
+        require("modules/data/Uploader.class.php");
+        $up = new Uploader();
         $d = dir(dbUploadPath);
-        $df = array();
         while (FALSE != ($f = $d->read())) {
-            if ($f != "." && $f != "..")
-                $df[$f] = TRUE; //file to add
+            if ($f == "." || $f == "..")
+                continue;
+            if (!is_file(dbUploadPath . "/thumb/" . $f))
+                $up->createThumb(dbUploadPath . "/", $f);
         }
-        $rs = db_query("SELECT upload_filename FROM upload_info");
-        if ($rs) {
-            $list = db_result($rs);
-            foreach ($list as $item) {
-                if (is_file(dbUploadPath . "/" . $item["upload_filename"]))//file exists & is unnecessary to add
-                    $df[$item["upload_filename"]] = FALSE;
-                else//not exist & to delete
-                    db_query("DELETE FROM upload_info WHERE upload_filename=\"%s\"", array($item["upload_filename"]));
-            }
-            db_free($rs);
-        }
-        foreach ($df as $f => $e) {
-            if ($e) {//find the file to add
-                db_query("INSERT INTO upload_info(upload_filename,upload_filecaption) VALUES (\"%s\",\"%s\")", array($f, $f));
-            }
-        }
-    } else {//no dir, nothing exists
-        db_query("DELETE FROM upload_info");
+        $d->close();
     }
-    db_close();
     echo "同步完毕<br /><input type=\"button\" class=\"button1\" value=\"确定\" onclick=\"window.location='toolchecker.php'\"/>";
 } else {
-    echo "本程序将同步本地上传文件目录与数据库中的记录<br />";
+    echo "本程序将缩略图与上传图片同步<br />";
     echo "<input type=\"button\" class=\"button1\" value=\"开始同步\" onclick=\"window.location='?function=sync'\"/> ";
     echo "<input type=\"button\" class=\"button1\" value=\"返回\" onclick=\"window.location='toolchecker.php'\"/>";
 }
