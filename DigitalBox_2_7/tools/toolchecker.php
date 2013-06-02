@@ -15,7 +15,8 @@ $ToolFiles = array(
     array("install.php", "系统安装", "帮您完成本系统的安装工作"),
     array("setmaster.php", "更改站长", "帮您解决忘记密码的问题"),
     array("synccache.php", "同步缓存", "帮您解决本地设置缓存被损坏或意外被更改的问题"),
-    array("syncuploadedfiles.php", "同步上传文件", "帮您解决本地上传文件与数据库记录不一致的问题")
+    array("syncuploadedfiles.php", "同步上传文件", "帮您解决本地上传文件与数据库记录不一致的问题"),
+    array("syncthumbnails.php", "同步缩略图", "帮您解决部分图片缺失缩略图的问题")
 );
 
 $syspath = GetSystemPath() . "/";

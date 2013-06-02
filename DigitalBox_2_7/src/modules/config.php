@@ -1,7 +1,7 @@
 <?php
 //--Database---------------------------------
 define("dbMySQLHostName","localhost");
-define("dbMySQLUserName","guzhiji");
+define("dbMySQLUserName","root");
 define("dbMySQLPassword","");
 define("dbDatabaseName","DigitalBoxV2");
 //--Prefix-----------------------------------

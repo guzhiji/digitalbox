@@ -169,26 +169,22 @@ function LangExists($lang) {
     return isset($langlist[$lang]);
 }
 
-function ClearCache() {
-    $d = dir("themes");
-    while (FALSE != ($id = $d->read())) {
-        if (is_numeric($id) && is_dir("cache/" . $id)) {
-            $d2 = dir("cache/" . $id);
-            while (FALSE != ($lang = $d2->read())) {
-                if (substr($lang, 0, 1) == ".")
-                    continue;
-                $d3 = dir("cache/" . $id . "/" . $lang);
-                while (FALSE != ($file = $d3->read())) {
-                    if (substr($file, 0, 1) == ".")
-                        continue;
-                    unlink("cache/" . $id . "/" . $lang . "/" . $file);
-                }
-                $d3->close();
-                rmdir("cache/" . $id . "/" . $lang);
-            }
-            $d2->close();
-            rmdir("cache/" . $id);
-        }
+function ClearDir($dir) {
+    foreach(scandir($dir) as $item) {
+        if ($item == '.' || $item == '..')
+            continue;
+        $path = FormatPath($dir, $item);
+        if (is_file($path))
+            unlink($path);
+        else
+            ClearDir($path);
     }
-    $d->close();
+    rmdir($dir);
+}
+
+function ClearCache() {
+    foreach (scandir('themes') as $themeid) {
+        if (is_numeric($themeid) && is_dir('cache/'.$themeid))
+            ClearDir('cache/'.$themeid);
+    }
 }
