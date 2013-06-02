@@ -21,10 +21,10 @@ define("dbEncoding", "utf-8");
 if (!defined("dbUploadPath"))
     define("dbUploadPath", "uploadedfiles");
 
-if (!defined("dbUploadImageMaxW"))
-    define("dbUploadImageMaxW", 90);
-if (!defined("dbUploadImageMaxH"))
-    define("dbUploadImageMaxH", 70);
+if (!defined("dbImageThumbMaxW"))
+    define("dbImageThumbMaxW", 100);
+if (!defined("dbImageThumbMaxH"))
+    define("dbImageThumbMaxH", 110);
 
 //------------------------------------------------------------------
 //database connection

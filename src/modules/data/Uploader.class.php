@@ -21,8 +21,8 @@ class Uploader {
         else
             $c = $a < $amax;
         if ($c) {
-            $b = $b / $a * $am;
-            $a = $am;
+            $b = $b / $a * $amax;
+            $a = $amax;
         }
         return array($a, $b);
     }
@@ -51,8 +51,8 @@ class Uploader {
 
         $w = $size[0];
         $h = $size[1];
-        list($w, $h) = $this->adaptMaxSize($w, $h, dbUploadImageMaxW, '>');
-        list($h, $w) = $this->adaptMaxSize($h, $w, dbUploadImageMaxH, '>');
+        list($w, $h) = $this->adaptMaxSize($w, $h, dbImageThumbMaxW, '>');
+        list($h, $w) = $this->adaptMaxSize($h, $w, dbImageThumbMaxH, '>');
 
         $thumb = @imagecreatetruecolor($w, $h);
         if (!$thumb) return FALSE;
