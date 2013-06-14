@@ -23,6 +23,10 @@ synccache.php
 syncuploadedfiles.php
 同步上传文件
 帮您解决本地上传文件与数据库记录不一致的问题
+5.
+syncthumbnails.php
+同步缩略图
+帮您解决部分图片缺失缩略图的问题
 
 *tools.zip 提供的所有工具，均会对网站管理构成安全上的威胁
  当您使用完后，您可以通过 toolchecker.php ，来删除它们
