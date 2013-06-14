@@ -17,7 +17,7 @@ class ContentListBox extends Box {
 
     public function CacheBind() {
         $page = intval(strGet("page"));
-        if ($page == 0)
+        if ($page <= 0)
             $page = 1;
         global $_classID;
         // cache first 2 pages only
