@@ -11,8 +11,13 @@
 
 function deleteUpload() {
     if (preg_match("/[a-z0-9\.]{3,}/i", strPost("file"))) {
-        $FileName = GetSystemPath() . "/" . dbUploadPath . "/" . strPost("file");
-        @unlink($FileName);
+        $dir = GetSystemPath() . "/" . dbUploadPath . "/";
+        $thumb = $dir . "thumb/" . strPost("file");
+        $file = $dir . strPost("file");
+        if (is_file($thumb))
+            @unlink($thumb);
+        if (is_file($file))
+            @unlink($file);
         db_query("delete from upload_info where upload_filename=\"%s\"", array(strPost("file")));
         return TRUE;
     } else {

@@ -55,7 +55,7 @@ class PHPCacheEditor {
     public function SetValue($key, $value, $seconds = 0, $withversion = FALSE) {
         GLOBAL $_cachedData;
         //check key
-        if (!preg_match("/^[^\r\n\"\']+$/i", $key)) {
+        if (!preg_match("/^[a-z0-9_ ]+$/i", $key)) {
             throw new Exception("invalid key");
         }
         //assign value

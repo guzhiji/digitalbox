@@ -145,7 +145,7 @@ class Box {
             $html = $this->_content;
         }
 
-        if (!empty($this->_cacheCategory)) {
+        if (!empty($this->_cacheCategory) && !empty($this->_content)) {
             try {
                 // require_once("modules/cache/PHPCacheEditor.class.php");
                 // $ce = new PHPCacheEditor(GetCachePath(TRUE), $this->_cacheCategory);
