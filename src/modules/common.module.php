@@ -421,18 +421,18 @@ function GetVisitorCount() {
     global $_visitorCount;
     if (isset($_visitorCount))
         return $_visitorCount;
-        
+
     $countfile = 'cache/counter';
     $fp = @fopen($countfile, 'r+');
     if (!$fp) {
         $_visitorCount = 0;
         return $_visitorCount;
     }
-    
+
     if (flock($fp, LOCK_SH | LOCK_NB)) {
-        
+
         $_visitorCount = intval(fgets($fp));
-        
+
         $newVisitor = TRUE;
         if ($_visitorCount > 0) {
             if (isset($_SERVER['HTTP_REFERER'])) {
@@ -447,25 +447,21 @@ function GetVisitorCount() {
                 $newVisitor = FALSE;
             }
         }
-        
+
         if ($newVisitor) {
-        
+
             $_visitorCount++;
             rewind($fp);
             fwrite($fp, $_visitorCount);
             setcookie(dbPrefix . "_Visited", "TRUE", time() + 60 * 60);
-            
         }
-        
     } else {
-        
+
         $_visitorCount = intval(fgets($fp));
-        
     }
     flock($fp, LOCK_UN);
     fclose($fp);
     return $_visitorCount;
-    
 }
 
 //------------------------------------------------------------------
@@ -476,7 +472,7 @@ function ContentTip($info_name, $info_type, $info_channel, $info_class, $info_vi
         $tt .= " \n" . GetLangData("channel") . ": " . $info_channel;
     if (!empty($info_class))
         $tt .= " \n" . GetLangData("class") . ": " . $info_class;
-    if ($info_visitors>=0)
+    if ($info_visitors >= 0)
         $tt .= " \n" . GetLangData("click") . ": " . $info_visitors;
     if (!empty($info_time))
         $tt .= " \n" . GetLangData("time") . ": " . $info_time;
@@ -562,7 +558,8 @@ function GetTypeNumber($typename) {
 function GetImagePath($path) {
     if (strpos($path, dbUploadPath . '/') === 0) {
         $p = str_replace(dbUploadPath . '/', dbUploadPath . '/thumb/', $path);
-        if (is_file($p)) return $p;
+        if (is_file($p))
+            return $p;
     }
     return $path;
 }
@@ -576,10 +573,12 @@ function validateChannel($id, $type) {
     $v = GetSettingValue('version_channels');
     $r = new PHPCacheReader('cache', 'navigation');
     $r->SetRefreshFunction('updateNavigation');
-    $channel = $r->GetValue('channel_'.$id, $v);
+    $channel = $r->GetValue('channel_' . intval($id), $v);
 
-    if ($channel == NULL) return FALSE;
-    if ($channel['channel_type'] != $type) return FALSE;
+    if ($channel == NULL)
+        return FALSE;
+    if ($channel['channel_type'] != $type)
+        return FALSE;
 
     global $_channelID;
     global $_channelName;
@@ -589,7 +588,6 @@ function validateChannel($id, $type) {
     $_channelType = $type;
 
     return TRUE;
-
 }
 
 function validateClass($id, $type) {
@@ -600,10 +598,12 @@ function validateClass($id, $type) {
     $v = GetSettingValue('version_classes');
     $r = new PHPCacheReader('cache', 'navigation');
     $r->SetRefreshFunction('updateNavigation');
-    $class = $r->GetValue('class_'.$id, $v);
+    $class = $r->GetValue('class_' . intval($id), $v);
 
-    if ($class == NULL) return FALSE;
-    if ($class['channel_type'] != $type) return FALSE;
+    if ($class == NULL)
+        return FALSE;
+    if ($class['channel_type'] != $type)
+        return FALSE;
 
     global $_channelID;
     global $_channelName;
@@ -618,7 +618,6 @@ function validateClass($id, $type) {
     $_className = $class['class_name'];
 
     return TRUE;
-
 }
 
 function updateNavigation($key) {
@@ -634,28 +633,29 @@ function updateNavigation($key) {
         if ($rs) {
             $chlist = db_result($rs);
             foreach ($chlist as $ch) {
-                $k = 'channel_'.$ch['id'];
-                if ($k == $key) $value = $ch;
+                $k = 'channel_' . $ch['id'];
+                if ($k == $key)
+                    $value = $ch;
                 $ce->SetValue($k, $ch, 0, TRUE);
             }
             db_free($rs);
-        }
 
-        $rs = db_query("select class_info.id,class_info.class_name,channel_info.id as channel_id,channel_info.channel_name,channel_info.channel_type from class_info inner join channel_info on class_info.parent_channel=channel_info.id");
-        if ($rs) {
-            $clslist = db_result($rs);
-            foreach ($clslist as $cls) {
-                $k = 'class_'.$cls['id'];
-                if ($k == $key) $value = $cls;
-                $ce->SetValue($k, $cls, 0, TRUE);
+            $rs = db_query("select class_info.id,class_info.class_name,channel_info.id as channel_id,channel_info.channel_name,channel_info.channel_type from class_info inner join channel_info on class_info.parent_channel=channel_info.id");
+            if ($rs) {
+                $clslist = db_result($rs);
+                foreach ($clslist as $cls) {
+                    $k = 'class_' . $cls['id'];
+                    if ($k == $key)
+                        $value = $cls;
+                    $ce->SetValue($k, $cls, 0, TRUE);
+                }
+                db_free($rs);
+
+                $ce->Save();
             }
-            db_free($rs);
         }
-
-        $ce->Save();
 
         return $value;
-
     } catch (Exception $ex) {
         return NULL;
     }

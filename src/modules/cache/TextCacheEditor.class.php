@@ -19,7 +19,7 @@ class TextCacheEditor {
     public function SetValue($key, $value, $seconds = 0, $withversion = FALSE) {
 
         // check key
-        if (!preg_match("/^[^\r\n\"\']+$/i", $key)) {
+        if (!preg_match("/^[a-z0-9_ ]+$/i", $key)) {
             throw new Exception("invalid key");
         }
 
@@ -93,7 +93,7 @@ class TextCacheEditor {
 
             $cachedata = $data['value'];
             if (!is_string($cachedata))
-                $cachedata = file_put_contents(
+                file_put_contents(
                     $cachefile.'.serialized',
                     serialize($cachedata)
                 );
