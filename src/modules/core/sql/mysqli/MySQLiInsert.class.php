@@ -1,13 +1,31 @@
 <?php
 
-LoadIBC1Class('IFieldValList', 'sql');
 LoadIBC1Class('SQLInsert', 'sql');
 
 /**
- * a INSERT statement for MySQL via mysqli
+ * a INSERT statement for MySQL via mysqli.
+ * 
+ * Here is an example:
+ * <code>
+ * require 'core1.lib.php';
+ * require 'core.conf.php';
+ * LoadIBC1Lib('common', 'sql');
+ * 
+ * $connp = new DBConnProvider();
+ * $conn = $connp->OpenConn('localhost', 'root', '', 'test');
+ * 
+ * $insert = $conn->CreateInsertSTMT('tbl_tag');
+ * $insert->AddValue('name', 'hello', IBC1_DATATYPE_PLAINTEXT);
+ * $insert->AddValue('frequency', 0);
+ * $insert->Execute();
+ * echo $insert->GetLastInsertID();
+ * $insert->CloseSTMT();
+ * 
+ * $conn->CloseDB();
+ * </code>
  * @version 0.7.20110315
  * @author Zhiji Gu <gu_zhiji@163.com>
- * @copyright &copy; 2010-2012 InterBox Core 1.1.5 for PHP, GuZhiji Studio
+ * @copyright &copy; 2010-2013 InterBox Core 1.2 for PHP, GuZhiji Studio
  * @package interbox.core.sql.mysqli
  */
 class MySQLiInsert extends MySQLiSTMT implements IFieldValList {
@@ -16,7 +34,7 @@ class MySQLiInsert extends MySQLiSTMT implements IFieldValList {
     private $_data = array();
     private $_datafile = array();
 
-    function __construct($t = "", $conn = NULL) {
+    function __construct($t = '', $conn = NULL) {
         parent::__construct($conn);
         $this->insert = new SQLInsert($t);
     }
@@ -26,12 +44,12 @@ class MySQLiInsert extends MySQLiSTMT implements IFieldValList {
     }
 
     public function AddValue($f, $v, $t = IBC1_DATATYPE_INTEGER) {
-        $this->insert->AddValue($f, "?", IBC1_DATATYPE_EXPRESSION);
+        $this->insert->AddValue($f, '?', IBC1_DATATYPE_EXPRESSION);
         $this->AddParam($t, $v);
     }
 
-    public function AddValues(DataItem $dataitem) {
-        $this->insert->AddValues($dataitem);
+    public function AddValues(/* ItemList */ $itemlist) {
+        $this->insert->AddValues($itemlist);
     }
 
     public function ClearValues() {
@@ -63,7 +81,7 @@ class MySQLiInsert extends MySQLiSTMT implements IFieldValList {
 
     public function Execute() {
         if (!$this->connObj) {
-            throw new Exception("database unconnected", 4);
+            throw new Exception('database unconnected', 4);
         }
         $this->sql = $this->insert->GetSQL();
         $this->_prepareSTMT();
@@ -74,7 +92,7 @@ class MySQLiInsert extends MySQLiSTMT implements IFieldValList {
         }
         //send long data from file
         foreach ($this->_datafile as $item) {
-            $fp = fopen($item[1], "r");
+            $fp = fopen($item[1], 'r');
             while (!feof($fp)) {
                 mysqli_stmt_send_long_data($this->stmtObj, $item[0], fread($fp, 1024 * 8));
             }

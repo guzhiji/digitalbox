@@ -6,7 +6,7 @@ LoadIBC1Class('PropertyList', 'util');
  * field list with greater details for field definition
  * @version 0.2.20110314
  * @author Zhiji Gu <gu_zhiji@163.com>
- * @copyright &copy; 2010-2012 InterBox Core 1.1.5 for PHP, GuZhiji Studio
+ * @copyright &copy; 2010-2013 InterBox Core 1.2 for PHP, GuZhiji Studio
  * @package interbox.core.sql
  */
 class SQLFieldDefList extends PropertyList {
@@ -30,7 +30,7 @@ class SQLFieldDefList extends PropertyList {
      * $fieldtype is IBC1_DATATYPE_INTEGER,
      * this parameter can be given the value of TRUE.
      */
-    public function AddField($fieldname, $fieldtype = IBC1_DATATYPE_INTEGER, $length = 1, $isnull = TRUE, $default = NULL, $ispkey = FALSE, $keyname = "", $autoincrement = FALSE) {
+    public function AddField($fieldname, $fieldtype = IBC1_DATATYPE_INTEGER, $length = 1, $isnull = TRUE, $default = NULL, $ispkey = FALSE, $keyname = '', $autoincrement = FALSE) {
         $this->SetValue($fieldname, array($fieldtype, $length, $isnull, $default, $ispkey, $keyname, $autoincrement), IBC1_DATATYPE_EXPRESSION);
     }
 

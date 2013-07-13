@@ -1,16 +1,20 @@
 <?php
-LoadIBC1Class("DataFormatter", "util");
+
+LoadIBC1Class('MySQLiSTMT', 'sql.mysqli');
+
 /**
- * database connection via mysqli
+ * database connection via mysqli.
+ * 
  * @version 0.8.20110313
  * @author Zhiji Gu <gu_zhiji@163.com>
- * @copyright &copy; 2010-2012 InterBox Core 1.1.5 for PHP, GuZhiji Studio
+ * @copyright &copy; 2010-2013 InterBox Core 1.2 for PHP, GuZhiji Studio
  * @package interbox.core.sql.mysqli
  */
 class MySQLiConn extends DBConn {
 
     /**
-     * create a connection to a MySQL server and open he indicated database
+     * create a connection to a MySQL server and open database.
+     * 
      * @param string $host
      * the address of MySQL server;
      * if the database is running on a special port,
@@ -20,7 +24,7 @@ class MySQLiConn extends DBConn {
      * @param string $db
      */
     public function OpenDB($host, $user, $pass, $db) {
-        $h = explode(":", $host);
+        $h = explode(':', $host);
         if (count($h) == 1) {
             $r = mysqli_connect($host, $user, $pass, $db);
         } else {
@@ -28,9 +32,9 @@ class MySQLiConn extends DBConn {
         }
         if (!$r) {
             $this->CloseDB();
-            throw new Exception("fail to connect to database", 1);
+            throw new Exception('fail to connect to database', 1);
         }
-        $this->connObj = &$r;
+        $this->connObj = $r;
         $this->dbname = $db;
         $this->hostname = $host;
         $this->username = $user;
@@ -42,54 +46,84 @@ class MySQLiConn extends DBConn {
     }
 
     public function GetDBDriver() {
-        return "mysqli";
+        return 'mysqli';
     }
 
-    public function CreateSelectSTMT($tablename="") {
-        LoadIBC1Class("MySQLiSTMT", "sql.mysqli");
-        LoadIBC1Class("MySQLiSelect", "sql.mysqli");
-        $stmt = new MySQLiSelect($tablename, $this->connObj);
-        return $stmt;
+    /**
+     * create a Select statement.
+     * 
+     * @param string $tablename
+     * @return MySQLiSelect 
+     */
+    public function CreateSelectSTMT($tablename = '') {
+        LoadIBC1Class('MySQLiSelect', 'sql.mysqli');
+        return new MySQLiSelect($tablename, $this->connObj);
     }
 
-    public function CreateInsertSTMT($tablename="") {
-        LoadIBC1Class("MySQLiSTMT", "sql.mysqli");
-        LoadIBC1Class("MySQLiInsert", "sql.mysqli");
-        $stmt = new MySQLiInsert($tablename, $this->connObj);
-        return $stmt;
+    /**
+     * create an Insert statement.
+     * 
+     * @param string $tablename
+     * @return MySQLiInsert 
+     */
+    public function CreateInsertSTMT($tablename = '') {
+        LoadIBC1Class('MySQLiInsert', 'sql.mysqli');
+        return new MySQLiInsert($tablename, $this->connObj);
     }
 
-    public function CreateUpdateSTMT($tablename="") {
-        LoadIBC1Class("MySQLiSTMT", "sql.mysqli");
-        LoadIBC1Class("MySQLiUpdate", "sql.mysqli");
-        $stmt = new MySQLiUpdate($tablename, $this->connObj);
-        return $stmt;
+    /**
+     * create an Update statement.
+     * 
+     * @param string $tablename
+     * @return MySQLiUpdate 
+     */
+    public function CreateUpdateSTMT($tablename = '') {
+        LoadIBC1Class('MySQLiUpdate', 'sql.mysqli');
+        return new MySQLiUpdate($tablename, $this->connObj);
     }
 
-    public function CreateDeleteSTMT($tablename="") {
-        LoadIBC1Class("MySQLiSTMT", "sql.mysqli");
-        LoadIBC1Class("MySQLiDelete", "sql.mysqli");
-        $stmt = new MySQLiDelete($tablename, $this->connObj);
-        return $stmt;
+    /**
+     * create a Delete statement.
+     * 
+     * @param string $tablename
+     * @return MySQLiDelete 
+     */
+    public function CreateDeleteSTMT($tablename = '') {
+        LoadIBC1Class('MySQLiDelete', 'sql.mysqli');
+        return new MySQLiDelete($tablename, $this->connObj);
     }
 
-    public function CreateTableSTMT($mode, $tablename="") {
-        LoadIBC1Class("MySQLiSTMT", "sql.mysqli");
-        LoadIBC1Class("MySQLiTable", "sql.mysqli");
-        $stmt = new MySQLiTable($mode, $tablename, $this->connObj);
-        return $stmt;
+    /**
+     * create a statement that modifies a table.
+     * 
+     * @param string $mode
+     * -create
+     * -drop
+     * -optimize
+     * -addcolumn
+     * -dropcolumn
+     * @param string $tablename
+     * @return MySQLiTable 
+     */
+    public function CreateTableSTMT($mode, $tablename = '') {
+        LoadIBC1Class('MySQLiTable', 'sql.mysqli');
+        return new MySQLiTable($mode, $tablename, $this->connObj);
     }
 
-    public function CreateSTMT($sql=NULL) {
-        LoadIBC1Class("MySQLiSTMT", "sql.mysqli");
-        $stmt = new MySQLiSTMT($this->connObj, $sql);
-        return $stmt;
+    /**
+     * create a custom SQL statement.
+     * 
+     * @param string $sql
+     * @return MySQLiSTMT 
+     */
+    public function CreateSTMT($sql = NULL) {
+        return new MySQLiSTMT($this->connObj, $sql);
     }
 
     public function TableExists($table) {
         if (!ValidateTableName($table))
             return FALSE;
-        $sql = $this->CreateSTMT("SHOW TABLES FROM " . $this->GetDBName() . " LIKE \"$table\";");
+        $sql = $this->CreateSTMT('SHOW TABLES FROM ' . $this->GetDBName() . " LIKE \"$table\";");
         $sql->Execute();
         $r = $sql->Fetch();
         $sql->CloseSTMT();
@@ -101,7 +135,7 @@ class MySQLiConn extends DBConn {
             return FALSE;
         if (!ValidateFieldName($field))
             return FALSE;
-        $sql = $this->CreateSTMT("SHOW COLUMNS FROM " . $this->GetDBName() . ".$table LIKE \"$field\";");
+        $sql = $this->CreateSTMT('SHOW COLUMNS FROM ' . $this->GetDBName() . '.' . $table . " LIKE \"$field\";");
         $sql->Execute();
         $r = $sql->Fetch();
         $sql->CloseSTMT();
@@ -109,7 +143,7 @@ class MySQLiConn extends DBConn {
     }
 
     public function GetTableList() {
-        $sql = $this->CreateSTMT("SHOW TABLES FROM " . $this->GetDBName());
+        $sql = $this->CreateSTMT('SHOW TABLES FROM ' . $this->GetDBName());
         $sql->Execute();
         //TODO: generate a table list
     }
@@ -117,7 +151,7 @@ class MySQLiConn extends DBConn {
     public function GetFieldList($table) {
         if (!ValidateTableName($table))
             return FALSE;
-        $sql = $this->CreateSTMT("SHOW COLUMNS FROM " . $this->GetDBName() . ".$table;");
+        $sql = $this->CreateSTMT('SHOW COLUMNS FROM ' . $this->GetDBName() . '.' . $table);
         $sql->Execute();
         //TODO: generate a field list
     }

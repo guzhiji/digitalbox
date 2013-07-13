@@ -11,31 +11,32 @@
 
 class MsgBox extends BoxModel {
 
-    private $msg = "";
-    private $title = NULL;
-    private $back = NULL;
-
-    function __construct($msg, $title = NULL, $back = NULL) {
-        parent::__construct("Left", "box3");
-        $this->msg = $msg;
-        $this->title = $title;
-        $this->back = $back;
+    function __construct($args) {
+        parent::__construct(__CLASS__, $args);
+        $this->containerTplName = 'box3';
     }
 
-    public function DataBind() {
-        $html = $this->msg;
-        if ($this->back != NULL) {
-            $back = "history.back(1);";
-            if ($this->back != "back")
-                $back = "location.href='{$this->back}'";
-            $html = TransformTpl("msg", array(
-                "msg" => $html,
-                "back" => $back
-                    ), __CLASS__);
+    protected function LoadContent() {
+        $back = $this->GetBoxArgument('back');
+        if (!empty($back)) {
+            if ($back == 'back')
+                $back = 'history.back(1);';
+            else
+                $back = "location.href='{$back}'";
         }
-        $this->SetHeight("auto");
-        $this->SetTitle($this->title == NULL ? "" : $this->title);
-        $this->SetContent($html, "center", "middle", 2);
+        $this->SetField('Title', $this->GetBoxArgument('title'));
+        return $this->TransformTpl('msg', array(
+                    'msg' => $this->GetBoxArgument('msg'),
+                    'back' => $back
+                ));
+    }
+
+    public function After($page) {
+        
+    }
+
+    public function Before($page) {
+        
     }
 
 }

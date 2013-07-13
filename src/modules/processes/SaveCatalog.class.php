@@ -13,48 +13,43 @@ class SaveCatalog extends ProcessModel {
 
     public function Process() {
 
-        $up = new UserPassport(SERVICE_USER); //getPassport()
+        //$up = getPassport();
+        //if (!$up->IsOnline()) {
 
-        if (!$up->IsOnline()) {
+        $id = intval(strGet('id'));
+        $username = ''; // $up->GetUID();
+        $name = strPost('name');
+        $pid = intval(strPost('parent'));
+        $output = NULL;
 
-            $id = intval(strGet('id'));
-            $username = $up->GetUID();
-            $name = strPost('name');
-            $pid = intval(strPost('parent'));
-
-            LoadIBC1Class('CatalogItemEditor', 'datamodel.catalog');
-            $editor = new CatalogItemEditor(SERVICE_CATALOG);
-            if (empty($id)) {
-                $editor->Create();
-                $editor->SetAdminUID($username);
-                $editor->SetName($name);
-                try {
-                    $editor->Save($pid);
-                    $this->output_box = '';
-                    $this->output_box_params = array();
-                } catch (Exception $ex) {
-                    $this->output_box = '';
-                    $this->output_box_params = array();
-                }
-            } else {
-                $editor->Open($id);
-                if (!empty($name))
-                    $editor->SetName($name);
-
-                try {
-                    $editor->Save();
-                    $this->output_box = '';
-                    $this->output_box_params = array();
-                } catch (Exception $ex) {
-                    $this->output_box = '';
-                    $this->output_box_params = array();
-                }
+        LoadIBC1Class('CatalogItemEditor', 'data.catalog');
+        $editor = new CatalogItemEditor(SERVICE_CATALOG);
+        if (empty($id)) {
+            $editor->Create();
+            $editor->SetUID($username);
+            $editor->SetName($name);
+            try {
+                $editor->Save($pid);
+                $output = $this->OutputBox('MsgBox', array('msg' => 'succeed'));
+            } catch (Exception $ex) {
+                $output = $this->OutputBox('MsgBox', array('msg' => 'fail' . $ex->getMessage()));
             }
-            $editor->CloseService();
         } else {
-            $this->output_box = '';
-            $this->output_box_params = array();
+            $editor->Open($id);
+            if (!empty($name))
+                $editor->SetName($name);
+
+            try {
+                $editor->Save();
+                $output = $this->OutputBox('MsgBox', array('msg' => 'succeed'));
+            } catch (Exception $ex) {
+                $output = $this->OutputBox('MsgBox', array('msg' => 'fail:' . $editor->GetID() . ',' . $ex->getMessage()));
+            }
         }
+        //} else {
+        //    $this->Output('', array());
+        //}
+        return $output;
     }
 
 }

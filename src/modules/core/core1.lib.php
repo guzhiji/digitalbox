@@ -4,53 +4,18 @@
  * the main library for InterBox Core 1
  * 
  * @author Zhiji Gu <gu_zhiji@163.com>
- * @copyright 2010-2012 InterBox Core 1.1.5 for PHP, GuZhiji Studio
+ * @license MIT License
+ * @copyright &copy; 2010-2013 InterBox Core 1.2 for PHP, GuZhiji Studio
  * @package interbox.core
  */
-define('IBC1_DATATYPE_INTEGER', 0);
-define('IBC1_DATATYPE_DECIMAL', 1);
-define('IBC1_DATATYPE_PURETEXT', 2); //ensure puretext the first string-type
-define('IBC1_DATATYPE_RICHTEXT', 3);
-define('IBC1_DATATYPE_TEMPLATE', 4);
-define('IBC1_DATATYPE_DATETIME', 5);
-define('IBC1_DATATYPE_DATE', 6);
-define('IBC1_DATATYPE_TIME', 7);
-define('IBC1_DATATYPE_URL', 8);
-define('IBC1_DATATYPE_EMAIL', 9);
-define('IBC1_DATATYPE_PWD', 10);
-define('IBC1_DATATYPE_WORDLIST', 11);
-define('IBC1_DATATYPE_BINARY', 12);
-define('IBC1_DATATYPE_EXPRESSION', 13);
 
-define('IBC1_LOGICAL_AND', 0);
-define('IBC1_LOGICAL_OR', 1);
-
-define('IBC1_ORDER_ASC', 0);
-define('IBC1_ORDER_DESC', 1);
-
-define('IBC1_VALUEMODE_VALUEONLY', 0);
-define('IBC1_VALUEMODE_TYPEONLY', 1);
-define('IBC1_VALUEMODE_ALL', 2);
-
-define('IBC1_TEMPLATETYPE_PANEL', 0);
-define('IBC1_TEMPLATETYPE_LIST', 1);
-
-define('IBC1_DEFAULT_DBDRIVER', 'mysqli');
-define('IBC1_DEFAULT_CACHE', 'phpcache');
-define('IBC1_DEFAULT_LANGUAGE', 'zh-cn');
-
-define('IBC1_ENCODING', 'UTF-8');
-define('IBC1_PREFIX', 'ibc1');
-
-define('IBC1_MODE_DEV', TRUE);
-
-define('IBC1_CENTRALDB_HOST', 'localhost:3306');
-define('IBC1_CENTRALDB_USER', 'root');
-define('IBC1_CENTRALDB_PWD', '');
-define('IBC1_CENTRALDB_NAME', 'digitalbox3_test');
-
-define('IBC1_SYSTEM_ROOT', '/home/guzhiji/workspaces/www/DigitalBox_3/src/'); //slash at the end
-
+/**
+ * format path with forward slashes and a trailing slash if it is a directory path.
+ * 
+ * @param string $path
+ * @param string $filename
+ * @return string 
+ */
 function FormatPath($path, $filename = '') {
     $path = str_replace('\\', '/', $path); //for windows
     if (substr($path, -1) != '/')
@@ -58,6 +23,13 @@ function FormatPath($path, $filename = '') {
     return $path . $filename;
 }
 
+/**
+ * load a file in InterBox Core 1.
+ * 
+ * @param string $filename  file name with its extention
+ * @param string $package optional, if left blank, it is a package in interbox.core; 
+ * from parent to child, separated with dots.
+ */
 function LoadIBC1File($filename, $package = '') {
     $path = FormatPath(dirname(__FILE__));
     if ($package != '')
@@ -66,12 +38,26 @@ function LoadIBC1File($filename, $package = '') {
     require_once($path);
 }
 
+/**
+ * load a class in InterBox Core 1.
+ * 
+ * @see LoadIBC1File()
+ * @param string $classname
+ * @param string $package 
+ */
 function LoadIBC1Class($classname, $package = '') {
     LoadIBC1File($classname . '.class.php', $package);
 }
 
-function LoadIBC1Lib($classname, $package = '') {
-    LoadIBC1File($classname . '.lib.php', $package);
+/**
+ * load a library in InterBox Core 1.
+ *
+ * @see LoadIBC1File()
+ * @param string $libname
+ * @param string $package 
+ */
+function LoadIBC1Lib($libname, $package = '') {
+    LoadIBC1File($libname . '.lib.php', $package);
 }
 
 function toScriptString($str, $isphp = FALSE) {
@@ -82,32 +68,34 @@ function toScriptString($str, $isphp = FALSE) {
     return "\"$str\"";
 }
 
-function ValidateURL($url) {
-    return (!!preg_match('/^(\w+):\/\/([^/:]+)(:\d*)?([^# ]*)$/i', $url));
+function FormatDate($str) {
+    return date(IBC1_TIME_P_DATE, strtotime($str));
 }
 
-function ValidateEMail($email) {
-    return(!!preg_match('/^[_\.0-9a-z-]+@([0-9a-z][0-9a-z-]+\.)+[a-z]{2,3}$/i', $email));
+function FormatTime($str) {
+    return date(IBC1_TIME_P_TIME, strtotime($str));
 }
 
-function ValidateUID($uid) {
-    return(!!preg_match('/^[0-9a-z_]{3,256}$/i', $uid));
+function FormatDateTime($str) {
+    return date(IBC1_TIME_P_DATETIME, strtotime($str));
 }
 
-function ValidatePWD($pwd) {
-    return (!!preg_match('/^[0-9a-z]{6,}$/i', $pwd));
+function text2html($text) {
+    //TODO encoding?
+    return nl2br(htmlspecialchars($text), TRUE);
 }
 
-function ValidateFieldName($fieldname) {
-    return (!!preg_match('/^[a-z_][0-9a-z_]{0,63}$/i', $fieldname));
-}
-
-function ValidateTableName($tablename) {
-    return (!!preg_match('/^[a-z_][0-9a-z_]{0,63}$/i', $tablename));
-}
-
-function ValidateServiceName($fieldname) {
-    return (!!preg_match('/^[0-9a-z_]{0,32}$/i', $fieldname));
+function filterhtml($html) {
+    $f = &$GLOBALS['IBC1_HTMLFILTER'];
+    if (!isset($f)) {
+        LoadIBC1Class('HTMLFilter', 'util');
+        $config = &$GLOBALS['IBC1_HTMLFILTER_CONFIG'];
+        if (isset($config))
+            $f = new HTMLFilter($config[0], $config[1]);
+        else
+            $f = new HTMLFilter();
+    }
+    return $f->filter($html);
 }
 
 function PageRedirect($page) {
@@ -184,7 +172,7 @@ function GetFileExt($filename) {
 }
 
 //------------------------------------------------------------------
-function GetSizeWithUnit($size) {
+function SizeWithUnit($size) {
     if ($size <= 1000) {
         return intval($size) . ' Bytes';
     } else {
@@ -219,7 +207,7 @@ function Size2Bytes($size, $unit) {
 
 //------------------------------------------------------------------
 function GetSiteURL() {
-    $phpfile = $_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
+    $phpfile = isset($_SERVER['PHP_SELF']) ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
     return 'http://' . $_SERVER['HTTP_HOST'] . substr($phpfile, 0, strrpos($phpfile, '/') + 1);
 }
 
@@ -261,4 +249,105 @@ function strSession($strname) {
     if (isset($_SESSION[IBC1_PREFIX . '_' . $strname]))
         return $_SESSION[IBC1_PREFIX . '_' . $strname];
     return '';
+}
+
+/**
+ * convert a PHP array to a safe string of GET parameters
+ * 
+ * @param array $params
+ * @return string
+ */
+function queryString($params) {
+    $s = '';
+    foreach ($params as $key => $value) {
+        if (!empty($s))
+            $s .= '&';
+        $s .= $key . '=' . urlencode($value);
+    }
+    if (!empty($s))
+        return '?' . $s;
+    return $s;
+}
+
+/**
+ * append new GET parameters to existing ones
+ * 
+ * @param array $params
+ * @return string
+ */
+function queryString_Append($params) {
+    $data = array();
+    foreach ($_GET as $key => $value)
+        $data[$key] = $value;
+    foreach ($params as $key => $value)
+        $data[$key] = $value;
+    return queryString($data);
+}
+
+/**
+ * read a parameter from defined sources or a default value if missing
+ * 
+ * if {@code $types} is empty, treat {@code $key} as a global variable;
+ * otherwise split it into an array of data sources by "|"
+ * and value first found in the data sources will be returned.
+ * Data sources:
+ * <ul>
+ * <li>get - {@code $_GET}</li>
+ * <li>post - {@code $_POST}</li>
+ * <li>session - {@code $_SESSION}</li>
+ * <li>cookie - {@code $_COOKIE}</li>
+ * <li>server - {@code $_SERVER}</li>
+ * <li>globals - {@code $GLOBALS}</li>
+ * <li>name of a global array, otherwise</li>
+ * </ul>
+ * For example:
+ * <code>
+ * $id=readParam('get|post', 'id', NULL);
+ * $id=isset($_GET['id'])?$_GET['id']:(isset($_POST['id'])?$_POST['id']:NULL);
+ * </code>
+ * 
+ * @param string $types     data sources
+ * @param string $key       
+ * @param mixed  $default   default value will be returned 
+ *                          if {@code $key} is not found in all {@code $types} 
+ * @return mixed
+ */
+function readParam($types, $key, $default = '') {
+    if (empty($types)) {
+        global $$key;
+        if (isset($$key))
+            $val = $$key; //a normal variable
+        else
+            $val = NULL;
+    }else {
+        $val = NULL;
+        $typeArr = explode('|', $types);
+        foreach ($typeArr as $type) {
+            $t = strtoupper($type);
+            switch ($t) {
+                case 'GET':
+                case 'POST':
+                case 'SESSION':
+                case 'COOKIE':
+                case 'SERVER':
+                    $var = '_' . $t;
+                    break;
+                case 'GLOBALS':
+                    $var = $t;
+                    break;
+                default:
+                    $var = $type; //an item in an array
+                    break;
+            }
+            global $$var;
+            if (isset($$var)) {
+                $arr = $$var;
+                if (isset($arr[$key])) {//found
+                    $val = $arr[$key];
+                    break;
+                }
+            }
+        }
+    }
+    return empty($val) ? $default : $val;
 }

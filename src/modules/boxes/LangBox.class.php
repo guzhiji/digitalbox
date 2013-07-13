@@ -12,27 +12,26 @@
 class LangBox extends BoxModel {
 
     function __construct() {
-        parent::__construct("Left", "box3");
+        parent::__construct(__CLASS__);
+        $this->containerTplName = 'box3';
     }
 
-    public function DataBind() {
-        $lang = GetLang();
-        $languages = GetSettingValue("languages");
-        $list = new ListModel(__CLASS__, "item");
-        $list->SetContainer("container", array(
-            "Referrer" => array_key_exists("HTTP_REFERER", $_SERVER) ? $_SERVER["HTTP_REFERER"] : ""
-        ));
-        foreach ($languages as $code => $name) {
-            $list->AddItem(array(
-                "Code" => $code,
-                "Checked" => $code == $lang ? " checked=\"checked\"" : "",
-                "Name" => $name
-            ));
-        }
+    protected function LoadContent() {
+        $this->SetField('Title', GetLangData('changelang'));
 
-        $this->SetHeight("auto");
-        $this->SetTitle(GetLangData("changelang"));
-        $this->SetContent($list->GetHTML(), "center", "middle", 2);
+        return $this->RenderPHPTpl('select', array(
+                    'referrer' => array_key_exists('HTTP_REFERER', $_SERVER) ? $_SERVER['HTTP_REFERER'] : '',
+                    'lang' => GetLang(),
+                    'languages' => GetLanguages()
+                ));
+    }
+
+    public function After($page) {
+        
+    }
+
+    public function Before($page) {
+        
     }
 
 }

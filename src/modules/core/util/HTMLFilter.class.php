@@ -5,7 +5,7 @@
  * 
  * @version 0.9.20120103
  * @author Zhiji Gu <gu_zhiji@163.com>
- * @copyright &copy; 2010-2012 InterBox Core 1.1.5 for PHP, GuZhiji Studio
+ * @copyright &copy; 2010-2012 InterBox Core 1.2 for PHP, GuZhiji Studio
  * @package interbox.core.util
  */
 class HTMLFilter {

@@ -4,7 +4,7 @@
  * generate a part of SQL involving a process of selecting data, like 'WHERE' statement
  * @version 0.2.20110314
  * @author Zhiji Gu <gu_zhiji@163.com>
- * @copyright &copy; 2010-2012 InterBox Core 1.1.5 for PHP, GuZhiji Studio
+ * @copyright &copy; 2010-2013 InterBox Core 1.2 for PHP, GuZhiji Studio
  * @package interbox.core.sql
  */
 class SQLCondition {
@@ -13,7 +13,8 @@ class SQLCondition {
      * generated expression of conditions in SQL statement
      * @var string
      */
-    private $cdt = "";
+    private $cdt = '';
+
     /**
      * number of conditions
      * @var int
@@ -35,14 +36,14 @@ class SQLCondition {
      * or the parameter is of an invalid value, it returns FALSE.
      */
     private function addLogical($l) {
-        if ($this->cdt == "")
+        if ($this->cdt == '')
             return FALSE;
         switch ($l) {
             case IBC1_LOGICAL_AND:
-                $this->cdt.=" AND ";
+                $this->cdt.=' AND ';
                 return TRUE;
             case IBC1_LOGICAL_OR:
-                $this->cdt.=" OR ";
+                $this->cdt.=' OR ';
                 return TRUE;
         }
         return FALSE;
@@ -63,12 +64,12 @@ class SQLCondition {
      * @return bool
      * If there is no new condition added then it will return FALSE.
      */
-    public function AddCondition($c, $l=IBC1_LOGICAL_AND) {
+    public function AddCondition($c, $l = IBC1_LOGICAL_AND) {
         if ($c == NULL)
             return FALSE;
         if ($c instanceof SQLCondition) {
             if ($this->c > 1)
-                $this->cdt = "(" . $this->cdt . ")";
+                $this->cdt = '(' . $this->cdt . ')';
             $this->addLogical($l);
             $this->cdt.=$c->GetExpression();
             $this->c+=$c->Count();
@@ -79,22 +80,6 @@ class SQLCondition {
         }
         return TRUE;
     }
-
-    /*
-      '?' may not be supported by all database connectors, so they are moved to more specific classes.
-
-      public function AddEqual($f, $v, $t=IBC1_DATATYPE_INTEGER, $r=IBC1_LOGICAL_AND) {
-      $this->select->AddCondition($f . "=?", $r);
-      $this->AddParam($t, $v);
-      }
-
-      public function AddLike($f, $v, $l=IBC1_LOGICAL_AND) {//data formatting
-      $this->dtf->SetData($v, IBC1_DATATYPE_PURETEXT);
-      if ($this->HasError())
-      return FALSE;
-      $this->select->AddCondition($f . " LIKE \"%" . $this->dtf->GetData() . "%\"", $l);
-      }
-     */
 
     /**
      * get the counted number of conditions
@@ -108,7 +93,7 @@ class SQLCondition {
      * remove all conditions in the current object
      */
     public function Clear() {
-        $this->cdt = "";
+        $this->cdt = '';
         $this->c = 0;
     }
 

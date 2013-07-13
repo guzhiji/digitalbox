@@ -1,22 +1,40 @@
 <?php
 
-LoadIBC1Class('IFieldExpList', 'sql');
-LoadIBC1Class('ICondition', 'sql');
 LoadIBC1Class('SQLSelect', 'sql');
 
 /**
- * a SELECT statement for MySQL via mysqli
+ * a SELECT statement for MySQL via mysqli.
+ * 
+ * Here is an example:
+ * <code>
+ * require 'core1.lib.php';
+ * require 'core.conf.php';
+ * LoadIBC1Lib('common', 'sql');
+ * 
+ * $connp = new DBConnProvider();
+ * $conn = $connp->OpenConn('localhost', 'root', '', 'test');
+ * 
+ * $select = $conn->CreateSelectSTMT('tbl_lookup');
+ * $select->AddLike('key', 'app');
+ * $select->Execute();
+ * while ($obj = $select->Fetch()) {
+ *     var_dump($obj);
+ * }
+ * $select->CloseSTMT();
+ * 
+ * $conn->CloseDB();
+ * </code>
  * @version 0.7.20110315
  * @author Zhiji Gu <gu_zhiji@163.com>
- * @copyright &copy; 2010-2012 InterBox Core 1.1.5 for PHP, GuZhiji Studio
+ * @copyright &copy; 2010-2013 InterBox Core 1.2 for PHP, GuZhiji Studio
  * @package interbox.core.sql.mysqli
  */
 class MySQLiSelect extends MySQLiSTMT implements IFieldExpList, ICondition {
 
     protected $select;
-    protected $limit = "";
+    protected $limit = '';
 
-    function __construct($t = "", &$conn = NULL) {
+    function __construct($t = '', &$conn = NULL) {
         parent::__construct($conn);
         $this->select = new SQLSelect($t);
     }
@@ -29,7 +47,7 @@ class MySQLiSelect extends MySQLiSTMT implements IFieldExpList, ICondition {
         $this->select->JoinTable($t, $on);
     }
 
-    public function AddField($exp, $alias = "") {
+    public function AddField($exp, $alias = '') {
         $this->select->AddField($exp, $alias);
     }
 
@@ -80,10 +98,9 @@ class MySQLiSelect extends MySQLiSTMT implements IFieldExpList, ICondition {
      * </ul>
      */
     public function AddLike($f, $v, $l = IBC1_LOGICAL_AND) {
-        $formatter = new DataFormatter($v, IBC1_DATATYPE_PURETEXT);
-        if ($this->HasError())
-            throw new Exception("the value is malformated", 2);
-        $this->select->AddCondition($f . " LIKE " . $formatter->GetSQLValue(TRUE), $l);
+        $this->select->AddCondition($f . ' LIKE ?', $l);
+        $v = '%' . str_replace('%', '\\%', $v) . '%';
+        $this->AddParam(IBC1_DATATYPE_PLAINTEXT, $v);
     }
 
     public function ClearConditions() {
@@ -99,7 +116,7 @@ class MySQLiSelect extends MySQLiSTMT implements IFieldExpList, ICondition {
         $this->select->OrderBy($field, $mode);
     }
 
-    public function GroupBy($field, $having = "") {
+    public function GroupBy($field, $having = '') {
         $this->select->GroupBy($field, $having);
     }
 
@@ -109,7 +126,7 @@ class MySQLiSelect extends MySQLiSTMT implements IFieldExpList, ICondition {
             $PageNumber = 1;
         $length = intval($PageSize);
         if ($length < 1) {
-            $this->limit = "";
+            $this->limit = '';
         } else {
             $start = ($PageNumber - 1) * $length;
             //start from 0
@@ -119,7 +136,7 @@ class MySQLiSelect extends MySQLiSTMT implements IFieldExpList, ICondition {
 
     public function Execute() {
         $sql = $this->select->GetSQL();
-        if ($this->limit != "")
+        if ($this->limit != '')
             $sql.=$this->limit;
         $this->sql = &$sql;
         return parent::Execute();

@@ -1,20 +1,36 @@
 <?php
 
-LoadIBC1Class('ICondition', 'sql');
 LoadIBC1Class('SQLDelete', 'sql');
 
 /**
- * a DELETE statement for MySQL via mysqli
+ * a DELETE statement for MySQL via mysqli.
+ * 
+ * Here is an example:
+ * <code>
+ * require 'core1.lib.php';
+ * require 'core.conf.php';
+ * LoadIBC1Lib('common', 'sql');
+ * 
+ * $connp = new DBConnProvider();
+ * $conn = $connp->OpenConn('localhost', 'root', '', 'test');
+ * 
+ * $del = $conn->CreateDeleteSTMT('tbl_article');
+ * $del->AddEqual('id', 1);
+ * $del->Execute();
+ * $del->CloseSTMT();
+ * 
+ * $conn->CloseDB();
+ * </code>
  * @version 0.7.20110315
  * @author Zhiji Gu <gu_zhiji@163.com>
- * @copyright &copy; 2010-2012 InterBox Core 1.1.5 for PHP, GuZhiji Studio
+ * @copyright &copy; 2010-2013 InterBox Core 1.2 for PHP, GuZhiji Studio
  * @package interbox.core.sql.mysqli
  */
 class MySQLiDelete extends MySQLiSTMT implements ICondition {
 
     private $delete;
 
-    function __construct($t = "", $conn = NULL) {
+    function __construct($t = '', $conn = NULL) {
         parent::__construct($conn);
         $this->delete = new SQLDelete($t);
     }
@@ -62,10 +78,9 @@ class MySQLiDelete extends MySQLiSTMT implements ICondition {
      * </ul>
      */
     public function AddLike($f, $v, $l = IBC1_LOGICAL_AND) {
-        $formatter = new DataFormatter($v, IBC1_DATATYPE_PURETEXT);
-        if ($this->HasError())
-            throw new Exception("the value is malformated", 2);
-        $this->delete->AddCondition($f . " LIKE " . $formatter->GetSQLValue(TRUE), $l);
+        $this->delete->AddCondition($f . ' LIKE ?', $l);
+        $v = '%' . str_replace('%', '\\%', $v) . '%';
+        $this->AddParam(IBC1_DATATYPE_PLAINTEXT, $v);
     }
 
     public function ClearConditions() {
@@ -80,6 +95,10 @@ class MySQLiDelete extends MySQLiSTMT implements ICondition {
     public function Execute() {
         $this->sql = $this->delete->GetSQL();
         return parent::Execute();
+    }
+
+    public function GetAffectedRowCount() {
+        return mysqli_stmt_affected_rows($this->stmtObj);
     }
 
 }

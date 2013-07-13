@@ -1,7 +1,5 @@
 <?php
 
-LoadIBC1Class('IFieldExpList', 'sql');
-LoadIBC1Class('ICondition', 'sql');
 LoadIBC1Class('SQLFieldExpList', 'sql');
 LoadIBC1Class('SQLCondition', 'sql');
 
@@ -9,19 +7,19 @@ LoadIBC1Class('SQLCondition', 'sql');
  * a GENERAL command generator for SELECT
  * @version 0.7.20110313
  * @author Zhiji Gu <gu_zhiji@163.com>
- * @copyright &copy; 2010-2012 InterBox Core 1.1.5 for PHP, GuZhiji Studio
+ * @copyright &copy; 2010-2013 InterBox Core 1.2 for PHP, GuZhiji Studio
  * @package interbox.core.sql
  */
 class SQLSelect implements IFieldExpList, ICondition {
 
-    protected $table = "";
+    protected $table = '';
     protected $fieldlist;
     protected $condition;
-    protected $orderby = "";
-    protected $groupby = "";
-    protected $having = "";
+    protected $orderby = '';
+    protected $groupby = '';
+    protected $having = '';
 
-    function __construct($t = "") {
+    function __construct($t = '') {
         $this->fieldlist = new SQLFieldExpList();
         $this->condition = new SQLCondition();
         $this->SetTable($t);
@@ -35,7 +33,7 @@ class SQLSelect implements IFieldExpList, ICondition {
         $this->table.=" RIGHT JOIN $t ON $on";
     }
 
-    public function AddField($exp, $alias = "") {
+    public function AddField($exp, $alias = '') {
         $this->fieldlist->AddField($exp, $alias);
     }
 
@@ -62,32 +60,32 @@ class SQLSelect implements IFieldExpList, ICondition {
     public function OrderBy($field, $mode = IBC1_ORDER_ASC) {
         $this->orderby = $field;
         if ($mode == IBC1_ORDER_ASC)
-            $this->orderby.=" ASC";
+            $this->orderby.=' ASC';
         else
-            $this->orderby.=" DESC";
+            $this->orderby.=' DESC';
     }
 
-    public function GroupBy($field, $having = "") {
+    public function GroupBy($field, $having = '') {
         $this->groupby = $field;
         $this->having = $having;
     }
 
     public function GetSQL() {
         $sql_f = $this->fieldlist->GetAllAsString();
-        if ($sql_f == "")
-            $sql_f = "*";
-        $sql = "SELECT $sql_f FROM " . $this->table;
+        if ($sql_f == '')
+            $sql_f = '*';
+        $sql = "SELECT {$sql_f} FROM {$this->table}";
 
         $sql_c = $this->condition->GetExpression();
-        if ($sql_c != "")
-            $sql.=" WHERE $sql_c";
+        if ($sql_c != '')
+            $sql.=" WHERE {$sql_c}";
 
-        if ($this->orderby != "")
-            $sql.=" ORDER BY " . $this->orderby;
-        if ($this->groupby != "") {
-            $sql.=" GROUP BY " . $this->groupby;
-            if ($this->having != "")
-                $sql.=" HAVING " . $this->having;
+        if ($this->orderby != '')
+            $sql.=' ORDER BY ' . $this->orderby;
+        if ($this->groupby != '') {
+            $sql.=' GROUP BY ' . $this->groupby;
+            if ($this->having != '')
+                $sql.=' HAVING ' . $this->having;
         }
 
         return $sql;

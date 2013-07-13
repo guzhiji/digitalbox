@@ -1,1 +1,0 @@
-&nbsp;&nbsp;<a class="director_link" title="{$TipText}" {$Action}>{$Name}</a>&nbsp;&nbsp;

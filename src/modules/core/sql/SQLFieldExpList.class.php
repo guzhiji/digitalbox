@@ -6,7 +6,7 @@ LoadIBC1Class('ItemList', 'util');
  * simple field list supporting expressions and alias in a SQL statement, like SELECT
  * @version 0.2.20110314
  * @author Zhiji Gu <gu_zhiji@163.com>
- * @copyright &copy; 2010-2012 InterBox Core 1.1.5 for PHP, GuZhiji Studio
+ * @copyright &copy; 2010-2013 InterBox Core 1.2 for PHP, GuZhiji Studio
  * @package interbox.core.sql
  */
 class SQLFieldExpList extends ItemList {
@@ -19,8 +19,8 @@ class SQLFieldExpList extends ItemList {
      * @param string $alias
      * alias name for the field, optional
      */
-    public function AddField($exp, $alias = "") {
-        if ($alias == "")
+    public function AddField($exp, $alias = '') {
+        if ($alias == '')
             $this->AddItem($exp);
         else
             $this->AddItem("$exp AS $alias");
@@ -31,10 +31,10 @@ class SQLFieldExpList extends ItemList {
      * @return string
      */
     public function GetAllAsString() {
-        $str = "";
+        $str = '';
         foreach ($this->_item as $f) {
-            if ($str != "")
-                $str.=",";
+            if ($str != '')
+                $str.=',';
             $str.=$f;
         }
         return $str;

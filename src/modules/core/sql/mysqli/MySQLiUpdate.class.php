@@ -1,14 +1,31 @@
 <?php
 
-LoadIBC1Class('IFieldValList', 'sql');
-LoadIBC1Class('ICondition', 'sql');
 LoadIBC1Class('SQLUpdate', 'sql');
 
 /**
- * a UPDATE statement for MySQL via mysqli
+ * a UPDATE statement for MySQL via mysqli.
+ * 
+ * Here is an example:
+ * <code>
+ * require 'core1.lib.php';
+ * require 'core.conf.php';
+ * LoadIBC1Lib('common', 'sql');
+ * 
+ * $connp = new DBConnProvider();
+ * $conn = $connp->OpenConn('localhost', 'root', '', 'test');
+ * 
+ * $update = $conn->CreateUpdateSTMT('tbl_tag');
+ * $update->AddEqual('name', 'hello', IBC1_DATATYPE_PLAINTEXT);
+ * $update->AddValue('frequency', 1);
+ * $update->Execute();
+ * echo $update->GetAffectedRowCount();
+ * $update->CloseSTMT();
+ * 
+ * $conn->CloseDB();
+ * </code>
  * @version 0.7.20110315
  * @author Zhiji Gu <gu_zhiji@163.com>
- * @copyright &copy; 2010-2012 InterBox Core 1.1.5 for PHP, GuZhiji Studio
+ * @copyright &copy; 2010-2013 InterBox Core 1.2 for PHP, GuZhiji Studio
  * @package interbox.core.sql.mysqli
  */
 class MySQLiUpdate extends MySQLiSTMT implements IFieldValList, ICondition {
@@ -17,7 +34,7 @@ class MySQLiUpdate extends MySQLiSTMT implements IFieldValList, ICondition {
     private $_data = array();
     private $_datafile = array();
 
-    function __construct($t = "", $conn = NULL) {
+    function __construct($t = '', $conn = NULL) {
         parent::__construct($conn);
         $this->update = new SQLUpdate($t);
     }
@@ -32,7 +49,7 @@ class MySQLiUpdate extends MySQLiSTMT implements IFieldValList, ICondition {
 
     public function ClearConditions() {
         $this->update->Clear();
-        $this->ClearParams("condition");
+        $this->ClearParams('condition');
     }
 
     public function ConditionCount() {
@@ -57,7 +74,7 @@ class MySQLiUpdate extends MySQLiSTMT implements IFieldValList, ICondition {
      */
     public function AddEqual($f, $v, $t = IBC1_DATATYPE_INTEGER, $l = IBC1_LOGICAL_AND) {
         $this->update->AddCondition("$f=?", $l);
-        $this->AddParam($t, $v, "condition");
+        $this->AddParam($t, $v, 'condition');
     }
 
     /**
@@ -74,24 +91,23 @@ class MySQLiUpdate extends MySQLiSTMT implements IFieldValList, ICondition {
      * </ul>
      */
     public function AddLike($f, $v, $l = IBC1_LOGICAL_AND) {
-        $formatter = new DataFormatter($v, IBC1_DATATYPE_PURETEXT);
-        if ($this->HasError())
-            throw new Exception("the value is malformated", 2);
-        $this->update->AddCondition($f . " LIKE " . $formatter->GetSQLValue(TRUE), $l);
+        $this->update->AddCondition($f . ' LIKE ?', $l);
+        $v = '%' . str_replace('%', '\\%', $v) . '%';
+        $this->AddParam(IBC1_DATATYPE_PLAINTEXT, $v, 'condition');
     }
 
     public function AddValue($f, $v, $t = IBC1_DATATYPE_INTEGER) {
-        $this->update->AddValue($f, "?", IBC1_DATATYPE_EXPRESSION);
-        $this->AddParam($t, $v, "value");
+        $this->update->AddValue($f, '?', IBC1_DATATYPE_EXPRESSION);
+        $this->AddParam($t, $v, 'value');
     }
 
-    public function AddValues(DataItem $dataitem) {
-        $this->update->AddValues($dataitem);
+    public function AddValues(/* ItemList */ $itemlist) {
+        $this->update->AddValues($itemlist);
     }
 
     public function ClearValues() {
         $this->update->ClearValues();
-        $this->ClearParams("value");
+        $this->ClearParams('value');
     }
 
     public function ValueCount() {
@@ -99,29 +115,29 @@ class MySQLiUpdate extends MySQLiSTMT implements IFieldValList, ICondition {
     }
 
     public function SetData($f, $data) {
-        $this->_data[] = array($this->ParamCount("value"), $data);
+        $this->_data[] = array($this->ParamCount('value'), $data);
         $this->AddValue($f, NULL, IBC1_DATATYPE_BINARY);
     }
 
     public function SetDataFromFile($f, $filename) {
-        $this->_datafile[] = array($this->ParamCount("value"), $filename);
+        $this->_datafile[] = array($this->ParamCount('value'), $filename);
         $this->AddValue($f, NULL, IBC1_DATATYPE_BINARY);
     }
 
     public function Execute() {
         if (!$this->connObj) {
-            throw new Exception("database unconnected", 4);
+            throw new Exception('database unconnected', 4);
         }
         $this->sql = $this->update->GetSQL();
         $this->_prepareSTMT();
-        $this->_bindParams();
+        $this->_bindParams(array('value', 'condition'));
         //send long data
         foreach ($this->_data as $item) {
             mysqli_stmt_send_long_data($this->stmtObj, $item[0], $item[1]);
         }
         //send long data from file
         foreach ($this->_datafile as $item) {
-            $fp = fopen($item[1], "r");
+            $fp = fopen($item[1], 'r');
             while (!feof($fp)) {
                 mysqli_stmt_send_long_data($this->stmtObj, $item[0], fread($fp, 1024 * 8));
             }

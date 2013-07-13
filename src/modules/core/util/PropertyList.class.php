@@ -4,8 +4,8 @@
  * list for properties with keys and values
  * @version 0.8.20110427
  * @author Zhiji Gu <gu_zhiji@163.com>
- * @copyright &copy; 2010-2012 InterBox Core 1.1.5 for PHP, GuZhiji Studio
- * @package interbox.core.common
+ * @copyright &copy; 2010-2013 InterBox Core 1.2 for PHP, GuZhiji Studio
+ * @package interbox.core.util
  */
 class PropertyList {
 
@@ -22,20 +22,20 @@ class PropertyList {
      * Code for types is declared as constants like IBC1_DATATYPE_[type name].
      * It's optional and the default type is integer (IBC1_DATATYPE_INTEGER=0).
      */
-    public function SetValue($key, $value, $type=IBC1_DATATYPE_INTEGER) {
+    public function SetValue($key, $value, $type = IBC1_DATATYPE_INTEGER) {
         $this->_item[$key] = array($value, intval($type));
     }
 
     /**
      * append a string to the end of a value specified by the given key
-     * (this method only works if the original type is IBC1_DATATYPE_PURETEXT)
+     * (this method only works if the original type is IBC1_DATATYPE_PLAINTEXT)
      * @param string $key
      * @param string $value
      */
     public function AppendValue($key, $value) {
         $v = $this->GetValue($key, IBC1_VALUEMODE_ALL);
-        if ($v[1] != IBC1_DATATYPE_PURETEXT)
-            throw new Exception("wrong type of value, only string can be appended", 22);
+        if ($v[1] != IBC1_DATATYPE_PLAINTEXT)
+            throw new Exception('wrong type of value, only string can be appended', 22);
         $v[0].=$value;
         $this->SetValue($key, $v[0], $v[1]);
     }
@@ -59,7 +59,7 @@ class PropertyList {
      * </ul>
      * @return mixed
      */
-    public function GetValue($key=NULL, $mode=IBC1_VALUEMODE_VALUEONLY) {
+    public function GetValue($key = NULL, $mode = IBC1_VALUEMODE_VALUEONLY) {
         if (is_null($key)) {
             $key = key($this->_item);
             if (is_null($key))
@@ -142,5 +142,3 @@ class PropertyList {
     }
 
 }
-
-?>

@@ -25,7 +25,7 @@ class PopupPage extends PageModel {
         }
     }
 
-    public function AddBox(Box $box) {
+    public function AddBox(BoxModel $box) {
         $region = $box->GetType();
         switch ($region) {
             case "Left":

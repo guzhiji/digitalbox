@@ -1,1 +1,0 @@
-<iframe width="{$Width}" height="{$Height}" src="{$Address}" frameborder="0"></iframe>

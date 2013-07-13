@@ -1,4 +1,4 @@
 <?php
 GLOBAL $Style_Name;
-$Style_Name="端庄银灰";
+$Style_Name="紫色藤萝";
 ?>

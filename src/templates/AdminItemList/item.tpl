@@ -1,0 +1,1 @@
+<tr>{$Selectable}<td>{$Text}</td>{$Extra}<td>{$Buttons}</td></tr>

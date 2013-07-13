@@ -12,9 +12,13 @@
 class MoveCatalog extends ProcessModel {
 
     public function Process() {
-        
+
         $up = new UserPassport(SERVICE_USER); //getPassport()
-        
+        if (!$up->IsOnline()) {
+            
+        } else {
+            $this->Output('', array());
+        }
     }
 
 }

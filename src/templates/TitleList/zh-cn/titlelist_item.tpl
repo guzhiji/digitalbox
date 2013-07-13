@@ -1,1 +1,0 @@
-<tr><td align="left">{$ParentLink}{$Icon} {$Title} <span class="date_text">{$Extra}</span></td></tr>

@@ -1,7 +1,5 @@
 <?php
 
-LoadIBC1Class('IFieldExpList', 'sql');
-LoadIBC1Class('ICondition', 'sql');
 LoadIBC1Class('SQLFieldValList', 'sql');
 LoadIBC1Class('SQLCondition', 'sql');
 
@@ -9,7 +7,7 @@ LoadIBC1Class('SQLCondition', 'sql');
  * a GENERAL command generator for UPDATE
  * @version 0.7.20110315
  * @author Zhiji Gu <gu_zhiji@163.com>
- * @copyright &copy; 2010-2012 InterBox Core 1.1.5 for PHP, GuZhiji Studio
+ * @copyright &copy; 2010-2013 InterBox Core 1.2 for PHP, GuZhiji Studio
  * @package interbox.core.sql
  */
 class SQLUpdate implements IFieldValList, ICondition {
@@ -18,7 +16,7 @@ class SQLUpdate implements IFieldValList, ICondition {
     protected $valuelist;
     protected $condition;
 
-    function __construct($t = "") {
+    function __construct($t = '') {
         $this->valuelist = new SQLFieldValList();
         $this->condition = new SQLCondition();
         $this->SetTable($t);
@@ -44,9 +42,9 @@ class SQLUpdate implements IFieldValList, ICondition {
         $this->valuelist->AddValue($f, $v, $t);
     }
 
-    public function AddValues(DataItem $dataitem) {
-        $dataitem->MoveFirst();
-        while (list($key, $item) = $dataitem->GetEach()) {
+    public function AddValues(/* ItemList */ $itemlist) {
+        $itemlist->MoveFirst();
+        while (list($key, $item) = $itemlist->GetEach()) {
             $this->AddValue($key, $item[0], $item[1]);
         }
     }
@@ -60,18 +58,18 @@ class SQLUpdate implements IFieldValList, ICondition {
     }
 
     public function GetSQL() {
-        $sql_v = "";
+        $sql_v = '';
         $this->valuelist->MoveFirst();
         while (list($key, $value) = $this->valuelist->GetEach()) {
-            if ($sql_v != "")
-                $sql_v.=",";
-            $sql_v.=$key . "=" . $value[0];
+            if ($sql_v != '')
+                $sql_v.=',';
+            $sql_v.=$key . '=' . $value[0];
         }
-        $sql = "UPDATE " . $this->table . " SET $sql_v";
+        $sql = "UPDATE {$this->table} SET {$sql_v}";
 
         $sql_c = $this->condition->GetExpression();
-        if ($sql_c != "")
-            $sql.=" WHERE $sql_c";
+        if ($sql_c != '')
+            $sql.=" WHERE {$sql_c}";
         return $sql;
     }
 
