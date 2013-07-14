@@ -7,7 +7,7 @@ LoadIBC1Class('PropertyList', 'util');
  *
  * @version 0.8.20111205
  * @author Zhiji Gu <gu_zhiji@163.com>
- * @copyright &copy; 2010-2012 InterBox Core 1.2 for PHP, GuZhiji Studio
+ * @copyright &copy; 2010-2013 InterBox Core 1.2 for PHP, GuZhiji Studio
  * @package interbox.core.dataservices
  */
 abstract class DataItem extends DataModel {

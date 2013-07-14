@@ -3,6 +3,10 @@
         <td align="left">{$msg}</td>
     </tr>
     <tr>
-        <td align="center"><input class="button1" type="button" value="{$this->GetLangData('ok')}" onclick="{$back}" /></td>
+        <td align="center">{$this->CreateButton('link', $this->GetLangData('ok'), array(
+                                            'url' => $back,
+                                            'class' => 'db3_button1'
+                                        )
+                                        )}</td>
     </tr>
 </table>

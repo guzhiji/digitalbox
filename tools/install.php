@@ -3,7 +3,7 @@
  * DigitalBox CMS 3.0
  * http://code.google.com/p/digitalbox/
  * 
- * Copyright 2010-2012, GuZhiji Studio <gu_zhiji@163.com>
+ * Copyright 2010-2013, GuZhiji Studio <gu_zhiji@163.com>
  * This program is licensed under the GPL Version 3
  * ------------------------------------------------------------------
  */
@@ -586,7 +586,7 @@ function IsDBConfigured() {
 function ShowWelcome() {
     echo "<table>";
     echo "<tr><td rowspan=\"2\"><img src=\"images/logo2.gif\"></td><th valign=\"middle\" align=\"center\">欢迎使用 DigitalBox 2.7</th></tr>";
-    echo "<tr><td align=\"center\">Copyright &copy 2010-2012 (by GuZhiji Studio)</td></tr>";
+    echo "<tr><td align=\"center\">Copyright &copy 2010-2013 (by GuZhiji Studio)</td></tr>";
     echo "<tr><td align=\"center\" colspan=2>";
     if (IsDBConfigured()) {
         echo "<input type=\"button\" value=\"使用当前数据库设置\" class=\"button1\" onclick=\"window.location.href='?step=3'\">";

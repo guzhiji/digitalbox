@@ -4,7 +4,7 @@
  * DigitalBox CMS 3.0
  * http://code.google.com/p/digitalbox/
  * 
- * Copyright 2010-2012, GuZhiji Studio <gu_zhiji@163.com>
+ * Copyright 2010-2013, GuZhiji Studio <gu_zhiji@163.com>
  * This program is licensed under the GPL Version 3
  * ------------------------------------------------------------------
  */
@@ -18,25 +18,39 @@ class DeleteCatalog extends ProcessModel {
 
         $id = intval(strGet('id'));
         $username = ''; // $up->GetUID();
-        $name = strPost('name');
-        $pid = intval(strPost('parent'));
+        //$name = strPost('name');
+        //$pid = intval(strPost('parent'));
         $output = NULL;
 
         if (empty($id)) {
-            $output = $this->OutputBox('MsgBox', array('msg' => 'fail'));
+            $output = $this->OutputBox('MsgBox', array(
+                'msg' => 'fail',
+                'back' => 'back'
+                    )
+            );
         } else {
 
-            //create a catalog editor
+            // create a catalog editor
             LoadIBC1Class('CatalogItemEditor', 'data.catalog');
             $editor = new CatalogItemEditor(SERVICE_CATALOG);
-            //open
+            // open
             $editor->Open($id);
+            //TODO get parent id?
             try {
-                //delete
+                // delete
                 $editor->Delete();
-                $output = $this->OutputBox('MsgBox', array('msg' => 'succeed'));
+                // success
+                $output = $this->OutputBox('MsgBox', array(
+                    'msg' => 'succeed'
+                        )
+                );
             } catch (Exception $ex) {
-                $output = $this->OutputBox('MsgBox', array('msg' => 'fail'));
+                // failure
+                $output = $this->OutputBox('MsgBox', array(
+                    'msg' => 'fail',
+                    'back' => 'back'
+                        )
+                );
             }
         }
         //} else {

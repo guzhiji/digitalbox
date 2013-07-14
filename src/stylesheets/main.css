@@ -40,6 +40,8 @@ a.db3_button1:hover, input.db3_button1:hover  {
     margin: 1px;
     color: #ffb300;
     font-weight: bold;
+}
+a.db3_button1:hover{
     height: 28px;
 }
 

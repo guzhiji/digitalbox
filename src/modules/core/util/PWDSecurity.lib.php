@@ -4,7 +4,7 @@
  * a library concerning security of passwords
  * @version 0.6
  * @author Zhiji Gu <gu_zhiji@163.com>
- * @copyright 2010-2012 InterBox Core 1.2 for PHP, GuZhiji Studio
+ * @copyright 2010-2013 InterBox Core 1.2 for PHP, GuZhiji Studio
  * @package interbox.core
  */
 function PWDEncode2($PWDStr, $n) {

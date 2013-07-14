@@ -22,7 +22,7 @@ LoadIBC1Class('DataList', 'datamodels');
  * 
  * @version 0.7.20111213
  * @author Zhiji Gu <gu_zhiji@163.com>
- * @copyright &copy; 2010-2012 InterBox Core 1.2 for PHP, GuZhiji Studio
+ * @copyright &copy; 2010-2013 InterBox Core 1.2 for PHP, GuZhiji Studio
  * @package interbox.core.datamodels.user
  */
 class UserListReader extends DataList {

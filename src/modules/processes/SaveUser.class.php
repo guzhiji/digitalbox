@@ -4,7 +4,7 @@
  * DigitalBox CMS 3.0
  * http://code.google.com/p/digitalbox/
  * 
- * Copyright 2010-2012, GuZhiji Studio <gu_zhiji@163.com>
+ * Copyright 2010-2013, GuZhiji Studio <gu_zhiji@163.com>
  * This program is licensed under the GPL Version 3
  * ------------------------------------------------------------------
  */
@@ -47,30 +47,42 @@ class SaveUser extends ProcessModel {
             switch ($se->getCode()) {
                 case UserInfoEditor::E_UNAUTHORIZED:
                     return $this->OutputBox('MsgBox', array(
-                                'msg' => 'unauthorized' . $se->getMessage()
-                            ));
+                                'msg' => 'unauthorized' . $se->getMessage(),
+                                'back' => 'back'
+                                    )
+                    );
                 case UserInfoEditor::E_EXISTS:
                     return $this->OutputBox('MsgBox', array(
-                                'msg' => 'exists' . $se->getMessage()
-                            ));
+                                'msg' => 'exists' . $se->getMessage(),
+                                'back' => 'back'
+                                    )
+                    );
                 case UserInfoEditor::E_INCOMPLETE:
                     return $this->OutputBox('MsgBox', array(
-                                'msg' => 'incomplete' . $se->getMessage()
-                            ));
+                                'msg' => 'incomplete' . $se->getMessage(),
+                                'back' => 'back'
+                                    )
+                    );
                 case UserInfoEditor::E_INVALID:
                     return $this->OutputBox('MsgBox', array(
-                                'msg' => 'invalid' . $se->getMessage()
-                            ));
+                                'msg' => 'invalid' . $se->getMessage(),
+                                'back' => 'back'
+                                    )
+                    );
             }
         } catch (Exception $e) {
             return $this->OutputBox('MsgBox', array(
-                        'msg' => 'unknown'
-                    ));
+                        'msg' => 'unknown',
+                        'back' => 'back'
+                            )
+            );
         }
 
         return $this->OutputBox('MsgBox', array(
-                    'msg' => 'succeed'
-                ));
+                    'msg' => 'succeed',
+                    'back' => '?module=user'
+                        )
+        );
     }
 
 }

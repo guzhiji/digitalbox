@@ -4,7 +4,7 @@
  * DigitalBox CMS 3.0
  * http://code.google.com/p/digitalbox/
  * 
- * Copyright 2010-2012, GuZhiji Studio <gu_zhiji@163.com>
+ * Copyright 2010-2013, GuZhiji Studio <gu_zhiji@163.com>
  * This program is licensed under the GPL Version 3
  * ------------------------------------------------------------------
  */
@@ -26,11 +26,14 @@ class SaveArticle extends ProcessModel {
 
         LoadIBC1Class('ContentItemEditor', 'data.catalog');
         $editor = new ContentItemEditor(SERVICE_CATALOG);
-        if (empty($id)) {
+
+        if (empty($id)) { // create
             $editor->Create();
+            // set attributes
             $editor->SetUID($username);
             $editor->SetName($name);
             $editor->SetAuthor($author);
+            // save
             try {
                 $editor->SetModule('article');
                 $editor->Save($pid);
@@ -40,6 +43,7 @@ class SaveArticle extends ProcessModel {
                 $kveditor->SetValue('text', $text);
                 $kveditor->Save();
 
+                // success
                 $output = $this->OutputBox('MsgBox', array(
                     'msg' => 'succeed',
                     'back' => queryString(array(
@@ -49,15 +53,21 @@ class SaveArticle extends ProcessModel {
                         )
                 );
             } catch (Exception $ex) {
-                $output = $this->OutputBox('MsgBox', array('msg' => 'fail' . $ex->getMessage()));
+                // failure
+                $output = $this->OutputBox('MsgBox', array(
+                    'msg' => 'fail: ' . $ex->getMessage(),
+                    'back' => 'back'
+                        )
+                );
             }
-        } else {
+        } else { // modify
             $editor->Open($id);
+            // set changed attributes
             if (!empty($name))
                 $editor->SetName($name);
             if (!empty($author))
                 $editor->SetAuthor($author);
-
+            // save
             try {
                 $editor->Save();
 
@@ -66,6 +76,7 @@ class SaveArticle extends ProcessModel {
                 $kveditor->SetValue('text', $text);
                 $kveditor->Save();
 
+                // success
                 $output = $this->OutputBox('MsgBox', array(
                     'msg' => 'succeed',
                     'back' => queryString(array(
@@ -75,11 +86,16 @@ class SaveArticle extends ProcessModel {
                         )
                 );
             } catch (Exception $ex) {
-                $output = $this->OutputBox('MsgBox', array('msg' => 'fail:' . $editor->GetID() . ',' . $ex->getMessage()));
+                // failure
+                $output = $this->OutputBox('MsgBox', array(
+                    'msg' => 'fail:' . $editor->GetID() . ',' . $ex->getMessage(),
+                    'back' => 'back'
+                        )
+                );
             }
         }
         //} else {
-        //    $this->Output('', array());
+        //    $output = $this->Output('', array());
         //}
         return $output;
     }
