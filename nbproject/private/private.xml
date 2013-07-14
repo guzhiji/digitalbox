@@ -2,4 +2,15 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
+        <file>file:/home/guzhiji/workspaces/www/DigitalBox_3/src/templates/ArticleEditorBox/editor.tpl</file>
+        <file>file:/home/guzhiji/workspaces/www/DigitalBox_3/src/templates/CatalogEditorBox/editor.tpl</file>
+        <file>file:/home/guzhiji/workspaces/www/DigitalBox_3/src/modules/processes/SaveCatalog.class.php</file>
+        <file>file:/home/guzhiji/workspaces/www/DigitalBox_3/src/modules/processes/DeleteCatalog.class.php</file>
+        <file>file:/home/guzhiji/workspaces/www/DigitalBox_3/src/modules/processes/SaveUser.class.php</file>
+        <file>file:/home/guzhiji/workspaces/www/DigitalBox_3/src/modules/core/core1.lib.php</file>
+        <file>file:/home/guzhiji/workspaces/www/DigitalBox_3/src/modules/common.module.php</file>
+        <file>file:/home/guzhiji/workspaces/www/DigitalBox_3/src/modules/core/framework/common.lib.php</file>
+        <file>file:/home/guzhiji/workspaces/www/DigitalBox_3/src/stylesheets/main.css</file>
+    </open-files>
 </project-private>
