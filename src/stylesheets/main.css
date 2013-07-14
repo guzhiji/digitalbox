@@ -15,7 +15,7 @@ a:hover {
     cursor: pointer;
 }
 
-a.db3_button1 {
+a.db3_button1, input.db3_button1 {
     background-color: #ffd200;
     border-bottom: #ffa300 1px solid;
     border-left: #ffa300 1px solid;
@@ -31,7 +31,7 @@ a.db3_button1 {
     height: 30px;
 }
 
-a.db3_button1:hover  {
+a.db3_button1:hover, input.db3_button1:hover  {
     border-bottom: #ffa300 2px solid;
     border-left: #ffa300 2px solid;
     border-right: #ffa300 2px solid;
@@ -43,7 +43,7 @@ a.db3_button1:hover  {
     height: 28px;
 }
 
-a.db3_button1_selected {
+a.db3_button1_selected, input.db3_button1_selected {
     border-bottom: #ffa300 2px solid;
     border-left: #ffa300 2px solid;
     border-right: #ffa300 2px solid;

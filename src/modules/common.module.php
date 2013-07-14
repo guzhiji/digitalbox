@@ -168,10 +168,10 @@ function DB3_Button($type, $text, $params = array()) {
         $params['class'] = 'db3_button1';
         $params['class_selected'] = 'db3_button1_selected';
     }
-    return IBC_UI_Button($type, $text, $params);
+    return CreateButton($type, $text, $params);
 }
 
 function DB3_Link($text, $url, $params = array()) {
     $params['url'] = $url;
-    return IBC_UI_Button('link', $text, $params);
+    return CreateButton('link', $text, $params);
 }

@@ -31,10 +31,14 @@
         </script>
     </div>
     <div style="text-align: center; padding-top: 5px;">
-        <input type="submit"
-               class="button1" value="保存" /> 
-        <input type="button" class="button1"
-               value="返回"
-               onclick="window.location='?module=catalog&id={$int_parent}'" />
+        {$this->CreateButton('submit', $this->GetLangData('save'), array(
+            'class' => 'db3_button1'
+        )
+        )}
+        {$this->CreateButton('button', $this->GetLangData('back'), array(
+            'url' => '?module=catalog&id=' . $int_parent,
+            'class' => 'db3_button1'
+        )
+        )}
     </div>
 </form>
