@@ -175,3 +175,16 @@ function DB3_Link($text, $url, $params = array()) {
     $params['url'] = $url;
     return CreateButton('link', $text, $params);
 }
+
+function DB3_Operation_IsConfirmed($operation) {
+    $k = dbPrefix . '_Confirmation';
+    $confirmed = isset($_SESSION[$k]) &&
+            $_SESSION[$k] === $operation &&
+            isset($_GET['confirmed']);
+    unset($_SESSION[$k]);
+    return $confirmed;
+}
+
+function DB3_Operation_ToConfirm($operation) {
+    $_SESSION[dbPrefix . '_Confirmation'] = $operation;
+}

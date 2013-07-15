@@ -12,7 +12,7 @@
 class DeleteCatalog extends ProcessModel {
 
     public function Process() {
-
+        session_start(); // debug use
         //$up = getPassport();
         //if (!$up->IsOnline()) {
 
@@ -22,37 +22,57 @@ class DeleteCatalog extends ProcessModel {
         //$pid = intval(strPost('parent'));
         $output = NULL;
 
-        if (empty($id)) {
+        if (!empty($id)) {
+
+            // create a catalog editor
+            LoadIBC1Class('CatalogItemEditor', 'data.catalog');
+            $editor = new CatalogItemEditor(SERVICE_CATALOG);
+            // get parent id
+            $service = $editor->GetDataService();
+            $catalog = $service->ReadRecord('catalog', 'clgID', $id, array('clgParentID' => 'ParentID'));
+
+            if (!empty($catalog)) { // found
+                $operation = __CLASS__ . "[$id]";
+
+                if (DB3_Operation_IsConfirmed($operation)) {
+                    $editor->Open($id);
+                    // delete
+                    try {
+                        $editor->Delete();
+                        // success
+                        $output = $this->OutputBox('MsgBox', array(
+                            'msg' => 'succeed',
+                            'back' => '?module=catalog&id=' . $catalog->ParentID
+                                )
+                        );
+                    } catch (Exception $ex) {
+                        // failure
+                        $output = $this->OutputBox('MsgBox', array(
+                            'msg' => 'fail',
+                            'back' => 'back'
+                                )
+                        );
+                    }
+                } else { // not confirmed
+                    $output = $this->OutputBox('ConfirmBox', array(
+                        'title' => 'are you sure?',
+                        'msg' => 'are you sure?',
+                        'operation' => $operation,
+                        'yes' => queryString_Append(array('confirmed' => 'yes')),
+                        'no' => '?module=catalog&id=' . $catalog->ParentID
+                            )
+                    );
+                }
+            }
+        }
+        if ($output === NULL) {
             $output = $this->OutputBox('MsgBox', array(
                 'msg' => 'fail',
                 'back' => 'back'
                     )
             );
-        } else {
-
-            // create a catalog editor
-            LoadIBC1Class('CatalogItemEditor', 'data.catalog');
-            $editor = new CatalogItemEditor(SERVICE_CATALOG);
-            // open
-            $editor->Open($id);
-            //TODO get parent id?
-            try {
-                // delete
-                $editor->Delete();
-                // success
-                $output = $this->OutputBox('MsgBox', array(
-                    'msg' => 'succeed'
-                        )
-                );
-            } catch (Exception $ex) {
-                // failure
-                $output = $this->OutputBox('MsgBox', array(
-                    'msg' => 'fail',
-                    'back' => 'back'
-                        )
-                );
-            }
         }
+
         //} else {
         //    $this->Output('', array());
         //}

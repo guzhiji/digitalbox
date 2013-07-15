@@ -17,10 +17,13 @@ class ConfirmBox extends BoxModel {
     }
 
     protected function LoadContent() {
+        session_start(); // debug use
+        DB3_Operation_ToConfirm($this->GetBoxArgument('operation'));
         $this->SetField('Title', $this->GetBoxArgument('title'));
         return $this->TransformTpl('confirm', array(
                     'msg' => $this->GetBoxArgument('msg'),
-                    'url' => $this->GetBoxArgument('url')
+                    'yes' => $this->GetBoxArgument('yes'),
+                    'no' => $this->GetBoxArgument('no')
                 ));
     }
 

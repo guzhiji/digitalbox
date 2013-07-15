@@ -10,7 +10,7 @@
  */
 abstract class FormModel extends BoxModel {
 
-    public $id_naming = 'field_%s';
+    public static $id_naming = 'field_%s';
 
     function __construct($classname = NULL, $args = array()) {
         parent::__construct(empty($classname) ? __CLASS__ : $classname, $args);
@@ -20,7 +20,7 @@ abstract class FormModel extends BoxModel {
 
     public function CreateField($fieldname, $type, $label = '', $value = '', $params = array()) {
 
-        $id = sprintf($this->id_naming, $fieldname);
+        $id = sprintf(FormModel::$id_naming, $fieldname);
 
         if (empty($label)) {
             $label_html = '';

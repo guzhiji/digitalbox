@@ -4,8 +4,16 @@
     </tr>
     <tr>
         <td align="center">
-            <input class="button1" type="button" value="{$this->GetLangData('yes')}" onclick="location.href='{$url}'" />
-            <input class="button1" type="button" value="{$this->GetLangData('no')}" onclick="history.back(1)" />
+            {$this->CreateButton('link', $this->GetLangData('yes'), array(
+                'url' => $yes,
+                'class' => 'db3_button1'
+            )
+            )}
+            {$this->CreateButton('link', $this->GetLangData('no'), array(
+                'url' => $no,
+                'class' => 'db3_button1'
+            )
+            )}
         </td>
     </tr>
 </table>

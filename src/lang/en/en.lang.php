@@ -23,6 +23,8 @@ return array(
         3 => 'all media',
         4 => 'all software'
     ),
+    'yes' => '是',
+    'no' => '否',
     'add' => 'add',
     'save' => 'save',
     'reset' => 'reset',
