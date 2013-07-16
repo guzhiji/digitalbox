@@ -12,18 +12,18 @@
 require("modules/common.module.php");
 require("modules/pages/PortalPage.class.php");
 
-$portalpage = new PortalPage();
-$portalpage->Prepare(array(
+$page = new PublicPage();
+$page->Prepare(array(
     "boxes" => array(
         array("TopBox", array("new", 2)),
         array("TopBox", array("popular", 2)),
         array("AdsBox", array("ad_1", TRUE))
     )
 ));
-$portalpage->Prepare(array(
+$page->Prepare(array(
     "boxfactory" => array("ChannelBoxList", NULL)
 ));
-$portalpage->Prepare(array(
+$page->Prepare(array(
     "boxes" => array(
         array("AdsBox", array("ad_2", TRUE)),
         array("NoticeBoardBox", NULL),
@@ -38,5 +38,5 @@ $portalpage->Prepare(array(
     )
 ));
 
-$portalpage->SetTitle(GetLangData("homepage"));
-$portalpage->Show();
+$page->SetTitle(GetLangData("homepage"));
+$page->Show();

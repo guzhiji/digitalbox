@@ -56,7 +56,10 @@ return array(
     ),
     'boxes' => array(
         array('MsgBox', array(
+                'title' => 'Admin Home',
                 'msg' => <<<EOC
+<a href="index.php">public home</a>
+<br />
 <a href="?module=catalog">catalog</a>
 <br />
 <a href="?module=user">user</a>
@@ -64,6 +67,7 @@ return array(
 <a href="?module=languages">languages</a>
 EOC
             )
-        )
+        ),
+        'Right' => array('AdminMenuBox', NULL)
     )
 );

@@ -10,10 +10,10 @@
  */
 
 require('modules/common.module.php');
-require('modules/pages/PublicPage.class.php');
+require('modules/pages/AdminPage.class.php');
 
-$page = new PublicPage();
-$page->Prepare(include('conf/publicpage.conf.php'));
+$page = new AdminPage();
+$page->Prepare(include('conf/adminpage.conf.php'));
 
 $page->SetTitle(GetLangData('homepage'));
 $page->Show();

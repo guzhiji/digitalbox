@@ -164,10 +164,8 @@ function IsFileTypeAllowed($type) {
 }
 
 function DB3_Button($type, $text, $params = array()) {
-    if ($type == 'link') {
-        $params['class'] = 'db3_button1';
-        $params['class_selected'] = 'db3_button1_selected';
-    }
+    $params['class'] = 'db3_button1';
+    $params['class_selected'] = 'db3_button1_selected';
     return CreateButton($type, $text, $params);
 }
 

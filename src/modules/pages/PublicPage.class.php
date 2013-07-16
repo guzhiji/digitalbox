@@ -9,7 +9,7 @@
  * ------------------------------------------------------------------
  */
 
-class PortalPage extends PageModel {
+class PublicPage extends PageModel {
 
     private $_timer;
 
@@ -17,15 +17,18 @@ class PortalPage extends PageModel {
      * constructor
      */
     function __construct() {
-        parent::__construct('portalpage', NULL);
+        parent::__construct('publicpage', NULL);
         $this->contentFieldName = 'Left';
+    }
+
+    public function GetVersion() {
+        return 'DigitalBox CMS ' . dbVersion;
     }
 
     public function After($page) {
         //$this->AddBox(new BannerBox());
         //$this->AddBox(new ChannelNaviBox("TopNaviBar"));
         //$this->AddBox(new BottomNaviBox());
-        $this->SetField("Version", '');
         $this->SetField("BottomNaviBar", '');
         $this->SetField("Right", '');
         $this->SetField("TopNaviBar", '');
@@ -45,18 +48,6 @@ class PortalPage extends PageModel {
         LoadIBC1Class('Stopwatch', 'util');
         $this->_timer = new Stopwatch();
         $this->AddCSSFile('main.css', 1);
-        //$this->SetDescription(GetSettingValue("site_keywords"));
-        //$this->AddKeywords(GetSettingValue("site_keywords"));
-        //icon
-//        $icon = GetSettingValue("icon_URL");
-//        if (!empty($icon)) {
-//            $this->SetIcon($icon);
-//        }
-//        //addon scripts
-//        $scripts = explode(",", GetSettingValue("portal_scripts"));
-//        foreach ($scripts as $s) {
-//            $this->AddJSFile(GetSysResPath("{$s}.js", "scripts/addons"));
-//        }
     }
 
 }

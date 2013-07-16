@@ -12,7 +12,6 @@
 class DeleteCatalog extends ProcessModel {
 
     public function Process() {
-        session_start(); // debug use
         //$up = getPassport();
         //if (!$up->IsOnline()) {
 
@@ -35,6 +34,8 @@ class DeleteCatalog extends ProcessModel {
                 $operation = __CLASS__ . "[$id]";
 
                 if (DB3_Operation_IsConfirmed($operation)) {
+                    // confirmed
+
                     $editor->Open($id);
                     // delete
                     try {
@@ -49,11 +50,13 @@ class DeleteCatalog extends ProcessModel {
                         // failure
                         $output = $this->OutputBox('MsgBox', array(
                             'msg' => 'fail',
-                            'back' => 'back'
+                            'back' => '?module=catalog&id=' . $catalog->ParentID
                                 )
                         );
                     }
-                } else { // not confirmed
+                } else {
+                    // not confirmed
+
                     $output = $this->OutputBox('ConfirmBox', array(
                         'title' => 'are you sure?',
                         'msg' => 'are you sure?',
@@ -66,8 +69,9 @@ class DeleteCatalog extends ProcessModel {
             }
         }
         if ($output === NULL) {
+            // either catalog not found or id not provided
             $output = $this->OutputBox('MsgBox', array(
-                'msg' => 'fail',
+                'msg' => 'fail: not found',
                 'back' => 'back'
                     )
             );

@@ -9,7 +9,7 @@
  * ------------------------------------------------------------------
  */
 
-class AdminMenuBox extends BoxModel {
+class PublicMenuBox extends BoxModel {
 
     function __construct($args = array()) {
         parent::__construct(__CLASS__, $args);
@@ -35,12 +35,6 @@ class AdminMenuBox extends BoxModel {
                 'text' => 'Catalogs',
                 'url' => queryString(array(
                     'module' => 'catalog'
-                ))
-            ),
-            array(
-                'text' => 'Users',
-                'url' => queryString(array(
-                    'module' => 'user'
                 ))
             ),
             array(

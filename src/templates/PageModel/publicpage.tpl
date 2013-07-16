@@ -1,8 +1,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-        <meta name="version" content="{$Version}" />
-        <meta name="generator" content="{$Version}" />
+        <meta name="version" content="{$this->GetVersion()}" />
+        <meta name="generator" content="{$this->GetVersion()}" />
         <meta name="keywords" content="{$Keywords}" />
         <meta name="description" content="{$Description}" />
         <title>{$Title} - {$SiteName}</title>
@@ -48,7 +48,7 @@
                         </table>
                     </div>
                     <div class="statement_text" align="center">{$Footer}</div>
-                    <div align="center">Powered by {$Version}</div>
+                    <div align="center">Powered by {$this->GetVersion()}</div>
                 </td>
             </tr>
             <tr>

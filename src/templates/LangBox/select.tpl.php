@@ -1,7 +1,7 @@
 <div align="center">
     <form name="lang_select" method="post" action="?module=languages&function=select">
         <input type="hidden" name="from" value="<?php echo $referrer; ?>" />
-        <table>
+        <table class="db3_list1">
             <?php
             foreach ($languages as $code => $name):
                 ?>
@@ -12,6 +12,6 @@
                 endforeach;
                 ?>
         </table>
-        <div align="center"><input type="submit" class="button1" value="<?php echo $this->GetLangData('ok'); ?>" /></div>
+        <div align="center"><?php echo DB3_Button('submit', $this->GetLangData('ok')); ?></div>
     </form>
 </div>
