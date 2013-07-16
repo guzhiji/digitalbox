@@ -53,13 +53,10 @@ class AdminPage extends PageModel {
 
         //passport
         session_start(); // for debug purpose
-//        require("modules/Passport.class.php");
-//        global $_passport;
-//        if (!isset($_passport))
-//            $_passport = new Passport();
-//        if (!$_passport->check()) {
-//            PageRedirect("login.php");
-//        }
+        $p = DB3_Passport();
+        if (!$p->IsOnline()) {
+            PageRedirect("index.php?module=user");
+        }
     }
 
 }

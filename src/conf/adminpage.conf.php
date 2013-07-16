@@ -18,6 +18,12 @@ return array(
             ),
             'box' => array('CatalogEditorBox', NULL)
         ),
+        'content/article' => array(
+            'boxes' => array(
+                array('ArticleBox', NULL),
+                'Right' => array('AdminMenuBox', NULL)
+            )
+        ),
         'content/article/editor' => array(
             'functions' => array(
                 'save' => array('SaveArticle', NULL)
@@ -26,7 +32,8 @@ return array(
         ),
         'user' => array(
             'functions' => array(
-                'delete' => array('DeleteUser', NULL)
+                'delete' => array('DeleteUser', NULL),
+                'logout' => array('Login', NULL)
             ),
             'boxes' => array(
                 array('UserListBox', NULL),

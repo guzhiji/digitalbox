@@ -43,10 +43,18 @@ class CatalogListBox extends BoxModel {
         $reader->LoadList();
         $reader->MoveFirst();
         $this->reader = $reader;
-        return $this->RenderPHPTpl('admin', array(
-                    'int_id' => $id,
-                    'int_parent' => $parentid
-                ));
+
+        $p = DB3_Passport();
+        if ($p->IsOnline())
+            return $this->RenderPHPTpl('admin', array(
+                        'int_id' => $id,
+                        'int_parent' => $parentid
+                    ));
+        else
+            return $this->RenderPHPTpl('public', array(
+                        'int_id' => $id,
+                        'int_parent' => $parentid
+                    ));
     }
 
     public function After($page) {

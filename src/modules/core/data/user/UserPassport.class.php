@@ -41,17 +41,16 @@ class UserPassport extends DataService {
         return NULL;
     }
 
-    protected function SetValue($name, $value) {
+    public function SetValue($name, $value) {
         $_SESSION[$this->GetDataTableName($name)] = $value;
+    }
+
+    public function RemoveValue($name) {
+        unset($_SESSION[$this->GetDataTableName($name)]);
     }
 
     public function IsOnline() {
         return $this->GetValue('UID') != NULL;
-//        if ($this->GetValue('UID') == NULL) {
-//            @session_destroy();
-//            return FALSE;
-//        }
-//        return TRUE;
     }
 
     public function IsUserAdmin() {

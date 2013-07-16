@@ -15,6 +15,12 @@ return array(
                 'Right' => array('PublicMenuBox', NULL)
             )
         ),
+        'user' => array(
+            'functions' => array(
+                'login' => array('Login', NULL)
+            ),
+            'box' => array('LoginBox', NULL)
+        ),
         'languages' => array(
             'functions' => array(
                 'select' => array('SelectLanguage', NULL)

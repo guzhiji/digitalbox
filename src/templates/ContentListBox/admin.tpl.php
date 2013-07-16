@@ -5,7 +5,7 @@
         while ($item = $this->reader->GetEach()):
             ?>
             <tr>
-                <td><?php echo DB3_Link($item->Name, "index.php?module=content/{$item->Module}&id={$item->ID}"); ?></td>
+                <td><?php echo DB3_Link($item->Name, "?module=content/{$item->Module}&id={$item->ID}"); ?></td>
                 <td><?php echo $item->UID ?></td>
                 <td class="button">
                     <?php echo DB3_Button('link', '编辑', array('url' => "?module=content/{$item->Module}/editor&id={$item->ID}")); ?>

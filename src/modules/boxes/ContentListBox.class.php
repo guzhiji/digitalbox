@@ -22,14 +22,16 @@ class ContentListBox extends BoxModel {
         $reader->LoadList();
         $reader->MoveFirst();
         $this->reader = $reader;
-//        if session started
-        return $this->RenderPHPTpl('admin', array(
-                    'int_catalogid' => $id
-                ));
-//        else
-//        return $this->RenderPHPTpl('public', array(
-//                    'int_catalogid' => $id
-//                ));
+
+        $p = DB3_Passport();
+        if ($p->IsOnline())
+            return $this->RenderPHPTpl('admin', array(
+                        'int_catalogid' => $id
+                    ));
+        else
+            return $this->RenderPHPTpl('public', array(
+                        'int_catalogid' => $id
+                    ));
     }
 
     public function After($page) {

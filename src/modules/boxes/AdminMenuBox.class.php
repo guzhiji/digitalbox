@@ -48,6 +48,13 @@ class AdminMenuBox extends BoxModel {
                 'url' => queryString(array(
                     'module' => 'languages'
                 ))
+            ),
+            array(
+                'text' => 'Logout',
+                'url' => queryString(array(
+                    'module' => 'user',
+                    'function' => 'logout'
+                ))
             )
         ));
 

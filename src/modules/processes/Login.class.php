@@ -12,22 +12,22 @@
 class Login extends ProcessModel {
 
     public function Process() {
-        $up = getPassport();
-        if (strGet('logout') != '') {
-            $username = strPost('username');
-            $password = strPost('password');
+        $p = DB3_Passport();
+        if (strGet('function') == 'login') {
+            $username = strPost('uid');
+            $password = strPost('pwd');
             try {
-                $up->Login($username, $password);
+                $p->Login($username, $password);
                 PageRedirect('admin.php');
             } catch (Exception $ex) {
-                $this->output_box = '';
-                $this->output_box_params = array(
-                    $ex->getMessage()
-                );
+                return $this->OutputBox('MsgBox', array(
+                            'msg' => $ex->getMessage(),
+                            'back' => 'back'
+                        ));
             }
         } else {
-            $up->Logout();
-            PageRedirect('login.php');
+            $p->Logout();
+            PageRedirect('index.php?module=user');
         }
     }
 

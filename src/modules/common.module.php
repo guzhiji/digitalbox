@@ -30,18 +30,6 @@ require 'modules/core/core1.lib.php';
 LoadIBC1Lib('common', 'framework');
 
 //-----------------------------------
-//session
-
-function getPassport() {
-    global $_passport;
-    if (!isset($_passport)) {
-        LoadIBC1Class('UserPassport', 'datamodels.user');
-        $_passport = new UserPassport(SERVICE_USER);
-    }
-    return $_passport;
-}
-
-//-----------------------------------
 
 function GetAds($adsname) {
     if ($adsname == "")
@@ -163,6 +151,8 @@ function IsFileTypeAllowed($type) {
     return FALSE;
 }
 
+//################################
+
 function DB3_Button($type, $text, $params = array()) {
     $params['class'] = 'db3_button1';
     $params['class_selected'] = 'db3_button1_selected';
@@ -175,14 +165,29 @@ function DB3_Link($text, $url, $params = array()) {
 }
 
 function DB3_Operation_IsConfirmed($operation) {
-    $k = dbPrefix . '_Confirmation';
-    $confirmed = isset($_SESSION[$k]) &&
-            $_SESSION[$k] === $operation &&
+    $p = DB3_Passport();
+    $confirmed = $p->GetValue('Confirmation') === $operation &&
             isset($_GET['confirmed']);
-    unset($_SESSION[$k]);
+    $p->RemoveValue('Confirmation');
+//    $k = dbPrefix . '_Confirmation';
+//    $confirmed = isset($_SESSION[$k]) &&
+//            $_SESSION[$k] === $operation &&
+//            isset($_GET['confirmed']);
+//    unset($_SESSION[$k]);
     return $confirmed;
 }
 
 function DB3_Operation_ToConfirm($operation) {
-    $_SESSION[dbPrefix . '_Confirmation'] = $operation;
+    $p = DB3_Passport();
+    $p->SetValue('Confirmation', $operation);
+//    $_SESSION[dbPrefix . '_Confirmation'] = $operation;
+}
+
+function DB3_Passport() {
+    global $_passport;
+    if (!isset($_passport)) {
+        LoadIBC1Class('UserPassport', 'data.user');
+        $_passport = new UserPassport(SERVICE_USER);
+    }
+    return $_passport;
 }

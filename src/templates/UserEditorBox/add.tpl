@@ -12,7 +12,12 @@
         <input type="password" name="repeat" />
     </div>
     <div style="text-align: center;">
-        <input type="submit" class="button1" value="{$this->GetLangData('save')}" />
-        <input type="button" class="button1" value="{$this->GetLangData('cancel')}" onclick="window.location.href='?module=user'" />
+        {$this->CreateButton('submit', $this->GetLangData('save'), array(
+            'class' => 'db3_button1'
+        ))}
+        {$this->CreateButton('button', $this->GetLangData('cancel'), array(
+            'url' => '?module=user',
+            'class' => 'db3_button1'
+        ))}
     </div>
 </form>
