@@ -11,19 +11,24 @@
 
 class SaveUser extends ProcessModel {
 
-    private $mode;
+    private $_mode;
 
     function __construct($args) {
-        $this->mode = $args['mode'];
+        $this->_mode = $args['mode'];
+    }
+
+    public function Auth($page) {
+        $page->CheckPassport();
+        return TRUE;
     }
 
     public function Process() {
 
         LoadIBC1Class('UserInfoEditor', 'data.user');
-        $e = new UserInfoEditor(SERVICE_USER);
+        $e = new UserInfoEditor(DB3_SERVICE_USER);
 
         try {
-            switch ($this->mode) {
+            switch ($this->_mode) {
                 case 'add':
 
                     $e->Create(readParam('post', 'uid'));

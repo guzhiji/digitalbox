@@ -1,14 +1,15 @@
 <?php
 
 //--Database---------------------------------
-define("dbMySQLHostName", "localhost");
-define("dbMySQLUserName", "guzhiji");
-define("dbMySQLPassword", "");
-define("dbDatabaseName", "DigitalBoxV2");
+define('DB3_DB_Host', 'localhost:3306');
+define('DB3_DB_User', 'root');
+define('DB3_DB_Pwd', '');
+define('DB3_DB_Name', 'digitalbox3_test');
+define('DB3_DB_Driver', 'mysqli');
 //--Prefix-----------------------------------
 //如果在您的服务器上使用了多个DigitalBox 3.x，则应使用不同的dbPrefix
-//一般可默认为“DB2”
-define("dbPrefix", "DB3");
+//一般可默认为“DB3”
+define("DB3_Prefix", "DB3");
 
 define('IBC1_DEFAULT_LANGUAGE', 'zh-cn');
 
@@ -60,22 +61,28 @@ $GLOBALS['IBC1_HTMLFILTER_CONFIG'] = array(
     )
 );
 
-$GLOBALS["IBC1_DATASERVICES"] = array(
-    'catalogtest' => array(
+define('DB3_SERVICE_CATALOG', 'catalogtest');
+define('DB3_SERVICE_USER', 'usertest');
+define('DB3_SERVICE_ARTICLE', 'articletest');
+define('DB3_SERVICE_PHOTO', 'phototest');
+define('DB3_SERVICE_COMMENT', 'commenttest');
+
+$GLOBALS['IBC1_DATASERVICES'] = array(
+    DB3_SERVICE_CATALOG => array(
         'type' => 'catalog',
-        'host' => 'localhost:3306',
-        'user' => 'root',
-        'pwd' => '',
-        'dbname' => 'digitalbox3_test',
-        'driver' => 'mysqli'
+        'host' => DB3_DB_Host,
+        'user' => DB3_DB_User,
+        'pwd' => DB3_DB_Pwd,
+        'dbname' => DB3_DB_Name,
+        'driver' => DB3_DB_Driver
     ),
-    'usertest' => array(
+    DB3_SERVICE_USER => array(
         'type' => 'user',
-        'host' => 'localhost:3306',
-        'user' => 'root',
-        'pwd' => '',
-        'dbname' => 'digitalbox3_test',
-        'driver' => 'mysqli',
+        'host' => DB3_DB_Host,
+        'user' => DB3_DB_User,
+        'pwd' => DB3_DB_Pwd,
+        'dbname' => DB3_DB_Name,
+        'driver' => DB3_DB_Driver,
         'extra' => array(
             'user_levels' => array(
                 'level 1',
@@ -88,13 +95,13 @@ $GLOBALS["IBC1_DATASERVICES"] = array(
             )
         )
     ),
-    'articletest' => array(
+    DB3_SERVICE_ARTICLE => array(
         'type' => 'keyvalue',
-        'host' => 'localhost:3306',
-        'user' => 'root',
-        'pwd' => '',
-        'dbname' => 'digitalbox3_test',
-        'driver' => 'mysqli',
+        'host' => DB3_DB_Host,
+        'user' => DB3_DB_User,
+        'pwd' => DB3_DB_Pwd,
+        'dbname' => DB3_DB_Name,
+        'driver' => DB3_DB_Driver,
         'extra' => array(
             'binding_type' => 0, //optional,IBC1_DATATYPE_INTEGER
             'binding_length' => 10, //optional
@@ -103,13 +110,28 @@ $GLOBALS["IBC1_DATASERVICES"] = array(
             'time_included' => FALSE//optional, FALSE by default
         )
     ),
-    'commenttest' => array(
+    DB3_SERVICE_PHOTO => array(
         'type' => 'keyvalue',
-        'host' => 'localhost:3306',
-        'user' => 'root',
-        'pwd' => '',
-        'dbname' => 'digitalbox3_test',
-        'driver' => 'mysqli',
+        'host' => DB3_DB_Host,
+        'user' => DB3_DB_User,
+        'pwd' => DB3_DB_Pwd,
+        'dbname' => DB3_DB_Name,
+        'driver' => DB3_DB_Driver,
+        'extra' => array(
+            'binding_type' => 0, //optional,IBC1_DATATYPE_INTEGER
+            'binding_length' => 10, //optional
+            'value_type' => 2, //IBC1_DATATYPE_PLAINTEXT
+            'value_length' => 1023,
+            'time_included' => FALSE//optional, FALSE by default
+        )
+    ),
+    DB3_SERVICE_COMMENT => array(
+        'type' => 'keyvalue',
+        'host' => DB3_DB_Host,
+        'user' => DB3_DB_User,
+        'pwd' => DB3_DB_Pwd,
+        'dbname' => DB3_DB_Name,
+        'driver' => DB3_DB_Driver,
         'extra' => array(
             'binding_type' => 0, //optional,IBC1_DATATYPE_INTEGER
             'binding_length' => 10, //optional

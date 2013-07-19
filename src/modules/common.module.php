@@ -9,19 +9,12 @@
  * ------------------------------------------------------------------
  */
 
-require("config.php");
+require 'config.php';
 
-define("dbAuthor", "GuZhiji Studio");
-define("dbMail", "gu_zhiji@163.com");
-define("dbVersion", "3.0");
-define("dbTime", "2010-2013");
-
-define("dbEncoding", "utf-8");
-
-define('SERVICE_CATALOG', 'catalogtest');
-define('SERVICE_USER', 'usertest');
-define('SERVICE_ARTICLE', 'articletest');
-define('SERVICE_COMMENT', 'commenttest');
+define('DB3_Author', 'GuZhiji Studio');
+define('DB3_Mail', 'gu_zhiji@163.com');
+define('DB3_Version', '3.0');
+define('DB3_Time', '2010-2013');
 
 if (!defined("dbUploadPath"))
     define("dbUploadPath", "uploadedfiles");
@@ -83,8 +76,8 @@ function Len_Control($content, $max_len) {
         return $content;
     } else {
         if (function_exists("mb_strlen")) {
-            if (mb_strlen($content, dbEncoding) > $max_len)
-                return mb_substr($content, 0, $max_len, dbEncoding) . "...";
+            if (mb_strlen($content, IBC1_ENCODING) > $max_len)
+                return mb_substr($content, 0, $max_len, IBC1_ENCODING) . "...";
         }else {
             if (strlen($content) > $max_len)
                 return substr($content, 0, $max_len) . "...";
@@ -187,7 +180,78 @@ function DB3_Passport() {
     global $_passport;
     if (!isset($_passport)) {
         LoadIBC1Class('UserPassport', 'data.user');
-        $_passport = new UserPassport(SERVICE_USER);
+        $_passport = new UserPassport(DB3_SERVICE_USER);
     }
     return $_passport;
+}
+
+function DB3_ContentType($type) {
+    global $_contenttypes;
+    if (!isset($_contenttypes))
+        $_contenttypes = include('conf/contenttypes.conf.php');
+    if (isset($_contenttypes[$type]))
+        return $_contenttypes[$type];
+    return array();
+}
+
+function DB3_ContentType_Data($type, $key) {
+    $data = DB3_ContentType($type);
+    if (isset($data[$key]))
+        return $data[$key];
+    return NULL;
+}
+
+function DB3_URL($path, $module = '', $function = '', $params = array()) {
+    // generate querystring
+    $q = '';
+    if (!empty($module)) {
+        $q .= '?module=' . $module;
+        if (!empty($function))
+            $q .= '&function=' . $function;
+    }
+    foreach ($params as $k => $v) {
+        if (!empty($q))
+            $q .= '&';
+        $q .= $k . '=' . urlencode($v);
+    }
+    // get path
+    if (substr($path, 0, 1) != '/') {
+        if (defined('DB3_ROOT_WEB'))
+            $path = DB3_ROOT_WEB . '/' . $path;
+        else
+            $path = '/' . $path;
+    }
+    if (empty($q))
+        return $path;
+    else
+        return $path . '?' . $q;
+}
+
+function DB3_URL_Copy($params = array()) {
+
+    if (empty($_GET) && empty($params))
+        return $_SERVER['SCRIPT_NAME'];
+
+    // modify GET parameters
+    $q = $_GET;
+    foreach ($params as $k => $v) {
+        if (empty($k))
+            continue;
+        if (empty($v) && $v !== 0) {
+            if (isset($q[$k]))
+                unset($q[$k]);
+            continue;
+        }
+        $q[$k] = urlencode($v);
+    }
+
+    // generate querystring
+    $qs = '';
+    foreach ($q as $k => $v) {
+        if (!empty($qs))
+            $qs .= '&';
+        $qs .= $k . '=' . urlencode($v);
+    }
+
+    return $_SERVER['SCRIPT_NAME'] . '?' . $qs;
 }

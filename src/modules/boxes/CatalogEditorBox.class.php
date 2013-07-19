@@ -32,7 +32,7 @@ class CatalogEditorBox extends BoxModel {
             );
         }
         LoadIBC1Class('CatalogListReader', 'data.catalog');
-        $reader = new CatalogListReader(SERVICE_CATALOG);
+        $reader = new CatalogListReader(DB3_SERVICE_CATALOG);
         try {
             $c = $reader->GetCatalog($id);
 
@@ -62,7 +62,7 @@ class CatalogEditorBox extends BoxModel {
     }
 
     public function Before($page) {
-        
+        $page->CheckPassport();
     }
 
 }

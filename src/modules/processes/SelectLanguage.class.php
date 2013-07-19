@@ -11,6 +11,10 @@
 
 class SelectLanguage extends ProcessModel {
 
+    public function Auth($page) {
+        return TRUE;
+    }
+
     public function Process() {
         $languages = GetLanguages();
         $lang = strPost('lang');

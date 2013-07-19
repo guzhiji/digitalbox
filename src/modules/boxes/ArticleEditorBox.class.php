@@ -26,9 +26,9 @@ class ArticleEditorBox extends BoxModel {
                     'back' => 'back'
                 ));
             } else {
-                LoadIBC1Class('CatalogListReader', 'data.catalog');
                 try {
-                    $reader = new CatalogListReader(SERVICE_CATALOG);
+                    LoadIBC1Class('CatalogListReader', 'data.catalog');
+                    $reader = new CatalogListReader(DB3_SERVICE_CATALOG);
                     $catalog = $reader->GetCatalog($catalogid);
 
                     $this->SetField('Title', 'New Article');
@@ -50,13 +50,13 @@ class ArticleEditorBox extends BoxModel {
             }
             return '';
         } else {
-            LoadIBC1Class('ContentListReader', 'data.catalog');
             try {
-                $reader = new ContentListReader(SERVICE_CATALOG);
+                LoadIBC1Class('ContentListReader', 'data.catalog');
+                $reader = new ContentListReader(DB3_SERVICE_CATALOG);
                 $c = $reader->GetContent($id);
 
                 LoadIBC1Class('UniqueKeyValueReader', 'data.keyvalue');
-                $kvreader = new UniqueKeyValueReader(SERVICE_ARTICLE, $id);
+                $kvreader = new UniqueKeyValueReader(DB3_SERVICE_ARTICLE, $id);
                 $text = $kvreader->GetValue('text');
 
                 $this->SetField('Title', 'Edit Article');
@@ -84,7 +84,7 @@ class ArticleEditorBox extends BoxModel {
     }
 
     public function Before($page) {
-        
+        $page->CheckPassport();
     }
 
 }

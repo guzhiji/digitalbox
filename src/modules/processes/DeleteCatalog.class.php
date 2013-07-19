@@ -11,9 +11,12 @@
 
 class DeleteCatalog extends ProcessModel {
 
+    public function Auth($page) {
+        $page->CheckPassport();
+        return TRUE;
+    }
+
     public function Process() {
-        //$up = getPassport();
-        //if (!$up->IsOnline()) {
 
         $id = intval(strGet('id'));
         $username = ''; // $up->GetUID();
@@ -25,7 +28,7 @@ class DeleteCatalog extends ProcessModel {
 
             // create a catalog editor
             LoadIBC1Class('CatalogItemEditor', 'data.catalog');
-            $editor = new CatalogItemEditor(SERVICE_CATALOG);
+            $editor = new CatalogItemEditor(DB3_SERVICE_CATALOG);
             // get parent id
             $service = $editor->GetDataService();
             $catalog = $service->ReadRecord('catalog', 'clgID', $id, array('clgParentID' => 'ParentID'));
@@ -77,9 +80,6 @@ class DeleteCatalog extends ProcessModel {
             );
         }
 
-        //} else {
-        //    $this->Output('', array());
-        //}
         return $output;
     }
 

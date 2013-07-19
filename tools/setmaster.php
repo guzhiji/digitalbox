@@ -58,7 +58,7 @@ if (strtolower(strGet("command")) == "update") {
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-        <title>更改站长 - 附加工具 - DigitalBox <?php echo dbVersion; ?></title>
+        <title>更改站长 - 附加工具 - DigitalBox <?php echo DB3_Version; ?></title>
         <link rel="stylesheet" href="stylesheets/main.css" />
         <link rel="Shortcut Icon" href="DigitalBoxIcon.ico" />
     </head>

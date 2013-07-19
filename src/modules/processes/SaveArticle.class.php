@@ -11,10 +11,12 @@
 
 class SaveArticle extends ProcessModel {
 
-    public function Process() {
+    public function Auth($page) {
+        $page->CheckPassport();
+        return TRUE;
+    }
 
-        //$up = getPassport();
-        //if (!$up->IsOnline()) {
+    public function Process() {
 
         $id = intval(readParam('get|post', 'id'));
         $username = ''; // $up->GetUID();
@@ -25,7 +27,7 @@ class SaveArticle extends ProcessModel {
         $output = NULL;
 
         LoadIBC1Class('ContentItemEditor', 'data.catalog');
-        $editor = new ContentItemEditor(SERVICE_CATALOG);
+        $editor = new ContentItemEditor(DB3_SERVICE_CATALOG);
 
         if (empty($id)) { // create
             $editor->Create();
@@ -39,7 +41,7 @@ class SaveArticle extends ProcessModel {
                 $editor->Save($pid);
 
                 LoadIBC1Class('UniqueKeyValueEditor', 'data.keyvalue');
-                $kveditor = new UniqueKeyValueEditor(SERVICE_ARTICLE, $editor->GetID());
+                $kveditor = new UniqueKeyValueEditor(DB3_SERVICE_ARTICLE, $editor->GetID());
                 $kveditor->SetValue('text', $text);
                 $kveditor->Save();
 
@@ -72,7 +74,7 @@ class SaveArticle extends ProcessModel {
                 $editor->Save();
 
                 LoadIBC1Class('UniqueKeyValueEditor', 'data.keyvalue');
-                $kveditor = new UniqueKeyValueEditor(SERVICE_ARTICLE, $editor->GetID());
+                $kveditor = new UniqueKeyValueEditor(DB3_SERVICE_ARTICLE, $editor->GetID());
                 $kveditor->SetValue('text', $text);
                 $kveditor->Save();
 
@@ -94,9 +96,6 @@ class SaveArticle extends ProcessModel {
                 );
             }
         }
-        //} else {
-        //    $output = $this->Output('', array());
-        //}
         return $output;
     }
 

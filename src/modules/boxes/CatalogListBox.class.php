@@ -22,7 +22,7 @@ class CatalogListBox extends BoxModel {
         $this->SetField('Title', 'Catalogs');
         $id = intval(strGet('id'));
         LoadIBC1Class('CatalogListReader', 'data.catalog');
-        $reader = new CatalogListReader(SERVICE_CATALOG);
+        $reader = new CatalogListReader(DB3_SERVICE_CATALOG);
 
         //get parent catalog
         $parentid = 0;
@@ -63,14 +63,17 @@ class CatalogListBox extends BoxModel {
 
     public function Before($page) {
         LoadIBC1Class('CatalogServiceManager', 'data.catalog');
-        $m = new CatalogServiceManager(SERVICE_CATALOG);
+        $m = new CatalogServiceManager(DB3_SERVICE_CATALOG);
         if (!$m->IsInstalled())
             $m->Install();
         LoadIBC1Class('KeyValueServiceManager', 'data.keyvalue');
-        $m = new KeyValueServiceManager(SERVICE_ARTICLE);
+        $m = new KeyValueServiceManager(DB3_SERVICE_ARTICLE);
         if (!$m->IsInstalled())
             $m->Install();
-        $m = new KeyValueServiceManager(SERVICE_COMMENT);
+        $m = new KeyValueServiceManager(DB3_SERVICE_PHOTO);
+        if (!$m->IsInstalled())
+            $m->Install();
+        $m = new KeyValueServiceManager(DB3_SERVICE_COMMENT);
         if (!$m->IsInstalled())
             $m->Install();
     }

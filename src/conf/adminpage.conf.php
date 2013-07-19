@@ -18,16 +18,17 @@ return array(
             ),
             'box' => array('CatalogEditorBox', NULL)
         ),
-        'content/article' => array(
+        'content' => array(
             'boxes' => array(
-                array('ArticleBox', NULL),
+                array('ContentBox', NULL),
                 'Right' => array('AdminMenuBox', NULL)
             )
         ),
-        'content/article/editor' => array(
+        'content/editor' => array(
             'functions' => array(
                 'save' => array('SaveArticle', NULL)
             ),
+//            'box' => array('ContentBox', array('mode' => 'editor'))
             'box' => array('ArticleEditorBox', NULL)
         ),
         'user' => array(
@@ -65,7 +66,7 @@ return array(
         array('MsgBox', array(
                 'title' => 'Admin Home',
                 'msg' => <<<EOC
-<a href="index.php">public home</a>
+<a href="admin.php">admin home</a>
 <br />
 <a href="?module=catalog">catalog</a>
 <br />

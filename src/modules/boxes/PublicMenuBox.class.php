@@ -28,8 +28,8 @@ class PublicMenuBox extends BoxModel {
                 'url' => 'index.php'
             ),
             array(
-                'text' => 'Admin Home',
-                'url' => 'admin.php'
+                'text' => 'Login',
+                'url' => '?module=user'
             ),
             array(
                 'text' => 'Catalogs',

@@ -9,7 +9,7 @@
  * ------------------------------------------------------------------
  */
 
-class PublicPage extends PageModel {
+class MainPage extends PageModel {
 
     private $_timer;
 
@@ -17,12 +17,21 @@ class PublicPage extends PageModel {
      * constructor
      */
     function __construct() {
-        parent::__construct('publicpage', NULL);
+        parent::__construct('main', NULL);
         $this->contentFieldName = 'Left';
     }
 
     public function GetVersion() {
-        return 'DigitalBox CMS ' . dbVersion;
+        return 'DigitalBox CMS ' . DB3_Version;
+    }
+
+    public function CheckPassport($userlevelrequired = 1) {
+        //passport
+        session_start(); // for debug purpose
+        $p = DB3_Passport();
+        if (!$p->IsOnline()) {
+            PageRedirect("index.php?module=user");
+        }
     }
 
     public function After($page) {

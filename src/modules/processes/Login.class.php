@@ -11,6 +11,10 @@
 
 class Login extends ProcessModel {
 
+    public function Auth($page) {
+        return TRUE;
+    }
+
     public function Process() {
         $p = DB3_Passport();
         if (strGet('function') == 'login') {

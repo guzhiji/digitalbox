@@ -9,7 +9,7 @@
  * ------------------------------------------------------------------
  */
 
-class ArticleBox extends BoxModel {
+class PhotoBox extends BoxModel {
 
     function __construct($args = array()) {
         parent::__construct(__CLASS__, $args);
@@ -21,8 +21,9 @@ class ArticleBox extends BoxModel {
         $c = $this->GetBoxArgument('content');
 
         LoadIBC1Class('UniqueKeyValueReader', 'data.keyvalue');
-        $kvreader = new UniqueKeyValueReader(DB3_SERVICE_ARTICLE, $id);
-        $text = $kvreader->GetValue('text');
+        $kvreader = new UniqueKeyValueReader(DB3_SERVICE_PHOTO, $id);
+        $filename = $kvreader->GetValue('filename');
+        $description = $kvreader->GetValue('description');
 
         $this->SetField('Title', $c->Name);
         return $this->TransformTpl('article', array(
@@ -31,7 +32,8 @@ class ArticleBox extends BoxModel {
                     'int_id' => $c->ID,
                     'text_title' => $c->Name,
                     'text_author' => $c->Author,
-                    'content' => $text
+                    'filename' => $filename,
+                    'description' => $description
                         )
         );
     }

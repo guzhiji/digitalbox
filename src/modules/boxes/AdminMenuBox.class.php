@@ -24,10 +24,6 @@ class AdminMenuBox extends BoxModel {
         $list = new NaviButtonList();
         $list->AddItems(array(
             array(
-                'text' => 'Public Home',
-                'url' => 'index.php'
-            ),
-            array(
                 'text' => 'Admin Home',
                 'url' => 'admin.php'
             ),

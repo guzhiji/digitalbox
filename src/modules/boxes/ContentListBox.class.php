@@ -17,7 +17,7 @@ class ContentListBox extends BoxModel {
         }
         $this->SetField('Title', 'Contents');
         LoadIBC1Class('ContentListReader', 'data.catalog');
-        $reader = new ContentListReader(SERVICE_CATALOG);
+        $reader = new ContentListReader(DB3_SERVICE_CATALOG);
         $reader->SetCatalog($id);
         $reader->LoadList();
         $reader->MoveFirst();

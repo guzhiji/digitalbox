@@ -21,7 +21,7 @@ class UserListBox extends BoxModel {
     public function LoadContent() {
         $this->SetField('Title', 'Users');
         LoadIBC1Class('UserListReader', 'data.user');
-        $reader = new UserListReader(SERVICE_USER);
+        $reader = new UserListReader(DB3_SERVICE_USER);
         $reader->LoadList();
         $reader->MoveFirst();
         $this->reader = $reader;
@@ -33,8 +33,9 @@ class UserListBox extends BoxModel {
     }
 
     public function Before($page) {
+        $page->CheckPassport();
         LoadIBC1Class('UserServiceManager', 'data.user');
-        $m = new UserServiceManager(SERVICE_USER);
+        $m = new UserServiceManager(DB3_SERVICE_USER);
         if (!$m->IsInstalled())
             $m->Install();
     }

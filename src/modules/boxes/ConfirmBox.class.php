@@ -31,7 +31,7 @@ class ConfirmBox extends BoxModel {
     }
 
     public function Before($page) {
-        
+        $page->CheckPassport();
     }
 
 }

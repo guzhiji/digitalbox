@@ -11,10 +11,12 @@
 
 class SaveCatalog extends ProcessModel {
 
-    public function Process() {
+    public function Auth($page) {
+        $page->CheckPassport();
+        return TRUE;
+    }
 
-        //$up = getPassport();
-        //if (!$up->IsOnline()) {
+    public function Process() {
 
         $id = intval(strGet('id'));
         $username = ''; // $up->GetUID();
@@ -23,7 +25,7 @@ class SaveCatalog extends ProcessModel {
         $output = NULL;
 
         LoadIBC1Class('CatalogItemEditor', 'data.catalog');
-        $editor = new CatalogItemEditor(SERVICE_CATALOG);
+        $editor = new CatalogItemEditor(DB3_SERVICE_CATALOG);
 
         if (empty($id)) { // create
             $editor->Create();
@@ -70,9 +72,6 @@ class SaveCatalog extends ProcessModel {
                 );
             }
         }
-        //} else {
-        //    $output = $this->Output('', array());
-        //}
         return $output;
     }
 

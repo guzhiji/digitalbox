@@ -34,7 +34,7 @@ class UserEditorBox extends BoxModel {
         // otherwise
         // try to find the user
         LoadIBC1Class('UserListReader', 'data.user');
-        $reader = new UserListReader(SERVICE_USER);
+        $reader = new UserListReader(DB3_SERVICE_USER);
         try {
             $c = $reader->GetUser($uid);
 
@@ -64,7 +64,7 @@ class UserEditorBox extends BoxModel {
     }
 
     public function Before($page) {
-        
+        $page->CheckPassport();
     }
 
 }

@@ -9,9 +9,9 @@ return array(
                 'Right' => array('PublicMenuBox', NULL)
             )
         ),
-        'content/article' => array(
+        'content' => array(
             'boxes' => array(
-                array('ArticleBox', NULL),
+                array('ContentBox', NULL),
                 'Right' => array('PublicMenuBox', NULL)
             )
         ),
@@ -35,7 +35,7 @@ return array(
         array('MsgBox', array(
                 'title' => 'Public Home',
                 'msg' => <<<EOC
-<a href="admin.php">admin home</a>
+<a href="index.php">public home</a>
 <br />
 <a href="?module=catalog">catalog</a>
 <br />
