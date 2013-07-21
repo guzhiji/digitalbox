@@ -11,11 +11,8 @@
 
 return array(
     'boxes' => array(
-        array('ArticleBox', NULL),
+        array('PhotoBox', NULL),
         'Right' => array('AdminMenuBox', NULL)
-    ),
-    'functions' => array(
-        'delete' => array('DeleteArticle', NULL)
     ),
     'modules' => array(
         'list' => array(
@@ -26,9 +23,9 @@ return array(
         ),
         'editor' => array(
             'functions' => array(
-                'save' => array('SaveArticle', NULL)
+                'save' => array('SavePhoto', NULL)
             ),
-            'box' => array('ArticleEditorBox', NULL)
+            'box' => array('PhotoEditorBox', NULL)
         )
     )
 );

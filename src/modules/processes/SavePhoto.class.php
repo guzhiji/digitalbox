@@ -9,7 +9,7 @@
  * ------------------------------------------------------------------
  */
 
-class SaveArticle extends ProcessModel {
+class SavePhoto extends ProcessModel {
 
     public function Auth($page) {
         $page->CheckPassport();
@@ -21,9 +21,10 @@ class SaveArticle extends ProcessModel {
         $id = intval(readParam('get|post', 'id'));
         $username = ''; // $up->GetUID();
         $pid = intval(strPost('parent_catalog'));
-        $name = strPost('article_name');
-        $author = strPost('article_author');
-        $text = strPost('article_text');
+        $name = strPost('photo_name');
+        $author = strPost('photo_author');
+        $filename = strPost('photo_filename');
+        $text = strPost('photo_text');
         $output = NULL;
 
         LoadIBC1Class('ContentItemEditor', 'data.catalog');
@@ -37,12 +38,13 @@ class SaveArticle extends ProcessModel {
             $editor->SetAuthor($author);
             // save
             try {
-                $editor->SetModule('article');
+                $editor->SetModule('photo');
                 $editor->Save($pid);
 
                 LoadIBC1Class('UniqueKeyValueEditor', 'data.keyvalue');
-                $kveditor = new UniqueKeyValueEditor(DB3_SERVICE_ARTICLE, $editor->GetID());
-                $kveditor->SetValue('text', $text);
+                $kveditor = new UniqueKeyValueEditor(DB3_SERVICE_PHOTO, $editor->GetID());
+                $kveditor->SetValue('filename', $filename);
+                $kveditor->SetValue('description', $text);
                 $kveditor->Save();
 
                 // success
@@ -73,8 +75,9 @@ class SaveArticle extends ProcessModel {
                 $editor->Save();
 
                 LoadIBC1Class('UniqueKeyValueEditor', 'data.keyvalue');
-                $kveditor = new UniqueKeyValueEditor(DB3_SERVICE_ARTICLE, $editor->GetID());
-                $kveditor->SetValue('text', $text);
+                $kveditor = new UniqueKeyValueEditor(DB3_SERVICE_PHOTO, $editor->GetID());
+                $kveditor->SetValue('filename', $filename);
+                $kveditor->SetValue('description', $text);
                 $kveditor->Save();
 
                 // success

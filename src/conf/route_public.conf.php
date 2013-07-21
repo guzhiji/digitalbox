@@ -1,5 +1,14 @@
 <?php
 
+/* ------------------------------------------------------------------
+ * DigitalBox CMS 3.0
+ * http://code.google.com/p/digitalbox/
+ * 
+ * Copyright 2010-2013, GuZhiji Studio <gu_zhiji@163.com>
+ * This program is licensed under the GPL Version 3
+ * ------------------------------------------------------------------
+ */
+
 return array(
     'modules' => array(
         'catalog' => array(
@@ -26,7 +35,7 @@ return array(
                 'select' => array('SelectLanguage', NULL)
             ),
             'boxes' => array(
-                'Left' => array('LangBox', NULL),
+                array('LangBox', NULL),
                 'Right' => array('PublicMenuBox', NULL)
             )
         )

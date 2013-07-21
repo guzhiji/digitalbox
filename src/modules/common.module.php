@@ -201,11 +201,27 @@ function DB3_ContentType_Data($type, $key) {
     return NULL;
 }
 
-function DB3_URL($path, $module = '', $function = '', $params = array()) {
+function DB3_Pages() {
+    global $_pageConfig;
+    if (!isset($_pageConfig))
+        $_pageConfig = include('conf/pages.conf.php');
+    return array_keys($_pageConfig);
+}
+
+function DB3_Page_Config($page, $key) {
+    global $_pageConfig;
+    if (!isset($_pageConfig))
+        $_pageConfig = include('conf/pages.conf.php');
+    if (isset($_pageConfig[$page][$key]))
+        return $_pageConfig[$page][$key];
+    return NULL;
+}
+
+function DB3_URL($page, $module = '', $function = '', $params = array()) {
     // generate querystring
     $q = '';
     if (!empty($module)) {
-        $q .= '?module=' . $module;
+        $q .= 'module=' . $module;
         if (!empty($function))
             $q .= '&function=' . $function;
     }
@@ -215,12 +231,14 @@ function DB3_URL($path, $module = '', $function = '', $params = array()) {
         $q .= $k . '=' . urlencode($v);
     }
     // get path
-    if (substr($path, 0, 1) != '/') {
-        if (defined('DB3_ROOT_WEB'))
-            $path = DB3_ROOT_WEB . '/' . $path;
-        else
-            $path = '/' . $path;
-    }
+//    $path = DB3_Page_Config($page, 'path');
+    $path = GetSysResPath(DB3_Page_Config($page, 'path'), '');
+//    if (substr($path, 0, 1) != '/') {
+//        if (defined('DB3_ROOT_WEB'))
+//            $path = DB3_ROOT_WEB . '/' . $path;
+//        else
+//            $path = '/' . $path;
+//    }
     if (empty($q))
         return $path;
     else

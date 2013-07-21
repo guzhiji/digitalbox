@@ -10,14 +10,24 @@
  */
 
 return array(
+    'main' => array(
+        'path' => 'index.php',
+        'type' => ''
+    ),
+    'admin' => array(
+        'path' => 'admin.php',
+        'type' => ''
+    ),
     'article' => array(
         'path' => 'article.php',
+        'type' => 'content',
         'service' => DB3_SERVICE_ARTICLE,
         'reader' => 'ArticleBox',
         'editor' => 'ArticleEditorBox'
     ),
     'photo' => array(
         'path' => 'photo.php',
+        'type' => 'content',
         'service' => DB3_SERVICE_PHOTO,
         'reader' => 'PhotoBox',
         'editor' => 'PhotoEditorBox'

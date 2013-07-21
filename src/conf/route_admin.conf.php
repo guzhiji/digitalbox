@@ -1,5 +1,14 @@
 <?php
 
+/* ------------------------------------------------------------------
+ * DigitalBox CMS 3.0
+ * http://code.google.com/p/digitalbox/
+ * 
+ * Copyright 2010-2013, GuZhiji Studio <gu_zhiji@163.com>
+ * This program is licensed under the GPL Version 3
+ * ------------------------------------------------------------------
+ */
+
 return array(
     'modules' => array(
         'catalog' => array(
@@ -24,13 +33,13 @@ return array(
                 'Right' => array('AdminMenuBox', NULL)
             )
         ),
-        'content/editor' => array(
-            'functions' => array(
-                'save' => array('SaveArticle', NULL)
-            ),
-//            'box' => array('ContentBox', array('mode' => 'editor'))
-            'box' => array('ArticleEditorBox', NULL)
-        ),
+//        'content/editor' => array(
+//            'functions' => array(
+//                'save' => array('SaveArticle', NULL)
+//            ),
+////            'box' => array('ContentBox', array('mode' => 'editor'))
+//            'box' => array('ArticleEditorBox', NULL)
+//        ),
         'user' => array(
             'functions' => array(
                 'delete' => array('DeleteUser', NULL),

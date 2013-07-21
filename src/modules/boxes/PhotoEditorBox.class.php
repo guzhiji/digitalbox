@@ -9,7 +9,7 @@
  * ------------------------------------------------------------------
  */
 
-class ArticleEditorBox extends BoxModel {
+class PhotoEditorBox extends BoxModel {
 
     function __construct($args = array()) {
         parent::__construct(__CLASS__, $args);
@@ -31,14 +31,15 @@ class ArticleEditorBox extends BoxModel {
                     $reader = new CatalogListReader(DB3_SERVICE_CATALOG);
                     $catalog = $reader->GetCatalog($catalogid);
 
-                    $this->SetField('Title', 'New Article');
+                    $this->SetField('Title', 'New Photo');
                     return $this->TransformTpl('editor', array(
                                 'text_parent' => $catalog->Name,
                                 'int_parent' => $catalogid,
                                 'int_id' => '',
                                 'text_title' => '',
                                 'text_author' => '',
-                                'content' => ''
+                                'text_filename' => '',
+                                'description' => ''
                                     )
                     );
                 } catch (Exception $ex) {
@@ -55,22 +56,24 @@ class ArticleEditorBox extends BoxModel {
                 $c = $reader->GetContent($id);
 
                 LoadIBC1Class('UniqueKeyValueReader', 'data.keyvalue');
-                $kvreader = new UniqueKeyValueReader(DB3_SERVICE_ARTICLE, $id);
-                $text = $kvreader->GetValue('text');
+                $kvreader = new UniqueKeyValueReader(DB3_SERVICE_PHOTO, $id);
+                $filename = $kvreader->GetValue('filename');
+                $description = $kvreader->GetValue('description');
 
-                $this->SetField('Title', 'Edit Article');
+                $this->SetField('Title', 'Edit Photo');
                 return $this->TransformTpl('editor', array(
                             'text_parent' => $c->CatalogID,
                             'int_parent' => $c->CatalogID,
                             'int_id' => $c->ID,
                             'text_title' => $c->Name,
                             'text_author' => $c->Author,
-                            'content' => htmlspecialchars($text)
+                            'text_filename' => $filename,
+                            'description' => htmlspecialchars($description)
                                 )
                 );
             } catch (Exception $ex) {
                 $this->Forward('MsgBox', array(
-                    'msg' => 'The article is not found.',
+                    'msg' => 'The photo is not found.',
                     'back' => 'back'
                 ));
             }

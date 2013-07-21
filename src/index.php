@@ -11,12 +11,13 @@
 
 define('DB3_ROOT_WEB', dirname($_SERVER['SCRIPT_NAME']));
 define('DB3_ROOT', getcwd());
+//define('IBC1_SYSTEM_ROOT', getcwd() . '/');
 
 require('modules/common.module.php');
 require('modules/pages/MainPage.class.php');
 
 $page = new MainPage();
-$page->Route(include('conf/publicpage.conf.php'));
+$page->Route(include('conf/route_public.conf.php'));
 
 $page->SetTitle(GetLangData('homepage'));
 $page->Show();

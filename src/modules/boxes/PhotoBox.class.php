@@ -26,13 +26,13 @@ class PhotoBox extends BoxModel {
         $description = $kvreader->GetValue('description');
 
         $this->SetField('Title', $c->Name);
-        return $this->TransformTpl('article', array(
+        return $this->TransformTpl('photo', array(
                     'text_parent' => $c->CatalogID,
                     'int_parent' => $c->CatalogID,
                     'int_id' => $c->ID,
                     'text_title' => $c->Name,
                     'text_author' => $c->Author,
-                    'filename' => $filename,
+                    'text_filename' => $filename,
                     'description' => $description
                         )
         );
