@@ -14,7 +14,7 @@
     图片作者：{$text_author}
 </div>
 <div style="text-align: left; padding-top: 5px;">
-    {$descriptioin}
+    {$description}
 </div>
 <div style="text-align: left; padding-top: 5px;">
     <img src="{$text_filename}" />
