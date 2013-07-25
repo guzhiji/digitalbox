@@ -98,7 +98,8 @@ class PHPCacheReader {
         if (!isset($cd["keys"]))
             return $this->GetRefreshedValue($key);
         if (!isset($cd["keys"][$key]))
-            return NULL;
+            return $this->GetRefreshedValue($key);
+            //return NULL;
         $cd = &$cd["keys"][$key];
 
         //force to refresh

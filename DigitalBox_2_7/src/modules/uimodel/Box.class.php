@@ -129,6 +129,8 @@ class Box {
     public function GetRefreshedHTML() {
 
         $this->DataBind();
+        if ($this->_status != 0)
+            return '';
 
         $html = "";
         if ($this->_tplName != "") {
@@ -164,6 +166,8 @@ class Box {
     public function GetHTML() {
         $result = NULL;
         $this->CacheBind();
+        if ($this->_status != 0)
+            return '';
         if (!empty($this->_cacheCategory)) {
             // //require_once("modules/cache/PHPCacheReader.class.php");
             // $cr = new PHPCacheReader(GetCachePath(), $this->_cacheCategory);
