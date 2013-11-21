@@ -26,7 +26,10 @@ class LoginBox extends BoxModel {
     }
 
     public function Before($page) {
-        
+        LoadIBC1Class('UserServiceManager', 'data.user');
+        $m = new UserServiceManager(DB3_SERVICE_USER);
+        if (!$m->IsInstalled())
+            $m->Install();
     }
 
 }

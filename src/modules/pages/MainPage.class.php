@@ -27,7 +27,7 @@ class MainPage extends PageModel {
 
     public function CheckPassport($userlevelrequired = 1) {
         //passport
-        session_start(); // for debug purpose
+        // session_start(); // for debug purpose
         $p = DB3_Passport();
         if (!$p->IsOnline()) {
             PageRedirect("index.php?module=user");

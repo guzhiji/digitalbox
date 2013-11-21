@@ -220,11 +220,10 @@ function DB3_Page_Config($page, $key) {
 function DB3_URL($page, $module = '', $function = '', $params = array()) {
     // generate querystring
     $q = '';
-    if (!empty($module)) {
+    if (!empty($module))
         $q .= 'module=' . $module;
-        if (!empty($function))
-            $q .= '&function=' . $function;
-    }
+    if (!empty($function))
+        $q .= '&function=' . $function;
     foreach ($params as $k => $v) {
         if (!empty($q))
             $q .= '&';

@@ -14,6 +14,9 @@ return array(
         array('PhotoBox', NULL),
         'Right' => array('AdminMenuBox', NULL)
     ),
+    'functions' => array(
+        'delete' => array('DeletePhoto', NULL)
+    ),
     'modules' => array(
         'list' => array(
             'boxes' => array(
