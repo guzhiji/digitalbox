@@ -220,15 +220,22 @@ function DB3_Page_Config($page, $key) {
 function DB3_URL($page, $module = '', $function = '', $params = array()) {
     // generate querystring
     $q = '';
+
     if (!empty($module))
-        $q .= 'module=' . $module;
-    if (!empty($function))
-        $q .= '&function=' . $function;
+        $q .= 'module=' . urlencode($module);
+
+    if (!empty($function)) {
+        if (!empty($q))
+            $q .= '&';
+        $q .= 'function=' . urlencode($function);
+    }
+
     foreach ($params as $k => $v) {
         if (!empty($q))
             $q .= '&';
         $q .= $k . '=' . urlencode($v);
     }
+
     // get path
 //    $path = DB3_Page_Config($page, 'path');
     $path = GetSysResPath(DB3_Page_Config($page, 'path'), '');
@@ -238,10 +245,12 @@ function DB3_URL($page, $module = '', $function = '', $params = array()) {
 //        else
 //            $path = '/' . $path;
 //    }
+
     if (empty($q))
         return $path;
     else
         return $path . '?' . $q;
+
 }
 
 function DB3_URL_Copy($params = array()) {

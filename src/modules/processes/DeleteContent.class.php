@@ -21,7 +21,7 @@ abstract class DeleteContent extends ProcessModel {
     public function Process() {
 
         $id = intval(strGet('id'));
-        $username = ''; // $up->GetUID();
+        //$username = ''; // $up->GetUID();
         //$name = strPost('name');
         //$pid = intval(strPost('parent'));
         $output = NULL;
@@ -50,14 +50,14 @@ abstract class DeleteContent extends ProcessModel {
                         $output = $this->OutputBox('MsgBox', array(
                             'msg' => 'succeed',
                             'back' => DB3_URL('admin', 'catalog', '', array('id' => $content->ParentID))
-                                )
+                            )
                         );
                     } catch (Exception $ex) {
                         // failure
                         $output = $this->OutputBox('MsgBox', array(
                             'msg' => 'fail',
                             'back' => DB3_URL('admin', 'catalog', '', array('id' => $content->ParentID))
-                                )
+                            )
                         );
                     }
                 } else {
@@ -69,7 +69,7 @@ abstract class DeleteContent extends ProcessModel {
                         'operation' => $operation,
                         'yes' => queryString_Append(array('confirmed' => 'yes')),
                         'no' => DB3_URL('admin', 'catalog', '', array('id' => $content->ParentID))
-                            )
+                        )
                     );
                 }
             }
@@ -79,7 +79,7 @@ abstract class DeleteContent extends ProcessModel {
             $output = $this->OutputBox('MsgBox', array(
                 'msg' => 'fail: not found',
                 'back' => 'back'
-                    )
+                )
             );
         }
 

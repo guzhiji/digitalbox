@@ -287,7 +287,7 @@ function queryString_Append($params) {
 /**
  * read a parameter from defined sources or a default value if missing
  * 
- * if {@code $types} is empty, treat {@code $key} as a global variable;
+ * if {@code $sources} is empty, treat {@code $key} as a global variable;
  * otherwise split it into an array of data sources by "|"
  * and value first found in the data sources will be returned.
  * Data sources:
@@ -306,22 +306,22 @@ function queryString_Append($params) {
  * $id=isset($_GET['id'])?$_GET['id']:(isset($_POST['id'])?$_POST['id']:NULL);
  * </code>
  * 
- * @param string $types     data sources
+ * @param string $sources     data sources
  * @param string $key       
  * @param mixed  $default   default value will be returned 
- *                          if {@code $key} is not found in all {@code $types} 
+ *                          if {@code $key} is not found in all {@code $sources} 
  * @return mixed
  */
-function readParam($types, $key, $default = '') {
-    if (empty($types)) {
+function readParam($sources, $key, $default = '') {
+    if (empty($sources)) {
         global $$key;
         if (isset($$key))
             $val = $$key; //a normal variable
         else
             $val = NULL;
-    }else {
+    } else {
         $val = NULL;
-        $typeArr = explode('|', $types);
+        $typeArr = explode('|', $sources);
         foreach ($typeArr as $type) {
             $t = strtoupper($type);
             switch ($t) {
@@ -350,4 +350,63 @@ function readParam($types, $key, $default = '') {
         }
     }
     return empty($val) ? $default : $val;
+}
+
+/**
+ * 
+ * <code>
+ * $meta = array(
+ *     'var' => array([source(s)], [default value], array(
+ *             'filter' => [filter function],
+ *             'setter' => [setter method name of an object],
+ *             'attribute' => [attribute name of an object],
+ *             'global' => [global variable name]
+ *         )
+ *     ),
+ * );
+ * </code>
+ */
+function readAllParams($meta, $obj = NULL) {
+
+    $vars = array();
+    foreach ($meta as $v => $m) {
+
+        $value = readParam($m[0], $v, $m[1]);
+
+        if (isset($m[2]['filter']))
+            $vars[$v] = $m[2]['filter']($value);
+        else
+            $vars[$v] = $value;
+
+        if (isset($m[2]['global'])) {
+
+            $GLOBALS[$m[2]['global']] = &$vars[$v];
+
+        } else if ($obj != NULL) {
+
+            if (isset($m[2]['attribute']))
+                $obj->$m[2]['attribute'] = &$vars[$v];
+            else if (isset($m[2]['setter']) && method_exists($obj, $m[2]['setter']))
+                $obj->$m[2]['setter']($vars[$v]);
+
+        }
+
+    }
+    return $vars;
+
+}
+
+function setAllParams($obj, $meta, &$vars) {
+
+    foreach ($meta as $v => $m) {
+
+        if (!isset($vars[$v]))
+            continue;
+        
+        if (isset($m[2]['attribute']))
+            $obj->$m[2]['attribute'] = &$vars[$v];
+        else if (isset($m[2]['setter']) && method_exists($obj, $m[2]['setter']))
+            $obj->$m[2]['setter']($vars[$v]);
+
+    }
 }
