@@ -357,56 +357,69 @@ function readParam($sources, $key, $default = '') {
  * <code>
  * $meta = array(
  *     'var' => array([source(s)], [default value], array(
- *             'filter' => [filter function],
+ *             'filter' => [filter function name],
  *             'setter' => [setter method name of an object],
- *             'attribute' => [attribute name of an object],
- *             'global' => [global variable name]
+ *             'field' => [field name of an object]
  *         )
  *     ),
  * );
  * </code>
  */
-function readAllParams($meta, $obj = NULL) {
+function readAllParams($meta, &$container = NULL) {
 
     $vars = array();
-    foreach ($meta as $v => $m) {
-
-        $value = readParam($m[0], $v, $m[1]);
+    foreach ($meta as $f => $m) {
+        $value = readParam($m[0], $f, $m[1]);
 
         if (isset($m[2]['filter']))
-            $vars[$v] = $m[2]['filter']($value);
+            $vars[$f] = $m[2]['filter']($value);
         else
-            $vars[$v] = $value;
+            $vars[$f] = $value;
 
-        if (isset($m[2]['global'])) {
-
-            $GLOBALS[$m[2]['global']] = &$vars[$v];
-
-        } else if ($obj != NULL) {
-
-            if (isset($m[2]['attribute']))
-                $obj->$m[2]['attribute'] = &$vars[$v];
-            else if (isset($m[2]['setter']) && method_exists($obj, $m[2]['setter']))
-                $obj->$m[2]['setter']($vars[$v]);
-
-        }
-
+        if ($container !== NULL)
+            setParam($container, $f, $m, $vars);
     }
     return $vars;
-
 }
 
-function setAllParams($obj, $meta, &$vars) {
+function setParam(&$container, $f, &$m, &$vars) {
+    if (is_array($container)) {
+        // the container is an array
+        if (isset($m[2]['field']))
+            $container[$m[2]['field']] = &$vars[$f];
+        else
+            $container[$f] = &$vars[$f];
+    } else {
+        // the container is an object
+        if (isset($m[2]['setter'])) {
+            // invoke setter method
+            if (method_exists($container, $m[2]['setter'])) {
+                if (isset($m[2]['field']))
+                    $container->$m[2]['setter']($m[2]['field'], $vars[$f]);
+                else
+                    $container->$m[2]['setter']($vars[$f]);
+            } else {
+                throw new Exception("The setter method \"{$m[2]['setter']}\" is not found");
+            }
+        } else if (isset($m[2]['field'])) {
+            // assign to the field
+            $container->{$m[2]['field']} = &$vars[$f];
+        }
+    }
+}
 
-    foreach ($meta as $v => $m) {
+function setAllParams(&$container, $fields, &$meta, &$vars, $optional_update = FALSE) {
 
-        if (!isset($vars[$v]))
+    foreach ($fields as $f) {
+
+        if (!isset($meta[$f]) || !isset($vars[$f]))
+            throw new Exception("missing required field \"$f\"");
+
+        // for optional update mode, empty values are treated as no change
+        if ($optional_update && empty($vars[$f]))
             continue;
-        
-        if (isset($m[2]['attribute']))
-            $obj->$m[2]['attribute'] = &$vars[$v];
-        else if (isset($m[2]['setter']) && method_exists($obj, $m[2]['setter']))
-            $obj->$m[2]['setter']($vars[$v]);
 
+        $m = $meta[$f];
+        setParam($container, $f, $m, $vars);
     }
 }

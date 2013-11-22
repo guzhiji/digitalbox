@@ -17,10 +17,26 @@ class ConfirmBox extends BoxModel {
     }
 
     protected function LoadContent() {
+
+        // confirmation
         DB3_Operation_ToConfirm($this->GetBoxArgument('operation'));
-        $this->SetField('Title', $this->GetBoxArgument('title'));
+
+        // content
+        $title = $this->GetBoxArgument('title');
+        $msg = $this->GetBoxArgument('msg');
+
+        // translation
+        $translation = $this->GetBoxArgument('translation');
+        if (!empty($translation)) {
+            if ($translation == 'default')
+                $translation = NULL;
+            $title = GetLangData($title, $translation);
+            $msg = GetLangData($msg, $translation);
+        }
+
+        $this->SetField('Title', $title);
         return $this->TransformTpl('confirm', array(
-                    'msg' => $this->GetBoxArgument('msg'),
+                    'msg' => $msg,
                     'yes' => $this->GetBoxArgument('yes'),
                     'no' => $this->GetBoxArgument('no')
                 ));

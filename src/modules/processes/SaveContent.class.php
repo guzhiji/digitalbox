@@ -38,83 +38,151 @@ abstract class SaveContent extends ProcessModel {
 
         $username = ''; // $up->GetUID();
         $meta = $this->GetInputMeta();
-        $rfields = $meta[0];
+        $rf = $meta[0]; // required fields
         $vars = readAllParams($meta[1]);
         $output = NULL;
 
         LoadIBC1Class('ContentItemEditor', 'data.catalog');
         $editor = new ContentItemEditor(DB3_SERVICE_CATALOG);
 
-        if (empty($vars[$rfields['id']])) { // create
+        try {
+            if (empty($vars[$rf['id']])) {
+                // ===============create===============
+                $editor->Create();
 
-            $editor->Create();
-            // set attributes
-            $editor->SetUID($username); //TODO put username into meta
-            $editor->SetName($vars[$rfields['name']]);
-            $editor->SetAuthor($vars[$rfields['author']]);
-            // save
-            try {
+                // set attributes
+                $editor->SetUID($username); //TODO put username into meta
                 $editor->SetModule($this->contentModule);
-                $editor->Save($vars[$rfields['pid']]);
+                setAllParams($editor, array($rf['name'], $rf['author']), $meta[1], $vars);
 
+                $editor->Save($vars[$rf['pid']]);
                 $this->CreateAttributes($editor->GetID(), $vars);
 
                 // success
                 $output = $this->OutputBox('MsgBox', array(
                     'msg' => 'succeed',
                     'back' => DB3_URL('admin', 'catalog', '', array(
-                        'id' => $vars[$rfields['pid']]
-                        )
-                    ))
+                        'id' => $vars[$rf['pid']]
+                            )
+                        ))
                 );
-            } catch (Exception $ex) {
-                // failure
-                $output = $this->OutputBox('MsgBox', array(
-                    'msg' => 'fail: ' . $ex->getMessage(),
-                    'back' => 'back'
-                    )
-                );
-            }
+            } else {
+                // ===============modify===============
+                $editor->Open($vars[$rf['id']]);
 
-        } else { // modify
-
-            $editor->Open($vars[$rfields['id']]);
-
-            // set changed attributes
-            if (isset($vars[$rfields['name']]) && !empty($vars[$rfields['name']]))
-                $editor->SetName($vars[$rfields['name']]);
-            if (isset($vars[$rfields['author']]) && !empty($vars[$rfields['author']]))
-                $editor->SetAuthor($vars[$rfields['author']]);
-            // if (!empty($name))
-            //     $editor->SetName($name);
-            // if (!empty($author))
-            //     $editor->SetAuthor($author);
-
-            // save
-            try {
+                // set attributes
+                setAllParams($editor, array($rf['name'], $rf['author']), $meta[1], $vars, TRUE);
 
                 $editor->Save();
-
                 $this->ModifyAttributes($editor->GetID(), $vars);
 
                 // success
                 $output = $this->OutputBox('MsgBox', array(
                     'msg' => 'succeed',
                     'back' => DB3_URL('admin', 'catalog', '', array(
-                        'id' => $vars[$rfields['pid']]
-                        ))
-                    )
-                );
-            } catch (Exception $ex) {
-                // failure
-                $output = $this->OutputBox('MsgBox', array(
-                    'msg' => 'fail:' . $editor->GetID() . ',' . $ex->getMessage(),
-                    'back' => 'back'
-                    )
+                        'id' => $vars[$rf['pid']]
+                    ))
+                        )
                 );
             }
-
+        } catch (ServiceException $ex) {
+            $output = $this->OutputBox('MsgBox', array(
+                'translation' => 'admin',
+                'msg' => $ex->getMessage(),
+                'back' => 'back'
+                    )
+            );
+        } catch (Exception $ex) {
+            // unexpected error
+            $output = $this->OutputBox('MsgBox', array(
+                'msg' => 'unexpected error: ' . $ex->getMessage(),
+                'back' => 'back'
+                    )
+            );
         }
+//
+//        if (empty($vars[$rfields['id']])) { // create
+//            $editor->Create();
+//            // set attributes
+//            $editor->SetUID($username); //TODO put username into meta
+//            $editor->SetName($vars[$rfields['name']]);
+//            $editor->SetAuthor($vars[$rfields['author']]);
+//            // save
+//            try {
+//                $editor->SetModule($this->contentModule);
+//                $editor->Save($vars[$rfields['pid']]);
+//
+//                $this->CreateAttributes($editor->GetID(), $vars);
+//
+//                // success
+//                $output = $this->OutputBox('MsgBox', array(
+//                    'msg' => 'succeed',
+//                    'back' => DB3_URL('admin', 'catalog', '', array(
+//                        'id' => $vars[$rfields['pid']]
+//                            )
+//                        ))
+//                );
+//            } catch (ServiceException $ex) {
+//                // fail
+//                $output = $this->OutputBox('MsgBox', array(
+//                    'translation' => 'admin',
+//                    'msg' => $ex->getMessage(),
+//                    'back' => 'back'
+//                        )
+//                );
+//            } catch (Exception $ex) {
+//                // fail
+//                $output = $this->OutputBox('MsgBox', array(
+//                    'msg' => 'fail: ' . $ex->getMessage(),
+//                    'back' => 'back'
+//                        )
+//                );
+//            }
+//        } else { // modify
+//            $editor->Open($vars[$rfields['id']]);
+//
+//            // set changed attributes
+//            if (isset($vars[$rfields['name']]) && !empty($vars[$rfields['name']]))
+//                $editor->SetName($vars[$rfields['name']]);
+//            if (isset($vars[$rfields['author']]) && !empty($vars[$rfields['author']]))
+//                $editor->SetAuthor($vars[$rfields['author']]);
+//            // if (!empty($name))
+//            //     $editor->SetName($name);
+//            // if (!empty($author))
+//            //     $editor->SetAuthor($author);
+//            // save
+//            try {
+//
+//                $editor->Save();
+//
+//                $this->ModifyAttributes($editor->GetID(), $vars);
+//
+//                // success
+//                $output = $this->OutputBox('MsgBox', array(
+//                    'msg' => 'succeed',
+//                    'back' => DB3_URL('admin', 'catalog', '', array(
+//                        'id' => $vars[$rfields['pid']]
+//                    ))
+//                        )
+//                );
+//            } catch (ServiceException $ex) {
+//                // fail
+//                $output = $this->OutputBox('MsgBox', array(
+//                    'translation' => 'admin',
+//                    'msg' => $ex->getMessage(),
+//                    'back' => 'back'
+//                        )
+//                );
+//            } catch (Exception $ex) {
+//                // fail
+//                $output = $this->OutputBox('MsgBox', array(
+//                    'msg' => 'fail: ' . $editor->GetID() . ',' . $ex->getMessage(),
+//                    'back' => 'back'
+//                        )
+//                );
+//            }
+//        }
+
         return $output;
     }
 

@@ -19,7 +19,7 @@ class DeleteCatalog extends ProcessModel {
     public function Process() {
 
         $id = intval(strGet('id'));
-        $username = ''; // $up->GetUID();
+        //$username = ''; // $up->GetUID();
         //$name = strPost('name');
         //$pid = intval(strPost('parent'));
         $output = NULL;
@@ -49,6 +49,14 @@ class DeleteCatalog extends ProcessModel {
                             'back' => '?module=catalog&id=' . $catalog->ParentID
                                 )
                         );
+                    } catch (ServiceException $ex) {
+                        // failure
+                        $output = $this->OutputBox('MsgBox', array(
+                            'translation' => 'admin',
+                            'msg' => $ex->getMessage(),
+                            'back' => '?module=catalog&id=' . $catalog->ParentID
+                                )
+                        );
                     } catch (Exception $ex) {
                         // failure
                         $output = $this->OutputBox('MsgBox', array(
@@ -61,6 +69,7 @@ class DeleteCatalog extends ProcessModel {
                     // not confirmed
 
                     $output = $this->OutputBox('ConfirmBox', array(
+                        'translation' => 'admin',
                         'title' => 'are you sure?',
                         'msg' => 'are you sure?',
                         'operation' => $operation,
@@ -71,6 +80,7 @@ class DeleteCatalog extends ProcessModel {
                 }
             }
         }
+
         if ($output === NULL) {
             // either catalog not found or id not provided
             $output = $this->OutputBox('MsgBox', array(

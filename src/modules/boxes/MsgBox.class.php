@@ -17,12 +17,29 @@ class MsgBox extends BoxModel {
     }
 
     protected function LoadContent() {
+
+        // BACK button
         $back = $this->GetBoxArgument('back');
         if ($back == 'back')
             $back = 'javascript:history.back(1);';
-        $this->SetField('Title', $this->GetBoxArgument('title'));
+
+        // content
+        $title = $this->GetBoxArgument('title');
+        $msg = $this->GetBoxArgument('msg');
+
+        // translation
+        $translation = $this->GetBoxArgument('translation');
+        if (!empty($translation)) {
+            if ($translation == 'default')
+                $translation = NULL;
+            $title = GetLangData($title, $translation);
+            $msg = GetLangData($msg, $translation);
+        }
+
+        $this->SetField('Title', $title);
+
         return $this->TransformTpl('msg', array(
-                    'msg' => $this->GetBoxArgument('msg'),
+                    'msg' => $msg,
                     'back' => $back
                 ));
     }

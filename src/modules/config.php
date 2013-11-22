@@ -4,7 +4,7 @@
 define('DB3_DB_Host', 'localhost:3306');
 define('DB3_DB_User', 'root');
 define('DB3_DB_Pwd', '');
-define('DB3_DB_Name', 'digitalbox3_dev');
+define('DB3_DB_Name', 'digitalbox3_test');
 define('DB3_DB_Driver', 'mysqli');
 //--Prefix-----------------------------------
 //如果在您的服务器上使用了多个DigitalBox 3.x，则应使用不同的dbPrefix

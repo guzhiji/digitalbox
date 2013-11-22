@@ -27,13 +27,14 @@ class SaveCatalog extends ProcessModel {
         LoadIBC1Class('CatalogItemEditor', 'data.catalog');
         $editor = new CatalogItemEditor(DB3_SERVICE_CATALOG);
 
-        if (empty($id)) { // create
-            $editor->Create();
-            // set attributes
-            $editor->SetUID($username);
-            $editor->SetName($name);
-            // save
-            try {
+        try {
+            if (empty($id)) {
+                // ===============create===============
+                $editor->Create();
+                // set attributes
+                $editor->SetUID($username);
+                $editor->SetName($name);
+                // save
                 $editor->Save($pid);
                 // success
                 $output = $this->OutputBox('MsgBox', array(
@@ -41,21 +42,13 @@ class SaveCatalog extends ProcessModel {
                     'back' => '?module=catalog&id=' . $pid
                         )
                 );
-            } catch (Exception $ex) {
-                // failure
-                $output = $this->OutputBox('MsgBox', array(
-                    'msg' => 'fail' . $ex->getMessage(),
-                    'back' => 'back'
-                        )
-                );
-            }
-        } else { // modify
-            $editor->Open($id);
-            //set changed attributes
-            if (!empty($name))
-                $editor->SetName($name);
-            // save
-            try {
+            } else {
+                // ===============modify===============
+                $editor->Open($id);
+                //set changed attributes
+                if (!empty($name))
+                    $editor->SetName($name);
+                // save
                 $editor->Save();
                 // success
                 $output = $this->OutputBox('MsgBox', array(
@@ -63,14 +56,21 @@ class SaveCatalog extends ProcessModel {
                     'back' => '?module=catalog&id=' . $pid
                         )
                 );
-            } catch (Exception $ex) {
-                // failure
-                $output = $this->OutputBox('MsgBox', array(
-                    'msg' => 'fail:' . $editor->GetID() . ',' . $ex->getMessage(),
-                    'back' => 'back'
-                        )
-                );
             }
+        } catch (ServiceException $ex) {
+            $output = $this->OutputBox('MsgBox', array(
+                'translation' => 'admin',
+                'msg' => $ex->getMessage(),
+                'back' => 'back'
+                    )
+            );
+        } catch (Exception $ex) {
+            // unexpected error
+            $output = $this->OutputBox('MsgBox', array(
+                'msg' => 'unexpected error: ' . $ex->getMessage(),
+                'back' => 'back'
+                    )
+            );
         }
         return $output;
     }

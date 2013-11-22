@@ -52,13 +52,15 @@ class SaveUser extends ProcessModel {
             switch ($se->getCode()) {
                 case UserInfoEditor::E_UNAUTHORIZED:
                     return $this->OutputBox('MsgBox', array(
-                                'msg' => 'unauthorized' . $se->getMessage(),
+                                'translation' => 'admin',
+                                'msg' => $se->getMessage(),
                                 'back' => 'back'
                                     )
                     );
                 case UserInfoEditor::E_EXISTS:
                     return $this->OutputBox('MsgBox', array(
-                                'msg' => 'exists' . $se->getMessage(),
+                                'translation' => 'admin',
+                                'msg' => $se->getMessage(),
                                 'back' => 'back'
                                     )
                     );
