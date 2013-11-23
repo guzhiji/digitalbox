@@ -64,6 +64,7 @@ abstract class DeleteContent extends ProcessModel {
                     // not confirmed
 
                     $output = $this->OutputBox('ConfirmBox', array(
+                        'translation' => 'admin',
                         'title' => 'are you sure?',
                         'msg' => 'are you sure?',
                         'operation' => $operation,

@@ -12,8 +12,10 @@
 define('DB3_ROOT_WEB', dirname($_SERVER['SCRIPT_NAME']));
 define('DB3_ROOT', getcwd());
 
-require('modules/common.module.php');
-require('modules/pages/MainPage.class.php');
+require 'conf/main.conf.php';
+
+require 'modules/common.module.php';
+require 'modules/pages/MainPage.class.php';
 
 $page = new MainPage();
 $page->Route(include('conf/route_admin.conf.php'));

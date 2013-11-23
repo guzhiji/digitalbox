@@ -25,9 +25,9 @@ class Login extends ProcessModel {
                 PageRedirect('admin.php');
             } catch (Exception $ex) {
                 return $this->OutputBox('MsgBox', array(
-                            'msg' => $ex->getMessage(),
-                            'back' => 'back'
-                        ));
+                    'msg' => $ex->getMessage(),
+                    'back' => 'back'
+                    ));
             }
         } else {
             $p->Logout();

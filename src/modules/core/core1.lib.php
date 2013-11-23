@@ -82,7 +82,8 @@ function FormatDateTime($str) {
 
 function text2html($text) {
     //TODO encoding?
-    return nl2br(htmlspecialchars($text), TRUE);
+    //return nl2br(htmlspecialchars($text), TRUE);
+	return str_replace("\n", '<br />', $text);
 }
 
 function filterhtml($html) {

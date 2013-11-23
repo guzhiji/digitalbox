@@ -39,8 +39,8 @@ class SaveUser extends ProcessModel {
 
                     $e->Open(readParam('post', 'uid'), readParam('post', 'pwd'));
                     $pwd = readParam('post', 'newpwd');
-                    if (!empty($pwd))
-                        $e->SetPWD($pwd, readParam('post', 'repeat'));
+                    //if (!empty($pwd))
+                    $e->SetPWD($pwd, readParam('post', 'repeat'));
 
                     break;
                 default:

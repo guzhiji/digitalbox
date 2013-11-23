@@ -9,8 +9,6 @@
  * ------------------------------------------------------------------
  */
 
-require 'config.php';
-
 define('DB3_Author', 'GuZhiji Studio');
 define('DB3_Mail', 'gu_zhiji@163.com');
 define('DB3_Version', '3.0');

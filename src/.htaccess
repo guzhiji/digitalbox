@@ -15,9 +15,9 @@ ErrorDocument 403 /index.php
 ErrorDocument 404 /index.php
    
 #Internal server Error
-ErrorDocument 500 /index.php
+#ErrorDocument 500 /index.php
 
 #.htaccess
-RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule .* index.php
+#RewriteEngine On
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteRule .* index.php

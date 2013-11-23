@@ -18,10 +18,12 @@ class SaveCatalog extends ProcessModel {
 
     public function Process() {
 
-        $id = intval(strGet('id'));
-        $username = ''; // $up->GetUID();
-        $name = strPost('name');
-        $pid = intval(strPost('parent'));
+        $up = DB3_Passport();
+        $username = $up->GetUID();
+
+        $id = intval(readParam('get', 'id'));
+        $name = readParam('post', 'name');
+        $pid = intval(readParam('post', 'parent'));
         $output = NULL;
 
         LoadIBC1Class('CatalogItemEditor', 'data.catalog');
@@ -40,7 +42,7 @@ class SaveCatalog extends ProcessModel {
                 $output = $this->OutputBox('MsgBox', array(
                     'msg' => 'succeed',
                     'back' => '?module=catalog&id=' . $pid
-                        )
+                    )
                 );
             } else {
                 // ===============modify===============
@@ -54,7 +56,7 @@ class SaveCatalog extends ProcessModel {
                 $output = $this->OutputBox('MsgBox', array(
                     'msg' => 'succeed',
                     'back' => '?module=catalog&id=' . $pid
-                        )
+                    )
                 );
             }
         } catch (ServiceException $ex) {
@@ -62,14 +64,14 @@ class SaveCatalog extends ProcessModel {
                 'translation' => 'admin',
                 'msg' => $ex->getMessage(),
                 'back' => 'back'
-                    )
+                )
             );
         } catch (Exception $ex) {
             // unexpected error
             $output = $this->OutputBox('MsgBox', array(
                 'msg' => 'unexpected error: ' . $ex->getMessage(),
                 'back' => 'back'
-                    )
+                )
             );
         }
         return $output;

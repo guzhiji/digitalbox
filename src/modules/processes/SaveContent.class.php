@@ -30,13 +30,9 @@ abstract class SaveContent extends ProcessModel {
 
     public function Process() {
 
-        // $id = intval(readParam('get|post', 'id'));
-        // $pid = intval(strPost('parent_catalog'));
-        // $name = strPost('article_name');
-        // $author = strPost('article_author');
-        // $text = strPost('article_text');
+        $up = DB3_Passport();
+        $username = $up->GetUID();
 
-        $username = ''; // $up->GetUID();
         $meta = $this->GetInputMeta();
         $rf = $meta[0]; // required fields
         $vars = readAllParams($meta[1]);
@@ -51,7 +47,7 @@ abstract class SaveContent extends ProcessModel {
                 $editor->Create();
 
                 // set attributes
-                $editor->SetUID($username); //TODO put username into meta
+                $editor->SetUID($username);
                 $editor->SetModule($this->contentModule);
                 setAllParams($editor, array($rf['name'], $rf['author']), $meta[1], $vars);
 
@@ -100,88 +96,6 @@ abstract class SaveContent extends ProcessModel {
                     )
             );
         }
-//
-//        if (empty($vars[$rfields['id']])) { // create
-//            $editor->Create();
-//            // set attributes
-//            $editor->SetUID($username); //TODO put username into meta
-//            $editor->SetName($vars[$rfields['name']]);
-//            $editor->SetAuthor($vars[$rfields['author']]);
-//            // save
-//            try {
-//                $editor->SetModule($this->contentModule);
-//                $editor->Save($vars[$rfields['pid']]);
-//
-//                $this->CreateAttributes($editor->GetID(), $vars);
-//
-//                // success
-//                $output = $this->OutputBox('MsgBox', array(
-//                    'msg' => 'succeed',
-//                    'back' => DB3_URL('admin', 'catalog', '', array(
-//                        'id' => $vars[$rfields['pid']]
-//                            )
-//                        ))
-//                );
-//            } catch (ServiceException $ex) {
-//                // fail
-//                $output = $this->OutputBox('MsgBox', array(
-//                    'translation' => 'admin',
-//                    'msg' => $ex->getMessage(),
-//                    'back' => 'back'
-//                        )
-//                );
-//            } catch (Exception $ex) {
-//                // fail
-//                $output = $this->OutputBox('MsgBox', array(
-//                    'msg' => 'fail: ' . $ex->getMessage(),
-//                    'back' => 'back'
-//                        )
-//                );
-//            }
-//        } else { // modify
-//            $editor->Open($vars[$rfields['id']]);
-//
-//            // set changed attributes
-//            if (isset($vars[$rfields['name']]) && !empty($vars[$rfields['name']]))
-//                $editor->SetName($vars[$rfields['name']]);
-//            if (isset($vars[$rfields['author']]) && !empty($vars[$rfields['author']]))
-//                $editor->SetAuthor($vars[$rfields['author']]);
-//            // if (!empty($name))
-//            //     $editor->SetName($name);
-//            // if (!empty($author))
-//            //     $editor->SetAuthor($author);
-//            // save
-//            try {
-//
-//                $editor->Save();
-//
-//                $this->ModifyAttributes($editor->GetID(), $vars);
-//
-//                // success
-//                $output = $this->OutputBox('MsgBox', array(
-//                    'msg' => 'succeed',
-//                    'back' => DB3_URL('admin', 'catalog', '', array(
-//                        'id' => $vars[$rfields['pid']]
-//                    ))
-//                        )
-//                );
-//            } catch (ServiceException $ex) {
-//                // fail
-//                $output = $this->OutputBox('MsgBox', array(
-//                    'translation' => 'admin',
-//                    'msg' => $ex->getMessage(),
-//                    'back' => 'back'
-//                        )
-//                );
-//            } catch (Exception $ex) {
-//                // fail
-//                $output = $this->OutputBox('MsgBox', array(
-//                    'msg' => 'fail: ' . $editor->GetID() . ',' . $ex->getMessage(),
-//                    'back' => 'back'
-//                        )
-//                );
-//            }
-//        }
 
         return $output;
     }
