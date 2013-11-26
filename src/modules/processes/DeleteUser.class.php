@@ -28,25 +28,44 @@ class DeleteUser extends ProcessModel {
         try {
 
             $e->OpenWithPassport($uid, $up);
-            $e->Delete();
 
-            return $this->OutputBox('MsgBox', array(
-                'msg' => 'succeed',
-                'back' => '?module=user'
-                )
-            );
+            $operation = __CLASS__ . "[$uid]";
+
+            if (DB3_Operation_IsConfirmed($operation)) {
+                // confirmed
+
+                $e->Delete();
+
+                return $this->OutputBox('MsgBox', array(
+                    'msg' => 'succeed',
+                    'back' => '?module=user'
+                    )
+                );
+            } else {
+                // not confirmed
+
+                return $this->OutputBox('ConfirmBox', array(
+                    'translation' => 'admin',
+                    'title' => 'are you sure?',
+                    'msg' => 'are you sure?',
+                    'operation' => $operation,
+                    'yes' => queryString_Append(array('confirmed' => 'yes')),
+                    'no' => '?module=user'
+                    )
+                );
+            }
 
         } catch(ServiceException $ex) {
             return $this->OutputBox('MsgBox', array(
                 'translation' => 'admin',
                 'msg' => $ex->getMessage(),
-                'back' => 'back'
+                'back' => '?module=user'
                 )
             );
         } catch(Exception $ex) {
             return $this->OutputBox('MsgBox', array(
                 'msg' => 'fail: ' . $ex->getMessage(),
-                'back' => 'back'
+                'back' => '?module=user'
                 )
             );
         }
