@@ -1,7 +1,7 @@
 <?php
 
 //--Database---------------------------------
-define('DB3_DB_Host', 'localhost:3306');
+define('DB3_DB_Host', '127.0.0.1:3306');
 define('DB3_DB_User', 'root');
 define('DB3_DB_Pwd', '');
 define('DB3_DB_Name', 'digitalbox3_test');

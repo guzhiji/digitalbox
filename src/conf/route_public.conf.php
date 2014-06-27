@@ -13,9 +13,10 @@ return array(
     'modules' => array(
         'catalog' => array(
             'boxes' => array(
-                array('CatalogListBox', NULL),
+                // array('CatalogListBox', NULL),
                 array('ContentListBox', NULL),
-                'Right' => array('PublicMenuBox', NULL)
+                'Right' => array('CatalogNaviBox', NULL),
+                // 'Right' => array('PublicMenuBox', NULL)
             )
         ),
         'content' => array(
@@ -52,6 +53,7 @@ return array(
 EOC
             )
         ),
-        'Right' => array('PublicMenuBox', NULL)
+        'Right' => array('CatalogNaviBox', NULL)
+        // array('PublicMenuBox', NULL),
     )
 );

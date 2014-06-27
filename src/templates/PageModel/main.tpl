@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
@@ -8,36 +9,19 @@
         <title>{$Title} - {$SiteName}</title>
         {$Head}
     </head>
-    <body leftmargin="0" topmargin="0" rightmargin="0" bottommargin="0">
-    <center>
-        <table height="100%" width="780" border="0" cellspacing="0" cellpadding="0">
-            <tr>
-                <td align="center" class="director_bar1">{$TopNaviBar}</td>
-            </tr>
-            <tr>
-                <td class="banner_bar">{$Banner}</td>
-            </tr>
-            <tr>
-                <td class="space_bar1"></td>
-            </tr>
-            <tr>
-                <td valign="top" height="100%" class="background_color">
-                    <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0">
-                        <tr>
-                            <td width="580" height="100%" align="left" valign="top">{$Left}</td>
-                            <td width="200" height="100%" align="center" valign="top">{$Right}</td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td class="space_bar2"></td>
-            </tr>
-            <tr>
-                <td align="center" class="director_bar2">{$BottomNaviBar}</td>
-            </tr>
-            <tr>
-                <td class="statement_bar">
+    <body>
+        <div class="page">
+            <div class="page_hspace">{$TopNaviBar}</div>
+            <div class="page_banner">{$Banner}</div>
+            <div class="page_hspace2"></div>
+            <div class="page_content">
+                <div class="page_column_left">{$Left}</div>
+                <div class="page_column_right">{$Right}</div>
+            </div>
+            <div class="page_hspace">{$BottomNaviBar}</div>
+            <div class="page_footer">{$Footer}
+
+
                     <div align="center">
                         <table border="0" width="80%">
                             <tr>
@@ -49,12 +33,10 @@
                     </div>
                     <div class="statement_text" align="center">{$Footer}</div>
                     <div align="center">Powered by {$this->GetVersion()}</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="space_bar3"></td>
-            </tr>
-        </table>
-    </center>
+
+            </div>
+            <div class="page_hspace"></div>
+        </div>
+
 </body>
 </html>

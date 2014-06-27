@@ -25,18 +25,10 @@ class PopupPage extends PageModel {
         }
     }
 
-    public function AddBox(BoxModel $box) {
-        $region = $box->GetType();
-        switch ($region) {
-            case "Left":
-                parent::AddBox($region, $box);
-                break;
-        }
-    }
+    protected function After($page) {
 
-    protected function Finalize() {
-
-        $this->_regions["SiteName"] = GetSettingValue("site_name");
+        $this->SetField('SiteName', GetSettingValue('site_name'));
+        
     }
 
 }
