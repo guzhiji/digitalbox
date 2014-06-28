@@ -65,10 +65,10 @@ class CatalogNaviBox extends BoxModel {
             ));
         }
 
-        // if ($list->ItemCount() == 0) {
-        //     $this->Hide();
-        //     return '';
-        // }
+        if ($list->ItemCount() == 0) {
+            $this->Hide();
+            return '';
+        }
         
         return $list->GetHTML();
     }

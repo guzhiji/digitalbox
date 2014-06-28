@@ -14,15 +14,16 @@ return array(
         'catalog' => array(
             'boxes' => array(
                 // array('CatalogListBox', NULL),
-                array('ContentListBox', NULL),
-                'Right' => array('CatalogNaviBox', NULL),
-                // 'Right' => array('PublicMenuBox', NULL)
+                'Right' => array(
+                    array('PublicMenuBox', NULL)
+                )
             )
         ),
         'content' => array(
             'boxes' => array(
-                array('ContentBox', NULL),
-                'Right' => array('PublicMenuBox', NULL)
+                'Right' => array(
+                    array('PublicMenuBox', NULL)
+                )
             )
         ),
         'user' => array(
@@ -53,7 +54,9 @@ return array(
 EOC
             )
         ),
-        'Right' => array('CatalogNaviBox', NULL)
-        // array('PublicMenuBox', NULL),
+        'Right' => array(
+            array('CatalogNaviBox', NULL),
+            array('PublicMenuBox', NULL)
+        )
     )
 );

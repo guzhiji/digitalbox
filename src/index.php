@@ -19,7 +19,8 @@ require 'modules/common.module.php';
 require 'modules/pages/MainPage.class.php';
 
 $page = new MainPage();
-$page->Route(include('conf/route_public.conf.php'));
+$page->AddRoute(include('conf/route_public_base.conf.php'));
+$page->AddRoute(include('conf/route_public_custom.conf.php'));
 
 $page->SetTitle(GetLangData('homepage'));
 $page->Show();

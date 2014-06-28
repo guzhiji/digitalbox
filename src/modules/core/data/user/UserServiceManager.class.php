@@ -142,7 +142,8 @@ class UserServiceManager extends DataServiceManager {
         $conn = $this->GetDBConn();
 
         //create tables
-        $r = $this->CreateTables($this->GetTableSQL($conn), $conn);
+        $sqlset = $this->GetTableSQL($conn);
+        $r = $this->CreateTables($sqlset, $conn);
         if ($r == FALSE) {
             throw new ManagerException("fail to install user service '$ServiceName'", self::E_INSTALL_FAILED);
         }
