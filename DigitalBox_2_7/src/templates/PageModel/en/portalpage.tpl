@@ -22,12 +22,10 @@
             </tr>
             <tr>
                 <td valign="top" height="100%" class="background_color">
-                    <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0">
-                        <tr>
-                            <td width="580" height="100%" align="left" valign="top">{$Left}</td>
-                            <td width="200" height="100%" align="center" valign="top">{$Right}</td>
-                        </tr>
-                    </table>
+                    <div style="width: 780px;">
+                        <div style="width: 580px; overflow-x: hidden; float: left;">{$Left}</div>
+                        <div style="width: 200px; overflow-x: hidden; float: right;">{$Right}</div>
+                    </div>
                 </td>
             </tr>
             <tr>
