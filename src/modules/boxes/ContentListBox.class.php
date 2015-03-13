@@ -1,58 +1,45 @@
 <?php
 
-/* ------------------------------------------------------------------
- * DigitalBox CMS 2.7
- * http://code.google.com/p/digitalbox/
- * 
- * Copyright 2011-2012, GuZhiji Studio <gu_zhiji@163.com>
- * This program is licensed under the GPL Version 3
- * ------------------------------------------------------------------
- */
+class ContentListBox extends BoxModel {
 
-class ContentListBox extends Box {
+    protected $reader;
 
     function __construct() {
-        parent::__construct("Left", "box3");
+        parent::__construct(__CLASS__);
+        $this->containerTplName = 'box3';
     }
 
-    public function CacheBind() {
-        $page = intval(strGet("page"));
-        if ($page <= 0)
-            $page = 1;
-        global $_classID;
-        // cache first 2 pages only
-        if (isset($_classID) && $page < 3) {
-            $this->_cacheCategory = "class_" . $_classID;
-            $this->_cacheKey = "contentlist_" . $page;
-            $this->_cacheTimeout = 0;//GetSettingValue("cache_timeout");
-            $this->_cacheVersion = GetSettingValue("version_content");
-        } else {
-            $this->_cacheCategory = "";
-            $this->_cacheKey = "";
-            $this->_cacheTimeout = 0;
-            $this->_cacheVersion = 0;
+    public function LoadContent() {
+        $id = intval(strGet('id'));
+        if (empty($id)) {
+            $this->Hide();
+            return '';
         }
-        $this->_cacheRandFactor = 1;
+        $this->SetField('Title', 'Contents');
+        LoadIBC1Class('ContentListReader', 'data.catalog');
+        $reader = new ContentListReader(DB3_SERVICE_CATALOG);
+        $reader->SetCatalog($id);
+        $reader->LoadList();
+        $reader->MoveFirst();
+        $this->reader = $reader;
+
+        $p = DB3_Passport();
+        if ($p->IsOnline())
+            return $this->RenderPHPTpl('admin', array(
+                        'int_catalogid' => $id
+                    ));
+        else
+            return $this->RenderPHPTpl('public', array(
+                        'int_catalogid' => $id
+                    ));
     }
 
-    public function DataBind() {
-        global $_error;
-        if (!$_error) {
-            global $_channelType;
-            global $_classID;
-            global $_className;
+    public function After($page) {
+        
+    }
 
-            $contentlist = new ContentList();
-
-            $title_maxnum = GetSettingValue("general_list_maxlen");
-            $image_maxrow = GetSettingValue("general_grid_maxrow");
-            $contentlist = new ContentList();
-            $contentlist->SetTitleList($title_maxnum, GetSettingValue("box3_title_maxlen"), TRUE, FALSE, FALSE, 1);
-            $contentlist->SetImageList($image_maxrow, 5, 1);
-            $contentlist->SetClass($_classID, $_className, $_channelType);
-            $this->SetTitle($_className);
-            $this->SetContent($contentlist->GetHTML(1, 2, NULL, FALSE), "left", "top", 5);
-        }
+    public function Before($page) {
+        
     }
 
 }

@@ -1,10 +1,10 @@
 <?php
 
 /* ------------------------------------------------------------------
- * DigitalBox CMS 2.7
+ * DigitalBox CMS 3.0
  * http://code.google.com/p/digitalbox/
  * 
- * Copyright 2011-2012, GuZhiji Studio <gu_zhiji@163.com>
+ * Copyright 2010-2013, GuZhiji Studio <gu_zhiji@163.com>
  * This program is licensed under the GPL Version 3
  * ------------------------------------------------------------------
  */
@@ -37,7 +37,7 @@ class ContentList {
         return $this->_titlelist;
     }
 
-    public function SetTitleList($maxnum, $maxlen, $showicon, $showchannel, $showclass, $linktype, $titleonly = FALSE, $extra = 1) {
+    public function SetTitleList($maxnum, $maxlen, $showicon, $showchannel, $showclass, $linktype, $titleonly = FALSE, $extra = 3) {
         $this->_maxlen = $maxlen;
         $this->_maxtitles = $maxnum;
         $this->_titlelist->SetMaxLength($maxlen);
@@ -76,7 +76,7 @@ class ContentList {
      * @param int $order
      * <ul>
      * <li>1 - new first</li>
-     * <li>2 - popular first</li>
+     * <li>2 - hot first</li>
      * <li>3 - by alphabet</li>
      * </ul>
      * @param int $formore
@@ -87,10 +87,8 @@ class ContentList {
      * </ul>
      * @param string $pagename
      * by default, use portal pages if not specified
-     * @param bool $showcount
-     * whether display visitor count for each item, true by default
      */
-    public function GetHTML($order, $formore = 0, $pagename = NULL, $showcount = TRUE) {
+    public function GetHTML($order, $formore = 0, $pagename = NULL) {
         $html = "";
         $pb = NULL;
 
@@ -135,11 +133,11 @@ class ContentList {
             $rs = db_query($sql->GetSelect() . " LIMIT " . (($current_page - 1) * $page_size) . ",$page_size");
             if ($rs) {
                 $list = db_result($rs);
-                if (isset($list[0])) {
+                if (count($list) > 0) {
                     //generate list
                     foreach ($list as $item) {
                         $this->_imagelist->CreateItem();
-                        $this->_imagelist->SetItemContent($item["content_id"], $item["content_name"], $item["content_time"], $showcount ? $item["visitor_count"] : -1, $item["picture_add"]);
+                        $this->_imagelist->SetItemContent($item["content_id"], $item["content_name"], $item["content_time"], $item["visitor_count"], $item["picture_add"]);
                         $this->_imagelist->SetItemClass($item["class_id"], $item["class_name"]);
                         $this->_imagelist->SetItemChannel($item["channel_id"], $item["channel_name"]);
                         $this->_imagelist->AddItem();
@@ -214,12 +212,12 @@ class ContentList {
 
 
                 $list = db_result($rs);
-                if (isset($list[0])) {
+                if (count($list) > 0) {
                     //generate list
                     foreach ($list as $item) {
                         //$this->_titlelist->CreateItem($this->_type);
                         $this->_titlelist->CreateItem($item["channel_type"]);
-                        $this->_titlelist->SetItemContent($item["content_id"], $item["content_name"], $item["content_time"], $showcount ? $item["visitor_count"] : -1);
+                        $this->_titlelist->SetItemContent($item["content_id"], $item["content_name"], $item["content_time"], $item["visitor_count"]);
                         $this->_titlelist->SetItemClass($item["class_id"], $item["class_name"]);
                         $this->_titlelist->SetItemChannel($item["channel_id"], $item["channel_name"]);
                         $this->_titlelist->AddItem();

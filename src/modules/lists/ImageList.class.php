@@ -1,10 +1,10 @@
 <?php
 
 /* ------------------------------------------------------------------
- * DigitalBox CMS 2.7
+ * DigitalBox CMS 3.0
  * http://code.google.com/p/digitalbox/
  * 
- * Copyright 2011-2012, GuZhiji Studio <gu_zhiji@163.com>
+ * Copyright 2010-2013, GuZhiji Studio <gu_zhiji@163.com>
  * This program is licensed under the GPL Version 3
  * ------------------------------------------------------------------
  */
@@ -98,7 +98,7 @@ class ImageList extends TableModel {
             parent::AddItem(array(
                 "LinkHead" => $lh,
                 "LinkEnd" => $le,
-                "Image" => htmlspecialchars(GetImagePath($this->_content_url)),
+                "Image" => $this->_content_url,
                 "Title" => $this->_content_name,
                 "CheckboxName" => $this->_checkboxname,
                 "ID" => $this->_content_id
@@ -107,7 +107,7 @@ class ImageList extends TableModel {
             parent::AddItem(array(
                 "LinkHead" => $lh,
                 "LinkEnd" => $le,
-                "Image" => htmlspecialchars(GetImagePath($this->_content_url)),
+                "Image" => $this->_content_url,
                 "Title" => $this->_content_name
             ));
         }

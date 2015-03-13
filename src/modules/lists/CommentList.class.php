@@ -1,10 +1,10 @@
 <?php
 
 /* ------------------------------------------------------------------
- * DigitalBox CMS 2.7
+ * DigitalBox CMS 3.0
  * http://code.google.com/p/digitalbox/
  * 
- * Copyright 2011-2012, GuZhiji Studio <gu_zhiji@163.com>
+ * Copyright 2010-2013, GuZhiji Studio <gu_zhiji@163.com>
  * This program is licensed under the GPL Version 3
  * ------------------------------------------------------------------
  */
@@ -26,10 +26,10 @@ class CommentList extends ListModel {
         parent::AddItem(array(
             "ID" => $id,
             "Name" => $name,
-            "EMail" => htmlspecialchars($email),
+            "EMail" => $email,
             "Title" => $title,
-            "Date" => htmlspecialchars($date),
-            "IP" => htmlspecialchars($ip)
+            "Date" => $date,
+            "IP" => $ip
         ));
     }
 

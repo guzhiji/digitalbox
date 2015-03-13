@@ -1,413 +1,409 @@
 ﻿a:link {
-	color: #408B81;
-	cursor: hand;
-	font-family: 宋体;
-	font-size: 9pt;
-	text-decoration: none;
+    color: #525252;
+    cursor: hand;
+    font-family: 宋体;
+    font-size: 9pt;
+    text-decoration: none;
 }
 
 a:visited {
-	color: #408B81;
-	cursor: hand;
-	font-family: 宋体;
-	font-size: 9pt;
-	text-decoration: none;
+    color: #525252;
+    cursor: hand;
+    font-family: 宋体;
+    font-size: 9pt;
+    text-decoration: none;
 }
 
 a:hover {
-	color: #1F93A5;
-	cursor: hand;
-	font-family: 宋体;
-	font-size: 9pt;
-	text-decoration: underline;
+    color: #000000;
+    cursor: hand;
+    font-family: 宋体;
+    font-size: 9pt;
+    text-decoration: underline;
 }
 
 a.director_link:link {
-	color: #000066;
-	cursor: hand;
-	font-family: 宋体;
-	font-size: 10pt;
-	text-decoration: none;
+    color: #3B4D74;
+    cursor: hand;
+    font-family: 宋体;
+    font-size: 10pt;
+    text-decoration: none;
 }
 
 a.director_link:visited {
-	color: #000066;
-	cursor: hand;
-	font-family: 宋体;
-	font-size: 10pt;
-	text-decoration: none;
+    color: #3B4D74;
+    cursor: hand;
+    font-family: 宋体;
+    font-size: 10pt;
+    text-decoration: none;
 }
 
 a.director_link:hover {
-	color: #006633;
-	cursor: hand;
-	font-family: 宋体;
-	font-size: 10pt;
-	text-decoration: none;
+    color: #1f93ff;
+    cursor: hand;
+    font-family: 宋体;
+    font-size: 10pt;
+    text-decoration: none;
 }
 
 a.page_switch1:link {
-	color: #2c89b6;
-	cursor: hand;
-	font-family: 幼圆;
-	font-size: 10pt;
-	text-decoration: none;
+    color: #2c89b6;
+    cursor: hand;
+    font-family: 幼圆;
+    font-size: 10pt;
+    text-decoration: none;
 }
 
 a.page_switch1:visited {
-	color: #2c89b6;
-	cursor: hand;
-	font-family: 幼圆;
-	font-size: 10pt;
-	text-decoration: none;
+    color: #2c89b6;
+    cursor: hand;
+    font-family: 幼圆;
+    font-size: 10pt;
+    text-decoration: none;
 }
 
 a.page_switch1:hover {
-	color: #348df0;
-	cursor: hand;
-	font-family: 幼圆;
-	font-size: 10pt;
-	text-decoration: none;
+    color: #348df0;
+    cursor: hand;
+    font-family: 幼圆;
+    font-size: 10pt;
+    text-decoration: none;
 }
 
 body {
-	background-color: #005574;
-	scrollbar-face-color: #78ffeb;
-	scrollbar-highlight-color: #ffffff;
-	scrollbar-shadow-color: #585dbf;
-	scrollbar-3dlight-color: #78ffeb;
-	scrollbar-arrow-color: #ffffff;
-	scrollbar-track-color: #28cdff;
-	scrollbar-darkshadow-color: #28cdff;
+    background-color: #333333;
 }
 
 td {
-	color: #000000;
-	cursor: default;
-	font-family: 幼圆;
-	font-size: 9pt;
-	text-decoration: none;
+    color: #000000;
+    cursor: default;
+    font-family: 幼圆;
+    font-size: 9pt;
+    text-decoration: none;
 }
 
 th {
-	color: #000000;
-	cursor: default;
-	font-family: 黑体;
-	font-size: 12pt;
-	text-decoration: none;
+    color: #000000;
+    cursor: default;
+    font-family: 黑体;
+    font-size: 12pt;
+    text-decoration: none;
 }
 
 input {
-	background-color: #84ffdd;
-	border-bottom: #585dbf 1px solid;
-	border-left: #585dbf 1px solid;
-	border-right: #585dbf 1px solid;
-	border-top: #585dbf 1px solid;
-	color: #000000;
-	font-family: 宋体;
-	font-size: 9pt;
+    background-color: #FFFFFF;
+    border-bottom: #909090 1px solid;
+    border-left: #909090 1px solid;
+    border-right: #909090 1px solid;
+    border-top: #909090 1px solid;
+    color: #000000;
+    font-family: 宋体;
+    font-size: 9pt;
 }
 
 input.radio_checkbox {
-	background-color: #ecffee;
-	border-bottom: #ecffee 0px solid;
-	border-left: #ecffee 0px solid;
-	border-right: #ecffee 0px solid;
-	border-top: #ecffee 0px solid;
+    background-color: #F4F4F4;
+    border-bottom: #F4F4F4 0px solid;
+    border-left: #F4F4F4 0px solid;
+    border-right: #F4F4F4 0px solid;
+    border-top: #F4F4F4 0px solid;
 }
 
 input.button1 {
-	background-color: #84ffdd;
-	border-bottom: #585dbf 2px solid;
-	border-left: #585dbf 2px solid;
-	border-right: #585dbf 2px solid;
-	border-top: #585dbf 2px solid;
-	color: #5d78bd;
-	font-family: 宋体;
-	font-size: 9pt;
-	text-decoration: none;
+    background: url(../images/background/bg_button.gif);
+    border-bottom: #D5D5E0 1px solid;
+    border-left: #D5D5E0 1px solid;
+    border-right: #D5D5E0 1px solid;
+    border-top: #D5D5E0 1px solid;
+    color: #5d78bd;
+    font-family: 宋体;
+    font-size: 9pt;
+    text-decoration: none;
+    height: 20px;
 }
 
 input.textinput1 {
-	height: 20px;
-	width: 150px;
+    height: 20px;
+    width: 150px;
 }
 
 input.textinput2 {
-	height: 20px;
-	width: 45px;;
+    height: 20px;
+    width: 45px;;
 }
 
 input.textinput3 {
-	height: 20px;
-	width: 215px;
+    height: 20px;
+    width: 215px;
 }
 
 input.textinput4 {
-	height: 20px;
-	width: 340px;
+    height: 20px;
+    width: 340px;
 }
 
 input.textinput5 {
-	height: 20px;
-	width: 490px;
+    height: 20px;
+    width: 490px;
 }
 
 select {
-	background-color: #84ffdd;
-	border-bottom: #585dbf 1px solid;
-	border-left: #585dbf 1px solid;
-	border-right: #585dbf 1px solid;
-	border-top: #585dbf 1px solid;
-	color: #000000;
-	font-family: 宋体;
-	font-size: 9pt;
+    background-color: #FFFFFF;
+    border-bottom: #909090 1px solid;
+    border-left: #909090 1px solid;
+    border-right: #909090 1px solid;
+    border-top: #909090 1px solid;
+    color: #000000;
+    font-family: 宋体;
+    font-size: 9pt;
 }
 
 select.select1 {
-	height: 20px;
-	width: 65px;
+    height: 20px;
+    width: 65px;
 }
 
 select.select2 {
-	height: 20px;
-	width: 150px;
+    height: 20px;
+    width: 150px;
 }
 
 textarea {
-	background-color: #84ffdd;
-	border-bottom: #585dbf 1px solid;
-	border-left: #585dbf 1px solid;
-	border-right: #585dbf 1px solid;
-	border-top: #585dbf 1px solid;
-	color: #000000;
-	font-family: 宋体;
-	font-size: 9pt;
+    background-color: #FFFFFF;
+    border-bottom: #909090 1px solid;
+    border-left: #909090 1px solid;
+    border-right: #909090 1px solid;
+    border-top: #909090 1px solid;
+    color: #000000;
+    font-family: 宋体;
+    font-size: 9pt;
 }
 
 textarea.textarea1 {
-	height: 200px;
-	width: 490px;
+    height: 200px;
+    width: 490px;
 }
 
 .bg_border {
-	background: url(../images/background/bg_border.gif);
-	width: 1px;
+    background-color: #E8E8E8;
+    width: 1px;
 }
 
 .bg_middle {
-	background-color: #ecffee;
-        padding: 0px;
+    background-color: #F4F4F4;
+    padding: 0px;
 }
 
 .bg_top1 {
-	background: url(../images/background/bg_top1.gif);
-	color: #3433a1;
-	cursor: default;
-	font-family: 黑体;
-	font-size: 12pt;
-	height: 25px;
-	text-decoration: none;
-        text-align: center;
+    background: url(../images/background/bg_top1.gif);
+    color: #3433a1;
+    cursor: default;
+    font-family: 黑体;
+    font-size: 12pt;
+    font-weight: bold;
+    height: 25px;
+    text-decoration: none;
+    text-align: center;
 }
 
 .bg_bottom1 {
-	background: url(../images/background/bg_bottom1.gif);
-	height: 5px;
+    background: url(../images/background/bg_bottom1.gif);
+    height: 15px;
 }
 
 .bg_top2 {
-	background: url(../images/background/bg_top2.gif);
-	color: #000066;
-	cursor: default;
-	font-family: 黑体;
-	font-size: 12pt;
-	font-weight: bold;
-	height: 25px;
-	text-decoration: none;
-        text-align: left;
+    background: url(../images/background/bg_top2.gif);
+    height: 25px;
+    color: #008B76;
+    cursor: default;
+    font-family: 黑体;
+    font-size: 12pt;
+    text-decoration: none;
+    text-align: left;
+    text-shadow: 1px 1px #909076;
 }
 
 .bg_bottom2 {
-	background: url(../images/background/bg_bottom2.gif);
-	height: 5px;
+    background: url(../images/background/bg_bottom2.gif);
+    height: 15px;
 }
 
 .bg_top3 {
-	background: url(../images/background/bg_top3.gif);
-	color: #000066;
-	cursor: default;
-	font-family: 黑体;
-	font-size: 12pt;
-	font-weight: bold;
-	height: 25px;
-	text-decoration: none;
-        text-align: left;
+    background: url(../images/background/bg_top3.gif);
+    height: 25px;
+    color: #860A66;
+    cursor: default;
+    font-family: 黑体;
+    font-size: 12pt;
+    text-decoration: none;
+    text-align: left;
+    text-shadow: 1px 1px #906767;
 }
 
 .bg_bottom3 {
-	background: url(../images/background/bg_bottom3.gif);
-	height: 5px;
+    background: url(../images/background/bg_bottom3.gif);
+    height: 15px;
 }
 
 .director_bar1 {
-	background: url(../images/background/bg.gif);
-	color: #5d78bd;
-	font-family: 宋体;
-	font-size: 10pt;
-	height: 25px;
-	text-decoration: none;
+    background: url(../images/background/bg_bar.gif);
+    color: #5d78bd;
+    font-family: 宋体;
+    font-size: 10pt;
+    height: 25px;
+    text-decoration: none;
 }
 
 .director_bar2 {
-	background: url(../images/background/bg.gif);
-	color: #5d78bd;
-	font-family: 宋体;
-	font-size: 10pt;
-	height: 25px;
-	text-decoration: none;
+    background: url(../images/background/bg_bar.gif);
+    color: #5d78bd;
+    font-family: 宋体;
+    font-size: 10pt;
+    height: 25px;
+    text-decoration: none;
 }
 
 .director_button1 {
-	background-color: #84ffdd;
-	border-bottom: #585dbf 2px solid;
-	border-left: #585dbf 2px solid;
-	border-right: #585dbf 2px solid;
-	border-top: #585dbf 2px solid;
-	color: #5d78bd;
-	cursor: hand;
-	font-family: 宋体;
-	font-size: 10pt;
-	height: 30px;
-	text-decoration: none;
+    background-color: #C4C4C4;
+    border-bottom: #A5A5A5 2px solid;
+    border-left: #A5A5A5 2px solid;
+    border-right: #A5A5A5 2px solid;
+    border-top: #A5A5A5 2px solid;
+    color: #5d78bd;
+    cursor: hand;
+    font-family: 宋体;
+    font-size: 10pt;
+    height: 30px;
+    text-decoration: none;
 }
 
 .director_button2 {
-	background-color: #b0fff2;
-	border-bottom: #cdaaf5 1px solid;
-	border-left: #cdaaf5 1px solid;
-	border-right: #cdaaf5 1px solid;
-	border-top: #cdaaf5 1px solid;
-	color: #5d78bd;
-	cursor: hand;
-	font-family: 宋体;
-	font-size: 10pt;
-	height: 30px;
-	text-decoration: none;
+    background-color: #B7B7B7;
+    border-bottom: #767676 2px solid;
+    border-left: #767676 2px solid;
+    border-right: #767676 2px solid;
+    border-top: #767676 2px solid;
+    color: #4A4871;
+    cursor: hand;
+    font-family: 宋体;
+    font-size: 10pt;
+    font-weight: bold;
+    height: 30px;
+    text-decoration: none;
 }
 
 .space_bar1 {
-	background-color: #00aee1;
-	height: 5px;
+    background-color: #B2B2B2;
+    height: 5px;
 }
 
 .space_bar2 {
-	background-color: #00aee1;
-	height: 5px;
+    background-color: #B2B2B2;
+    height: 5px;
 }
 
 .space_bar3 {
-	background: url(../images/background/bg.gif);
-	height: 25px;
+    background: url(../images/background/bg_bar.gif);
+    height: 25px;
 }
 
 .banner_bar {
-	background-color: #ecffee;
+    background-color: #F4F4F4;
 }
 
 .statement_bar {
-	background-color: #ecffee;
+    background-color: #F4F4F4;
 }
 
 .statement_text {
-	color: #000000;
-	cursor: default;
-	font-family: 幼圆;
-	font-size: 12pt;
-	text-decoration: none;
+    color: #000000;
+    cursor: default;
+    font-family: 幼圆;
+    font-size: 12pt;
+    text-decoration: none;
 }
 
 .divide_line1 {
-	background-color: #a4ffdb;
-	height: 1px;
+    background-color: #B2B2B2;
+    height: 1px;
 }
 
 .divide_line2 {
-	background-color: #a4ffdb;
-	width: 1px;
+    background-color: #B2B2B2;
+    width: 1px;
 }
 
 .proportion_bar {
-	background-color: #003333;
-	height: 15px;
+    background-color: #B2B2B2;
+    height: 20px;
 }
 
 .proportion_valuebar {
-	background-color: #84ffdd;
+    background: url(../images/background/bg_button.gif);
 }
 
 .search_button {
-	background: url(../images/button/search.gif);
-	border-bottom: #ecffee 0px solid;
-	border-left: #ecffee 0px solid;
-	border-right: #ecffee 0px solid;
-	border-top: #ecffee 0px solid;
-	color: #ecffee;
-	cursor: hand;
-	height: 15px;
-	width: 15px;
+    background: url(../images/button/search.gif);
+    border-bottom: #ecffee 0px solid;
+    border-left: #ecffee 0px solid;
+    border-right: #ecffee 0px solid;
+    border-top: #ecffee 0px solid;
+    color: #ecffee;
+    cursor: hand;
+    height: 15px;
+    width: 15px;
 }
 
 .page_switch2 {
-	color: #2c89b6;
-	cursor: default;
-	font-family: 幼圆;
-	font-size: 10pt;
-	text-decoration: none;
+    color: #2c89b6;
+    cursor: default;
+    font-family: 幼圆;
+    font-size: 10pt;
+    text-decoration: none;
 }
 
 .page_switch3 {
-	color: #348df0;
-	cursor: default;
-	font-family: 幼圆;
-	font-size: 10pt;
-	font-weight: bold;
-	text-decoration: none;
+    color: #348df0;
+    cursor: default;
+    font-family: 幼圆;
+    font-size: 10pt;
+    font-weight: bold;
+    text-decoration: none;
 }
 
 .date_text {
-	color: #A5B700;
-	cursor: default;
-	font-size: 7pt;
-	text-decoration: none;
+    color: #4D746A;
+    cursor: default;
+    font-size: 7pt;
+    text-decoration: none;
 }
 
 .calendar_text1 {
-	color: #2c89b6;
-	cursor: default;
-	font-size: 10pt;
+    color: #2c89b6;
+    cursor: default;
+    font-size: 10pt;
 }
 
 .calendar_text2 {
-	color: #eca200;
-	cursor: default;
-	font-size: 10pt;
+    color: #eca200;
+    cursor: default;
+    font-size: 10pt;
 }
 
 .calendar_text3 {
-	color: #00c5ff;
-	cursor: default;
-	font-size: 11pt;
-	font-weight: bold;
+    color: #00c5ff;
+    cursor: default;
+    font-size: 11pt;
+    font-weight: bold;
 }
 
 .calendar_text4 {
-	color: #b0acff;
-	cursor: default;
-	font-size: 11pt;
-	font-weight: bold;
+    color: #b0acff;
+    cursor: default;
+    font-size: 11pt;
+    font-weight: bold;
 }
 
 .background_color {
-	background-color: #28cdff;
+    background-color: #555555;
 }

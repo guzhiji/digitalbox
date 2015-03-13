@@ -1,1 +1,0 @@
-<td><a href="{$Link}"{$Target}><img border="0" src="{$Image}" />{$Text}</a></td>

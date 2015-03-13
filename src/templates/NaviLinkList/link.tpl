@@ -1,0 +1,1 @@
+&nbsp;&nbsp;<a class="director_link" href="{$URL}"{$Extra}>{$Text}</a>&nbsp;&nbsp;

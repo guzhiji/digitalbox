@@ -1,10 +1,10 @@
 <?php
 
 /* ------------------------------------------------------------------
- * DigitalBox CMS 2.7
+ * DigitalBox CMS 3.0
  * http://code.google.com/p/digitalbox/
  * 
- * Copyright 2011-2012, GuZhiji Studio <gu_zhiji@163.com>
+ * Copyright 2010-2013, GuZhiji Studio <gu_zhiji@163.com>
  * This program is licensed under the GPL Version 3
  * ------------------------------------------------------------------
  */
@@ -25,18 +25,10 @@ class PopupPage extends PageModel {
         }
     }
 
-    public function AddBox(Box $box) {
-        $region = $box->GetType();
-        switch ($region) {
-            case "Left":
-                parent::AddBox($region, $box);
-                break;
-        }
-    }
+    protected function After($page) {
 
-    protected function Finalize() {
-
-        $this->_regions["SiteName"] = GetSettingValue("site_name");
+        $this->SetField('SiteName', GetSettingValue('site_name'));
+        
     }
 
 }

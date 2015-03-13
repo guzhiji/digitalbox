@@ -1,9 +1,9 @@
 <?php
 /* ------------------------------------------------------------------
- * DigitalBox CMS 2.7
+ * DigitalBox CMS 3.0
  * http://code.google.com/p/digitalbox/
  * 
- * Copyright 2011-2012, GuZhiji Studio <gu_zhiji@163.com>
+ * Copyright 2010-2013, GuZhiji Studio <gu_zhiji@163.com>
  * This program is licensed under the GPL Version 3
  * ------------------------------------------------------------------
  */
@@ -13,7 +13,7 @@ require("modules/common.module.php");
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-        <title>同步上传文件 - 附加工具 - DigitalBox <?php echo dbVersion; ?></title>
+        <title>同步上传文件 - 附加工具 - DigitalBox <?php echo DB3_Version; ?></title>
         <link rel="stylesheet" href="stylesheets/main.css" />
         <link rel="Shortcut Icon" href="DigitalBoxIcon.ico" />
     </head>
@@ -64,7 +64,7 @@ if (strGet("function") == "sync") {
     db_close();
     echo "同步完毕<br /><input type=\"button\" class=\"button1\" value=\"确定\" onclick=\"window.location='toolchecker.php'\"/>";
 } else {
-    echo "本程序将同步本地上传文件目录与数据库中的记录<br />";
+    echo "本程序将与本地上传文件目录同步数据库中的记录<br />";
     echo "<input type=\"button\" class=\"button1\" value=\"开始同步\" onclick=\"window.location='?function=sync'\"/> ";
     echo "<input type=\"button\" class=\"button1\" value=\"返回\" onclick=\"window.location='toolchecker.php'\"/>";
 }

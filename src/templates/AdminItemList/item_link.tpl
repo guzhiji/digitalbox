@@ -1,0 +1,1 @@
+<a href="{$URL}"{$URL_Att}>{$Text}</a>

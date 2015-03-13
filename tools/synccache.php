@@ -1,9 +1,9 @@
 <?php
 /* ------------------------------------------------------------------
- * DigitalBox CMS 2.7
+ * DigitalBox CMS 3.0
  * http://code.google.com/p/digitalbox/
  * 
- * Copyright 2011-2012, GuZhiji Studio <gu_zhiji@163.com>
+ * Copyright 2010-2013, GuZhiji Studio <gu_zhiji@163.com>
  * This program is licensed under the GPL Version 3
  * ------------------------------------------------------------------
  */
@@ -160,7 +160,7 @@ function Sync2DB() {
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-        <title>同步缓存 - 附加工具 - DigitalBox <?php echo dbVersion; ?></title>
+        <title>同步缓存 - 附加工具 - DigitalBox <?php echo DB3_Version; ?></title>
         <link rel="stylesheet" href="stylesheets/main.css" />
         <link rel="Shortcut Icon" href="DigitalBoxIcon.ico" />
     </head>

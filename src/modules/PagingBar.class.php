@@ -1,10 +1,10 @@
 <?php
 
 /* ------------------------------------------------------------------
- * DigitalBox CMS 2.7
+ * DigitalBox CMS 3.0
  * http://code.google.com/p/digitalbox/
  * 
- * Copyright 2011-2012, GuZhiji Studio <gu_zhiji@163.com>
+ * Copyright 2010-2013, GuZhiji Studio <gu_zhiji@163.com>
  * This program is licensed under the GPL Version 3
  * ------------------------------------------------------------------
  */
@@ -26,7 +26,7 @@ class PagingBar {
 
     public function GetPageNumber() {
         if ($this->pagenumber < 1)
-            $this->pagenumber = PageNumber(strGet($this->queryname), $this->pagecount);
+            $this->pagenumber = PageNumber(strGet($this->queryname), $this->listlength);
         return $this->pagenumber;
     }
 

@@ -1,4 +1,4 @@
 <?php
 GLOBAL $Style_Name;
-$Style_Name="神秘海洋";
+$Style_Name="早春新绿";
 ?>

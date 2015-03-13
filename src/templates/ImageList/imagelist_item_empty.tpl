@@ -1,1 +1,0 @@
-<td><img src="{$NoPic}" /></td>

@@ -1,10 +1,10 @@
 <?php
 
 /* ------------------------------------------------------------------
- * DigitalBox CMS 2.7
+ * DigitalBox CMS 3.0
  * http://code.google.com/p/digitalbox/
  * 
- * Copyright 2011-2012, GuZhiji Studio <gu_zhiji@163.com>
+ * Copyright 2010-2013, GuZhiji Studio <gu_zhiji@163.com>
  * This program is licensed under the GPL Version 3
  * ------------------------------------------------------------------
  */
@@ -48,23 +48,19 @@ class Passport {
         }
 
         //save check code
-        session_start();
-        if (function_exists('session_is_registered') && !session_is_registered(dbPrefix . "_CheckCode")) {
+        @session_start();
+        if (!session_is_registered(dbPrefix . "_CheckCode"))
             session_register(dbPrefix . "_CheckCode");
-        }
         $_SESSION[dbPrefix . "_CheckCode"] = $checkcode;
 
         //export
-        header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1.
-        header("Pragma: no-cache"); // HTTP 1.0.
-        header("Expires: 0"); // Proxies.
         header("Content-Type: image/gif");
         imagegif($img);
         imagedestroy($img);
     }
 
     public function check() {
-        return strSession("Admin_UID") != "";
+        return session_is_registered(dbPrefix . "_Admin_UID") && strSession("Admin_UID") != "";
     }
 
     public function doubleCheck($ismaster = TRUE) {
@@ -108,7 +104,7 @@ class Passport {
                 $this->error.="您尝试登陆次数过多;";
                 return FALSE;
             }
-            if (strPost("checkcode") == '' || strSession("CheckCode") != strPost("checkcode")) {
+            if (strSession("CheckCode") != strPost("checkcode")) {
                 $this->error.="验证码错误;";
             } else {
                 $rs = db_query("SELECT \"true\" FROM admin_info WHERE admin_UID=\"%s\" AND admin_PWD=\"%s\"", array($username, $password));
@@ -116,11 +112,10 @@ class Passport {
                     $list = db_result($rs);
                     if (isset($list[0])) {
                         if ($list[0][0] == "true") {
-                            // if (@session_is_registered(dbPrefix . "_LoginFailures"))
-                            $_SESSION[dbPrefix . "_LoginFailures"] = 0;
-                            if (function_exists('session_is_registered') && !session_is_registered(dbPrefix . "_Admin_UID")) {
+                            if (session_is_registered(dbPrefix . "_LoginFailures"))
+                                $_SESSION[dbPrefix . "_LoginFailures"] = 0;
+                            if (!session_is_registered(dbPrefix . "_Admin_UID"))
                                 session_register(dbPrefix . "_Admin_UID");
-                            }
                             $_SESSION[dbPrefix . "_Admin_UID"] = $username;
                             return TRUE;
                         }
@@ -129,9 +124,8 @@ class Passport {
                 }
                 $this->error.="用户名或密码错误;";
             }
-            if (function_exists('session_is_registered') && !session_is_registered(dbPrefix . "_LoginFailures")) {
+            if (!session_is_registered(dbPrefix . "_LoginFailures"))
                 session_register(dbPrefix . "_LoginFailures");
-            }
             $_SESSION[dbPrefix . "_LoginFailures"] = $failureTime + 1;
         }else {
             $this->error.="未填写完整;";
@@ -140,8 +134,8 @@ class Passport {
     }
 
     public function logout() {
-        //if (session_is_registered(dbPrefix . "_Admin_UID"))
-        session_destroy();
+        if (session_is_registered(dbPrefix . "_Admin_UID"))
+            session_destroy();
     }
 
 }

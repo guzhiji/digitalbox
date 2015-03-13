@@ -1,10 +1,10 @@
 <?php
 
 /* ------------------------------------------------------------------
- * DigitalBox CMS 2.7
+ * DigitalBox CMS 3.0
  * http://code.google.com/p/digitalbox/
  * 
- * Copyright 2011-2012, GuZhiji Studio <gu_zhiji@163.com>
+ * Copyright 2010-2013, GuZhiji Studio <gu_zhiji@163.com>
  * This program is licensed under the GPL Version 3
  * ------------------------------------------------------------------
  */
@@ -31,14 +31,15 @@ class SiteList extends ListModel {
         //Len_Control($item["site_name"], $title_maxlen);
         parent::AddItem(array(
             "Name" => $name,
-            "Add" => htmlspecialchars($addr),
+            "Add" => $addr,
             "Text" => $text,
-            "Logo" => htmlspecialchars($logo),
+            "Logo" => $logo,
             "ID" => $id
         ));
     }
 
     public function Bind($page_size = 0) {
+
 
         //initialize variables
         $total_record = 0;

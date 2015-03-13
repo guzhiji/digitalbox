@@ -1,10 +1,10 @@
 ﻿<?php
 
 /* ------------------------------------------------------------------
- * DigitalBox CMS 2.7
+ * DigitalBox CMS 3.0
  * http://code.google.com/p/digitalbox/
  * 
- * Copyright 2011-2012, GuZhiji Studio <gu_zhiji@163.com>
+ * Copyright 2010-2013, GuZhiji Studio <gu_zhiji@163.com>
  * This program is licensed under the GPL Version 3
  * ------------------------------------------------------------------
  */
@@ -15,8 +15,7 @@ $ToolFiles = array(
     array("install.php", "系统安装", "帮您完成本系统的安装工作"),
     array("setmaster.php", "更改站长", "帮您解决忘记密码的问题"),
     array("synccache.php", "同步缓存", "帮您解决本地设置缓存被损坏或意外被更改的问题"),
-    array("syncuploadedfiles.php", "同步上传文件", "帮您解决本地上传文件与数据库记录不一致的问题"),
-    array("syncthumbnails.php", "同步缩略图", "帮您解决部分图片缺失缩略图的问题")
+    array("syncuploadedfiles.php", "同步上传文件", "帮您解决本地上传文件与数据库记录不一致的问题")
 );
 
 $syspath = GetSystemPath() . "/";
@@ -43,7 +42,7 @@ if ($NoTools)
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-        <title>附加工具 - DigitalBox <?php echo dbVersion; ?></title>
+        <title>附加工具 - DigitalBox <?php echo DB3_Version; ?></title>
         <link rel="stylesheet" href="stylesheets/main.css" />
         <link rel="Shortcut Icon" href="DigitalBoxIcon.ico" />
     </head>
