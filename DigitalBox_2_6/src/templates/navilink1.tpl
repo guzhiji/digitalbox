@@ -1,1 +1,0 @@
-&nbsp;&nbsp;<a class="director_link" title="{$Navigator_TipText}" {$Navigator_Action}>{$Navigator_Name}</a>&nbsp;&nbsp;

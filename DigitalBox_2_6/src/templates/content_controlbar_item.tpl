@@ -1,1 +1,0 @@
-<td><a href="{$ControlBar_Link}"{$ControlBar_Target}><img border="0" src="{$ControlBar_Image}" />{$ControlBar_Text}</a></td>

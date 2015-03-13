@@ -1,1 +1,0 @@
-<tr><td align="left"><input type="radio" class="radio_checkbox" name="{$TitleList_CheckboxName}" value="{$TitleList_ID}" />{$TitleList_ParentLink}{$TitleList_Icon} {$TitleList_Title} <span class="date_text">{$TitleList_Extra}</span></td></tr>

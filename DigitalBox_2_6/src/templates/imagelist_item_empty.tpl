@@ -1,1 +1,0 @@
-<td><img src="{$ImageList_NoPic}" /></td>

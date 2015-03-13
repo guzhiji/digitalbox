@@ -1,1 +1,0 @@
-<img border="0" width="480" height="100" src="images/banner.gif" />
