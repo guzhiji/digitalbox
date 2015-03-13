@@ -18,7 +18,7 @@ class NoticeBoardBox extends Box {
     }
 
     public function DataBind() {
-        $html = "<marquee onmouseover=\"this.stop();\" onmouseout=\"this.start();\" scrollamount=\"2\" scrolldelay=\"100\" direction=\"up\" width=\"150\" height=\"100\" align=\"left\">" . htmlspecialchars(GetSettingValue("notice_text")) . "</marquee>";
+        $html = "<marquee onmouseover=\"this.stop();\" onmouseout=\"this.start();\" scrollamount=\"2\" scrolldelay=\"100\" direction=\"up\" width=\"150\" height=\"100\" align=\"left\">" . GetSettingValue("notice_text") . "</marquee>";
         $this->SetHeight("auto");
         $this->SetTitle(GetLangData("notice"));
         $this->SetContent($html, "center", "middle", 10);

@@ -48,9 +48,10 @@ class Passport {
         }
 
         //save check code
-        @session_start();
-        if (!@session_is_registered(dbPrefix . "_CheckCode"))
-            @session_register(dbPrefix . "_CheckCode");
+        session_start();
+        if (function_exists('session_is_registered') && !session_is_registered(dbPrefix . "_CheckCode")) {
+            session_register(dbPrefix . "_CheckCode");
+        }
         $_SESSION[dbPrefix . "_CheckCode"] = $checkcode;
 
         //export
@@ -107,7 +108,7 @@ class Passport {
                 $this->error.="您尝试登陆次数过多;";
                 return FALSE;
             }
-            if (strSession("CheckCode") != strPost("checkcode")) {
+            if (strPost("checkcode") == '' || strSession("CheckCode") != strPost("checkcode")) {
                 $this->error.="验证码错误;";
             } else {
                 $rs = db_query("SELECT \"true\" FROM admin_info WHERE admin_UID=\"%s\" AND admin_PWD=\"%s\"", array($username, $password));
@@ -117,8 +118,9 @@ class Passport {
                         if ($list[0][0] == "true") {
                             // if (@session_is_registered(dbPrefix . "_LoginFailures"))
                             $_SESSION[dbPrefix . "_LoginFailures"] = 0;
-                            if (!@session_is_registered(dbPrefix . "_Admin_UID"))
-                                @session_register(dbPrefix . "_Admin_UID");
+                            if (function_exists('session_is_registered') && !session_is_registered(dbPrefix . "_Admin_UID")) {
+                                session_register(dbPrefix . "_Admin_UID");
+                            }
                             $_SESSION[dbPrefix . "_Admin_UID"] = $username;
                             return TRUE;
                         }
@@ -127,8 +129,9 @@ class Passport {
                 }
                 $this->error.="用户名或密码错误;";
             }
-            if (!@session_is_registered(dbPrefix . "_LoginFailures"))
-                @session_register(dbPrefix . "_LoginFailures");
+            if (function_exists('session_is_registered') && !session_is_registered(dbPrefix . "_LoginFailures")) {
+                session_register(dbPrefix . "_LoginFailures");
+            }
             $_SESSION[dbPrefix . "_LoginFailures"] = $failureTime + 1;
         }else {
             $this->error.="未填写完整;";

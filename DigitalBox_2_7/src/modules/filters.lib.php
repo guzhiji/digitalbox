@@ -22,6 +22,7 @@ function Text2HTML($text, $multiline) {
     $text = str_replace(">", "&gt;", $text);
     $text = str_replace("  ", "&nbsp;&nbsp;", $text);
     if ($multiline) {
+        $text = str_ireplace("\r\n", "<br />", $text);
         $text = str_ireplace("\n", "<br />", $text);
         $text = str_ireplace("\r", "<br />", $text);
     } else {
@@ -36,6 +37,7 @@ function Text2HTML($text, $multiline) {
  * @return string 
  */
 function SingleLineText($text) {
+    $text = str_replace("\r\n", " ", $text);
     $text = str_replace("\r", " ", $text);
     $text = str_replace("\n", " ", $text);
     return $text;
@@ -48,11 +50,10 @@ function SingleLineText($text) {
  * @return string
  */
 function CompressHTML($html) {
+    $html = str_replace("\r\n", " ", $html);
     $html = str_replace("\r", " ", $html);
     $html = str_replace("\n", " ", $html);
-    while (strpos($html, "\t") !== FALSE) {
-        $html = str_replace("\t", " ", $html);
-    }
+    $html = str_replace("\t", " ", $html);
     while (strpos($html, "     ") !== FALSE) {
         $html = str_replace("     ", " ", $html);
     }
@@ -93,7 +94,7 @@ function TextForInputBox($text) {
 function TextForTextArea($text) {
     $text = str_ireplace("</P>", "", $text);
     $text = str_ireplace("<P>", "\n\n", $text);
-    $text = str_ireplace("<BR>", "\n", $text);
+    $text = preg_replace('/<br ?\/?>/i', "\n", $text);
     $text = str_replace("&", "&amp;", $text);
     $text = str_replace("<", "&lt;", $text);
     $text = str_replace(">", "&gt;", $text);
@@ -132,5 +133,3 @@ function HTMLForTextArea($html) {
     $html = str_replace(">", "&gt;", $html);
     return $html;
 }
-
-?>

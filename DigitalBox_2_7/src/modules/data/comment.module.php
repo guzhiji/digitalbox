@@ -73,8 +73,9 @@ class Comment {
 			guest_IP,guest_date,guest_name,guest_mail,guest_homepage,guest_head,guest_title,guest_text
 			) values (\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",%d,\"%s\",\"%s\")", array($_SERVER["REMOTE_ADDR"], date("Y-m-j H:i:s"), $this->name, $this->mail, $this->homepage, $this->head, $this->title, $this->text))
             ) {
-                if (!@session_is_registered(dbPrefix . "_GuestBook_Time"))
-                    @session_register(dbPrefix . "_GuestBook_Time");
+                if (function_exists('session_is_registered') && !session_is_registered(dbPrefix . "_GuestBook_Time")) {
+                    session_register(dbPrefix . "_GuestBook_Time");
+                }
                 $_SESSION[dbPrefix . "_GuestBook_Time"] = time();
                 return TRUE;
             }
